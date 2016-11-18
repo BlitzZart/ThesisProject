@@ -348,7 +348,7 @@ namespace UnityPharus
 				{
 					m_pharusSettings.StageX = configStageFloatX;
 					m_pharusSettings.StageY = configStageFloatY;
-					Debug.Log(string.Format("XML config: new stage size: {0}x{1}", m_pharusSettings.StageX, m_pharusSettings.StageY));
+					//Debug.Log(string.Format("XML config: new stage size: {0}x{1}", m_pharusSettings.StageX, m_pharusSettings.StageY));
 				}
 				else
 				{
