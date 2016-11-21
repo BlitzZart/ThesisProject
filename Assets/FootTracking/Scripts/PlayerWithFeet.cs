@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityStandardAssets.Characters.ThirdPerson;
 
 public class PlayerWithFeet : ATrackingEntity {
 
     public bool useCorrectedCenter = true;
+    public bool moveBodyInScript = false;
 
     public Transform playerFootPrefab, body, correctedCenter;
     public Material[] _feetMaterials;
-    private Transform[] _feet = new Transform[2];
+    public Transform leftFoot, rightFoot, tempFoot;
+
     private Transform ikBody;
 
     //add offset to adjust tracking area without changing the whole setup
@@ -21,21 +24,26 @@ public class PlayerWithFeet : ATrackingEntity {
 
     #region unity callbacks
     void Start() {
-        _feet[0] = Instantiate(playerFootPrefab);
-        _feet[1] = Instantiate(playerFootPrefab);
+        leftFoot = Instantiate(playerFootPrefab);
+        rightFoot = Instantiate(playerFootPrefab);
+        tempFoot = Instantiate(playerFootPrefab);
+        tempFoot.GetComponent<MeshRenderer>().enabled = false;
 
-        _feet[0].parent = transform;
-        _feet[1].parent = transform;
+        leftFoot.parent = transform;
+        rightFoot.parent = transform;
+        tempFoot.parent = transform;
 
-        _feet[0].GetComponent<MeshRenderer>().material = _feetMaterials[0];
-        _feet[1].GetComponent<MeshRenderer>().material = _feetMaterials[1];
+        leftFoot.GetComponent<MeshRenderer>().material = _feetMaterials[0];
+        rightFoot.GetComponent<MeshRenderer>().material = _feetMaterials[1];
 
         AssignIKModel();
+        AssignAIAgent();
     }
 
     void Update() {
         TrackFeet();
         SetAvatarPosition();
+        SetAvatarOrientation();
         EstimateHead();
 
         CheckEchos();
@@ -51,7 +59,7 @@ public class PlayerWithFeet : ATrackingEntity {
 
     #region private
     private void SetAvatarPosition() {
-        if (ikBody == null)
+        if (ikBody == null || !moveBodyInScript)
             return;
 
         if (useCorrectedCenter)
@@ -62,28 +70,62 @@ public class PlayerWithFeet : ATrackingEntity {
         ikBody.rotation = Quaternion.LookRotation(new Vector3(Orientation.x, 0, Orientation.y));
     }
 
+    private void SetAvatarOrientation() {
+        Vector3 dir = new Vector3(Orientation.x, 0, Orientation.y);
+        transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
+    }
+
     private void AssignIKModel() {
         IKControl ik = FindObjectOfType<IKControl>();
         if (ik == null)
             return;
 
-        GetComponentInChildren<MeshRenderer>().enabled = false;
+        //GetComponentInChildren<MeshRenderer>().enabled = false;
 
         if (ik.rightFootObj || ik.leftFootObj)
             return;
 
         ikBody = ik.transform;
 
-        ik.rightFootObj = _feet[0];
-        ik.leftFootObj = _feet[1];
+        ik.rightFootObj = rightFoot;
+        ik.leftFootObj = leftFoot;
+    }
+
+    private void AssignAIAgent() {
+        AICharacterControl ai = FindObjectOfType<AICharacterControl>();
+
+        if (ai == null || moveBodyInScript)
+            return;
+
+        ai.SetTarget(correctedCenter);
     }
 
     private void TrackFeet() {
         if (Echoes == null)
             return;
-        for (int i = 0; i < Echoes.Count; i++) {
-            Vector3 pos = UnityTracking.TrackingAdapter.GetScreenPositionFromRelativePosition(Echoes[i].x, Echoes[i].y);
-            _feet[i].position = new Vector3(pos.x, 0, pos.y) * _scaling;
+
+
+        if (Echoes.Count > 1) { // found 2 feet
+            Vector3 pos = UnityTracking.TrackingAdapter.GetScreenPositionFromRelativePosition(Echoes[1].x, Echoes[1].y);
+            rightFoot.position = new Vector3(pos.x, 0, pos.y) * _scaling;
+            pos = UnityTracking.TrackingAdapter.GetScreenPositionFromRelativePosition(Echoes[0].x, Echoes[0].y);
+            leftFoot.position = new Vector3(pos.x, 0, pos.y) * _scaling;
+
+            // feet are crossed
+            if (leftFoot.localPosition.x > rightFoot.localPosition.x) {
+                Vector3 temp = leftFoot.position;
+                leftFoot.position = rightFoot.position;
+                rightFoot.position = temp;
+            }
+        }
+        else if (Echoes.Count > 0) {  // found 1 foot
+            Vector3 pos = UnityTracking.TrackingAdapter.GetScreenPositionFromRelativePosition(Echoes[0].x, Echoes[0].y);
+            tempFoot.position = new Vector3(pos.x, 0, pos.y) * _scaling;
+            if (tempFoot.localPosition.x < 0) {
+                leftFoot.position = tempFoot.position;
+            } else {
+                rightFoot.position = tempFoot.position;
+            }
         }
     }
 
@@ -91,7 +133,7 @@ public class PlayerWithFeet : ATrackingEntity {
     private void EstimateHead() {
         //float smoothSpeed = Mathf.Lerp(oldSpeed, Speed, 0.00000001f);
 
-        if (Speed > 0.1f) {
+        if (Speed > 0.25f) {
             correctedCenter.position = transform.position
                 + new Vector3(Orientation.x, 0, Orientation.y) * _correctedCenterPosition;
         }
@@ -100,10 +142,12 @@ public class PlayerWithFeet : ATrackingEntity {
 
     private void CheckEchos() {
         if (Echoes.Count < 1) {
-            print("lost both foot echos");
+            Debug.LogError("lost both foot echos");
+            //print("lost both foot echos");
         }
         else if (Echoes.Count < 2) {
-            print("lost one foot echo");
+            Debug.LogError("lost one foot echo");
+            //print("lost one foot echo");
         }
     }
     #endregion

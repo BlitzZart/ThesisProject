@@ -8,6 +8,8 @@ public class IKControl : MonoBehaviour {
 
     protected Animator animator;
 
+    [Range(0.0f, 1.0f)]
+    public float weight = 1;
     public bool ikActive = false;
     public Transform rightFootObj = null;
     public Transform leftFootObj = null;
@@ -32,14 +34,14 @@ public class IKControl : MonoBehaviour {
 
                 // Set the right hand target position and rotation, if one has been assigned
                 if (rightFootObj != null) {
-                    animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 1);
-                    animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, 1);
+                    animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, weight);
+                    animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, weight);
                     animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootObj.position);
                     animator.SetIKRotation(AvatarIKGoal.RightFoot, rightFootObj.rotation);
                 }
                 if (leftFootObj != null) {
-                    animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
-                    animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 1);
+                    animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, weight);
+                    animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, weight);
                     animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootObj.position);
                     animator.SetIKRotation(AvatarIKGoal.LeftFoot, leftFootObj.rotation);
                 }
