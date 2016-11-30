@@ -172,7 +172,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011352044558}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -232,6 +232,10 @@ MonoBehaviour:
   leftFoot: {fileID: 0}
   rightFoot: {fileID: 0}
   tempFoot: {fileID: 0}
+  leftFootSpeed: 0
+  rightFootSpeed: 0
+  leftFootHight: 0
+  rightFootHight: 0
   Height: 0
 --- !u!136 &136000012056536958
 CapsuleCollider:

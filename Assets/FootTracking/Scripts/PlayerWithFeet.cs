@@ -5,15 +5,20 @@ using UnityStandardAssets.Characters.ThirdPerson;
 
 public class PlayerWithFeet : ATrackingEntity {
 
+    SimpleKalman kalman;
+
     public bool useCorrectedCenter = true;
     public bool moveBodyInScript = false;
 
     public Transform playerFootPrefab, body, correctedCenter;
     public Material[] _feetMaterials;
-    public Transform leftFoot, rightFoot, tempFoot;
+    public Transform leftFoot, rightFoot, tempFoot; // temp foot is used for food exchange when crossovers occure
+    private Vector3 leftFootLast, rightFootLast;
+    public float leftFootSpeed, rightFootSpeed;
 
     [Range(0.0f,100.0f)]
     public float leftFootHight, rightFootHight;
+    private float maxFootHight = 100.0f;
 
     private Transform ikBody;
 
@@ -21,12 +26,13 @@ public class PlayerWithFeet : ATrackingEntity {
     private Vector2 offset = new Vector2(0.0f, 0.0f);// offset in cm // TODO: also add to feet
     public float Height;
 
-    private float _correctedCenterPosition = 0.5f;
+    private float _correctedCenterPosition = 0.47f;
     private float _headHeight = 4;
     private float _scaling = 0.01f;
 
     #region unity callbacks
     void Start() {
+        kalman = new SimpleKalman();
         leftFoot = Instantiate(playerFootPrefab);
         rightFoot = Instantiate(playerFootPrefab);
         tempFoot = Instantiate(playerFootPrefab);
@@ -40,20 +46,34 @@ public class PlayerWithFeet : ATrackingEntity {
         rightFoot.GetComponent<MeshRenderer>().material = _feetMaterials[1];
 
         AssignIKModel();
-        AssignAIAgent();
+        AssignAIAgent(correctedCenter);
     }
 
     void Update() {
         TrackFeet();
         SetAvatarPosition();
         SetAvatarOrientation();
-        EstimateHead();
+        EstimateCorrectedCenter();
 
         CheckEchos();
+        CalcFootVelocity();
+        //ApplyFootHeight();
     }
     #endregion
 
     #region public
+
+    public void SetUsedCenter(bool corrected) {
+        if (corrected) {
+            useCorrectedCenter = true;
+            AssignAIAgent(correctedCenter);
+        }
+        else {
+            useCorrectedCenter = false;
+            AssignAIAgent(body);
+        }
+    }
+
     public override void SetPosition(Vector2 coords) {
         //this.transform.position = coords * _scaling;
         this.transform.position = new Vector3(coords.x + offset.x, 0, coords.y + offset.y) * _scaling;
@@ -94,13 +114,13 @@ public class PlayerWithFeet : ATrackingEntity {
         ik.leftFootObj = leftFoot;
     }
 
-    private void AssignAIAgent() {
+    public void AssignAIAgent(Transform target) {
         AICharacterControl ai = FindObjectOfType<AICharacterControl>();
 
         if (ai == null || moveBodyInScript)
             return;
 
-        ai.SetTarget(correctedCenter);
+        ai.SetTarget(target);
     }
 
     private void TrackFeet() {
@@ -132,8 +152,29 @@ public class PlayerWithFeet : ATrackingEntity {
         }
     }
 
+    private void CalcFootVelocity() {
+        leftFootSpeed = (leftFoot.position - leftFootLast).magnitude / Time.deltaTime;
+        leftFootLast = leftFoot.position;
+        //print("LF " + leftFootSpeed);
+        rightFootSpeed = (rightFoot.position - rightFootLast).magnitude / Time.deltaTime;
+        rightFootLast = rightFoot.position;
+    }
+
+    private void ApplyFootHeight() {
+        leftFootHight = CalcLerp(leftFootHight, leftFootSpeed);// CalcKalman(leftFootSpeed);
+        rightFootHight = CalcLerp(rightFootHight, rightFootSpeed);
+    }
+
+    private float CalcKalman(float footSpeed) {
+        return (float)kalman.UseFilter(Mathf.Clamp(footSpeed, 0, maxFootHight));
+    }
+
+    private float CalcLerp(float footHeight, float footSpeed) {
+        return Mathf.Lerp(footHeight, Mathf.Clamp(footSpeed, 0, maxFootHight), 1000 * Time.deltaTime);
+    }
+
     //float oldSpeed = 0;
-    private void EstimateHead() {
+    private void EstimateCorrectedCenter() {
         //float smoothSpeed = Mathf.Lerp(oldSpeed, Speed, 0.00000001f);
 
         if (Speed > 0.25f) {
