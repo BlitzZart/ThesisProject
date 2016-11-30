@@ -12,6 +12,9 @@ public class PlayerWithFeet : ATrackingEntity {
     public Material[] _feetMaterials;
     public Transform leftFoot, rightFoot, tempFoot;
 
+    [Range(0.0f,100.0f)]
+    public float leftFootHight, rightFootHight;
+
     private Transform ikBody;
 
     //add offset to adjust tracking area without changing the whole setup
@@ -107,9 +110,9 @@ public class PlayerWithFeet : ATrackingEntity {
 
         if (Echoes.Count > 1) { // found 2 feet
             Vector3 pos = UnityTracking.TrackingAdapter.GetScreenPositionFromRelativePosition(Echoes[1].x, Echoes[1].y);
-            rightFoot.position = new Vector3(pos.x, 0, pos.y) * _scaling;
+            rightFoot.position = new Vector3(pos.x, rightFootHight, pos.y) * _scaling;
             pos = UnityTracking.TrackingAdapter.GetScreenPositionFromRelativePosition(Echoes[0].x, Echoes[0].y);
-            leftFoot.position = new Vector3(pos.x, 0, pos.y) * _scaling;
+            leftFoot.position = new Vector3(pos.x, leftFootHight, pos.y) * _scaling;
 
             // feet are crossed
             if (leftFoot.localPosition.x > rightFoot.localPosition.x) {
@@ -120,7 +123,7 @@ public class PlayerWithFeet : ATrackingEntity {
         }
         else if (Echoes.Count > 0) {  // found 1 foot
             Vector3 pos = UnityTracking.TrackingAdapter.GetScreenPositionFromRelativePosition(Echoes[0].x, Echoes[0].y);
-            tempFoot.position = new Vector3(pos.x, 0, pos.y) * _scaling;
+            tempFoot.position = new Vector3(pos.x, leftFootHight, pos.y) * _scaling;
             if (tempFoot.localPosition.x < 0) {
                 leftFoot.position = tempFoot.position;
             } else {
