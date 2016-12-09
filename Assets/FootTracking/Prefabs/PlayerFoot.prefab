@@ -22,6 +22,7 @@ GameObject:
   - 33: {fileID: 33000013993626062}
   - 135: {fileID: 135000012715972184}
   - 23: {fileID: 23000013533173162}
+  - 114: {fileID: 114000012934586054}
   m_Layer: 0
   m_Name: PlayerFoot
   m_TagString: Untagged
@@ -48,7 +49,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011669757814}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -78,6 +79,46 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011669757814}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114000012934586054
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011669757814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a161575198d5e343b1ae8b66ff5a485, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  speed01: 0
+  height: 0
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 0.38042507
+      value: 0.025150703
+      inSlope: 0.24658468
+      outSlope: 0.24658468
+      tangentMode: 0
+    - time: 0.57563186
+      value: 0.18409379
+      inSlope: 0.7403456
+      outSlope: 0.7403456
+      tangentMode: 0
+    - time: 1
+      value: 0.34866065
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!135 &135000012715972184
 SphereCollider:
   m_ObjectHideFlags: 1

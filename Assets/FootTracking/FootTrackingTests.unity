@@ -1434,7 +1434,7 @@ GameObject:
   - 4: {fileID: 1063416669}
   - 114: {fileID: 1063416668}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: BuildSetup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2107,7 +2107,7 @@ Prefab:
     - target: {fileID: 137000013550004974, guid: ab80c86650220e74eaaa110f49da93d2,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ab80c86650220e74eaaa110f49da93d2, type: 2}
