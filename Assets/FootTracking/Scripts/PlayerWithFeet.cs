@@ -5,9 +5,6 @@ using UnityStandardAssets.Characters.ThirdPerson;
 using UnityEditor;
 
 public class PlayerWithFeet : ATrackingEntity {
-
-    SimpleKalman kalman;
-
     public bool useCorrectedCenter = true;
     public bool moveBodyInScript = false;
 
@@ -27,7 +24,6 @@ public class PlayerWithFeet : ATrackingEntity {
 
     #region unity callbacks
     void Start() {
-        kalman = new SimpleKalman();
         leftFoot = Instantiate(playerFootPrefab);
         rightFoot = Instantiate(playerFootPrefab);
         tempFoot = Instantiate(playerFootPrefab);
@@ -98,8 +94,6 @@ public class PlayerWithFeet : ATrackingEntity {
         if (ik == null)
             return;
 
-        //GetComponentInChildren<MeshRenderer>().enabled = false;
-
         if (ik.rightFootObj || ik.leftFootObj)
             return;
 
@@ -109,7 +103,7 @@ public class PlayerWithFeet : ATrackingEntity {
         ik.leftFootObj = leftFoot;
     }
 
-    public void AssignAIAgent(Transform target) {
+    private void AssignAIAgent(Transform target) {
         AICharacterControl ai = FindObjectOfType<AICharacterControl>();
 
         if (ai == null || moveBodyInScript)
@@ -146,15 +140,11 @@ public class PlayerWithFeet : ATrackingEntity {
         }
     }
 
-    //float oldSpeed = 0;
     private void EstimateCorrectedCenter() {
-        //float smoothSpeed = Mathf.Lerp(oldSpeed, Speed, 0.00000001f);
-
         if (Speed > 0.25f) {
             correctedCenter.position = transform.position
                 + new Vector3(Orientation.x, 0, Orientation.y) * _correctedCenterPosition;
         }
-        //oldSpeed = Speed;
     }
 
     private void CheckEchos() {
