@@ -1,5 +1,7 @@
 ﻿namespace ModularIK {
     class ModelData {
+        private float[] hipPosition = new float[3];
+        private float[] hipRotation = new float[3];
         private float[] headPosition = new float[3];
         private float[] headRotation = new float[3];
         private float[] leftFootPosition = new float[3];
@@ -7,6 +9,20 @@
         private float[] rightFootPosition = new float[3];
         private float[] rightFootRotation = new float[3];
 
+        public float[] HipPosition
+        {
+            get
+            {
+                return hipPosition;
+            }
+        }
+        public float[] HipRotation
+        {
+            get
+            {
+                return hipRotation;
+            }
+        }
         public float[] HeadPosition
         {
             get
