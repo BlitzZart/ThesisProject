@@ -1,11 +1,6 @@
 ﻿using UnityEngine;
-using UnscentedKalmanFilter;
-using MathNet.Numerics.LinearAlgebra.Double;
-using Example;
-using System;
-using MathNet.Numerics.LinearAlgebra;
 
-public class PlayerFoot : MonoBehaviour {
+public class PlayerFootDings : MonoBehaviour {
     private float maxSpeed = 3;
     [Range(-0.1f, 1.1f)]
     public float speed, speed01, height;
@@ -38,7 +33,6 @@ public class PlayerFoot : MonoBehaviour {
         speed01 = (float)kalman.UseFilter(speed01);// CalcKalman(speed01);
         // take height from curve
         height = curve.Evaluate(speed01);
-
         // apply height
         transform.position = new Vector3(transform.position.x, height, transform.position.z);
     }

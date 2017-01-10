@@ -1,5 +1,18 @@
-﻿namespace ModularIK {
+﻿using System;
+using System.Collections.Generic;
+
+namespace ModularIK {
+
+
+    /// <summary>
+    /// ModelData just provides all available and necessary data.
+    /// Various DataProvider deliver this data.
+    /// </summary>
     class ModelData {
+        private List<AComponentData> providers = new List<AComponentData>();
+
+        private FootData leftFoot, rightRightFoot;
+
         private float[] hipPosition = new float[3];
         private float[] hipRotation = new float[3];
         private float[] headPosition = new float[3];
@@ -66,10 +79,35 @@
             }
         }
 
+        #region public
+        public void Update() {
+            foreach (AComponentData item in providers) {
+                if (item is FootData)
+                    HandleFeet(item);
+            }
+        }
+        #endregion
 
+        #region private
+        #region feet
+        private void HandleFeet(AComponentData foot) {
+            ProcessFeet();
+            if (foot == leftFoot) {
+                leftFootPosition = foot.Position();
+                leftFootRotation = foot.Rotation();
+            }
+            else {
+                rightFootPosition = foot.Position();
+                rightFootRotation = foot.Rotation();
+            }
+        }
 
-        void Test() {
+        private void ProcessFeet() {
 
         }
+
+        #endregion
+
+        #endregion
     }
 }

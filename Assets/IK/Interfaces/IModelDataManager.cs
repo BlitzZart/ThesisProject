@@ -5,11 +5,11 @@ using System.Text;
 
 namespace ModularIK {
     public interface IModelDataManager {
-        void Register(IModelTransform obj);
-        void UnRegister(IModelTransform obj);
+        void Register(IDataReceiver obj);
+        void UnRegister(IDataReceiver obj);
 
         // call this in game loop
-        void UpdateModelData(float dt);
+        void UpdateModelData();
         void UpdateCallbacks();
     }
 }

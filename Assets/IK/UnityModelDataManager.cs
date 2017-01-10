@@ -3,78 +3,62 @@ using ModularIK;
 using UnityEngine;
 using System.Collections.Generic;
 
+
 class UnityModelDataManager : MonoBehaviour {
     private UMDM umdm;
+    private IKModelController IKModelController;
 
     #region unity callbacks
     private void Start() {
         umdm = new UMDM();
+        IKModelController = new IKModelController(umdm);
     }
 
     private void Update() {
-        umdm.UpdateModelData(Time.deltaTime);
+        umdm.UpdateModelData();
         umdm.UpdateCallbacks();
     }
     #endregion
 
     #region public
-    public void Register(IModelTransform obj) {
+    public void Register(IDataReceiver obj) {
         umdm.Register(obj);
     }
 
-    public void UnRegister(IModelTransform obj) {
+    public void UnRegister(IDataReceiver obj) {
         umdm.UnRegister(obj);
     }
     #endregion
 
     #region private
-
-
-
-
     private class UMDM : IModelDataManager {
-        private List<IModelTransform> modelTransrom;
-        private List<ISingleIKVectorData> singleData;
+        private List<IDataReceiver> modelTransrom;
+        private List<IDataReceiver> singleData;
         private ModelData modelData;
 
-        public void Register(IModelTransform obj) {
+        public void Register(IDataReceiver obj) {
             if (!modelTransrom.Contains(obj))
                 modelTransrom.Add(obj);
-
-            if (obj is ISingleIKVectorData) {
-                if (!singleData.Contains(obj as ISingleIKVectorData)) {
-                    singleData.Add((ISingleIKVectorData)obj);
-                }
-            }
         }
 
-        public void UnRegister(IModelTransform obj) {
+        public void UnRegister(IDataReceiver obj) {
             if (modelTransrom.Contains(obj))
                 modelTransrom.Remove(obj);
-
-            if (obj is ISingleIKVectorData) {
-                if (!singleData.Contains(obj as ISingleIKVectorData)) {
-                    singleData.Add((ISingleIKVectorData)obj);
-                }
-            }
         }
 
-        public void UpdateModelData(float dt) {
+        public void UpdateModelData() {
+            modelData.Update();
         }
 
         public void UpdateCallbacks() {
-            foreach (IModelTransform item in modelTransrom) {
-                item.ModelTransform(modelData.HipPosition, modelData.HipRotation);
+            foreach (IDataReceiver item in modelTransrom) {
+                item.VectorData(modelData.HipPosition, modelData.HipRotation);
+
+                if (item is ILeftFootReceiver)
+                    item.VectorData(modelData.LeftFootPosition, modelData.LeftFootRotation);
+                else if (item is IRightFootReceiver)
+                    item.VectorData(modelData.RightFootPosition, modelData.RightFootRotation);
             }
-            foreach(ISingleIKVectorData item in singleData) {
-                if (item is IModelLeftFootPosition)
-                    item.VectroData(modelData.LeftFootPosition);
-                else if (item is IModelRightFootPosition)
-                    item.VectroData(modelData.RightFootPosition);
-            }
-
-
-
         }
     }
     #endregion
