@@ -9,6 +9,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 406092}
   - 212: {fileID: 21206092}
+  - 114: {fileID: 114000010966458698}
+  - 114: {fileID: 114000013119707304}
   - 114: {fileID: 114000013574203550}
   m_Layer: 0
   m_Name: PlayerWithFeet
@@ -209,13 +211,40 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011352044558}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114000013574203550
+--- !u!114 &114000010966458698
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 106092}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b757f6c2ed59fa43aa83c5faa90d7fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114000013119707304
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 106092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d36bc2f31f415bb40b311c662aec21ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerFootPrefab: {fileID: 4000010550517316, guid: 662e09980871f834f9e1f458c65d91cb,
+    type: 2}
+  leftFoot: {fileID: 0}
+  rightFoot: {fileID: 0}
+  tempFoot: {fileID: 0}
+--- !u!114 &114000013574203550
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 106092}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3aa95954b55cbc4dbf732629b2c2fed, type: 3}
   m_Name: 
@@ -232,10 +261,6 @@ MonoBehaviour:
   leftFoot: {fileID: 0}
   rightFoot: {fileID: 0}
   tempFoot: {fileID: 0}
-  leftFootSpeed: 0
-  rightFootSpeed: 0
-  leftFootHight: 0
-  rightFootHight: 0
   Height: 0
 --- !u!136 &136000012056536958
 CapsuleCollider:

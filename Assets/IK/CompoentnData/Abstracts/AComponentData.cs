@@ -46,6 +46,9 @@ namespace ModularIK {
             return position();
         }
         public float[] Rotation() {
+            if (rotation == null) // TODO: handle unused data properly
+                return null;
+
             return rotation();
         }
     }

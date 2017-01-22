@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ModleManager : MonoBehaviour { 
+public class ModelManager : MonoBehaviour { 
     private PlayerWithFeet trackedPlayer;
 
     public void SetUsedCenter() {

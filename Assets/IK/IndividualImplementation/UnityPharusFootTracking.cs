@@ -1,25 +1,22 @@
 ﻿using UnityEngine;
-using UnityStandardAssets.Characters.ThirdPerson;
 
 namespace ModularIK {
     class UnityPharusFootTracking : ATrackingEntity {
-        public Transform playerFootPrefab, body, correctedCenter;
-        public Material[] _feetMaterials;
+        public Transform playerFootPrefab;
         public Transform leftFoot, rightFoot, tempFoot; // temp foot is used for food exchange when crossovers occure
 
-        //
-        private FootData leftFootData, rightFootData, tempFootData;
+        private LeftFootData leftFootData; //tempFootData; TODO: find a solution for temtFootData (Maybe not needed bacause the processing happens earlier)
+        private RightFootData rightFootData;
         private Vector3 leftFootPos, rightFootPos, tempFootPos;
-        //
 
-        private Transform ikBody;
-
-        public float Height;
-
+        SimpleKalman kalman;
         private float _scaling = 0.01f;
 
         #region unity callbacks
-        void Start() {
+        private void Start() {
+            kalman = new SimpleKalman();
+            kalman.Q = 0.025;
+
             leftFoot = Instantiate(playerFootPrefab);
             rightFoot = Instantiate(playerFootPrefab);
             tempFoot = Instantiate(playerFootPrefab);
@@ -29,26 +26,38 @@ namespace ModularIK {
             rightFoot.parent = transform;
             tempFoot.parent = transform;
 
-            leftFoot.GetComponent<MeshRenderer>().material = _feetMaterials[0];
-            rightFoot.GetComponent<MeshRenderer>().material = _feetMaterials[1];
-
-            AssignIKModel();
-            AssignAIAgent(body);
+            InitFeet();
         }
 
-        void Update() {
+        private void Update() {
             TrackFeet();
-            SetAvatarPosition();
-            SetAvatarOrientation();
-
+            //FilterFeet();
             CheckEchos();
+        }
+
+        private void OnDestroy() {
+            UnityModelDataManager mdm = GetComponent<UnityModelDataManager>();
+            mdm.RemoveProvider(leftFootData);
+            mdm.RemoveProvider(rightFootData);
         }
         #endregion
 
+        #region public
+        public override void SetPosition(Vector2 coords) {
+            // transform tracking data. flip y and z axis and scale (1 unit = 1 meter)
+            transform.position = new Vector3(coords.x, 0, coords.y) * _scaling;
+        }
+        #endregion
+
+        #region private
 
         private void InitFeet() {
-            leftFootData = new FootData(() => GetLeftFootPosition(), null);
-            rightFootData = new FootData(() => GetRightFootPosition(), null);
+            leftFootData = new LeftFootData(() => GetLeftFootPosition(), null);
+            rightFootData = new RightFootData(() => GetRightFootPosition(), null);
+
+            UnityModelDataManager mdm = GetComponent<UnityModelDataManager>();
+            mdm.AddProvider(leftFootData);
+            mdm.AddProvider(rightFootData);
         }
         private float[] GetLeftFootPosition() {
             return new float[] { leftFootPos.x, leftFootPos.y, leftFootPos.z };
@@ -57,51 +66,10 @@ namespace ModularIK {
             return new float[] { rightFootPos.x, rightFootPos.y, rightFootPos.z };
         }
 
-        #region public
-
-        public override void SetPosition(Vector2 coords) {
-            //this.transform.position = coords * _scaling;
-            this.transform.position = new Vector3(coords.x, 0, coords.y) * _scaling;
-        }
-        #endregion
-
-        #region private
-        private void SetAvatarPosition() {
-            ikBody.position = transform.position;
-            ikBody.rotation = Quaternion.LookRotation(new Vector3(Orientation.x, 0, Orientation.y));
-        }
-
-        private void SetAvatarOrientation() {
-            Vector3 dir = new Vector3(Orientation.x, 0, Orientation.y);
-            transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
-        }
-
-        private void AssignIKModel() {
-            IKControl ik = FindObjectOfType<IKControl>();
-            if (ik == null)
-                return;
-
-            if (ik.rightFootObj || ik.leftFootObj)
-                return;
-
-            ikBody = ik.transform;
-
-            ik.rightFootObj = rightFoot;
-            ik.leftFootObj = leftFoot;
-        }
-
-        private void AssignAIAgent(Transform target) {
-            AICharacterControl ai = FindObjectOfType<AICharacterControl>();
-
-            if (ai == null)
-                return;
-
-            ai.SetTarget(target);
-        }
-
         private void TrackFeet() {
             if (Echoes == null)
                 return;
+
             if (Echoes.Count > 1) { // found 2 feet
                 Vector3 pos = UnityTracking.TrackingAdapter.GetScreenPositionFromRelativePosition(Echoes[1].x, Echoes[1].y);
                 rightFoot.position = new Vector3(pos.x, rightFoot.position.y, pos.y) * _scaling;
@@ -127,19 +95,22 @@ namespace ModularIK {
                 }
             }
 
-            // NEW ++++
+            // set 
             leftFootPos = leftFoot.position;
             rightFootPos = rightFoot.position;
+        }
+
+        private void FilterFeet() {
+            leftFoot.position = new Vector3((float)kalman.UseFilter(leftFoot.position.x), leftFoot.position.y, (float)kalman.UseFilter(leftFoot.position.z));
+            rightFoot.position = new Vector3((float)kalman.UseFilter(rightFoot.position.x), rightFoot.position.y, (float)kalman.UseFilter(rightFoot.position.z));
         }
 
         private void CheckEchos() {
             if (Echoes.Count < 1) {
                 Debug.LogError("lost both foot echos");
-                //print("lost both foot echos");
             }
             else if (Echoes.Count < 2) {
                 Debug.LogError("lost one foot echo");
-                //print("lost one foot echo");
             }
         }
         #endregion

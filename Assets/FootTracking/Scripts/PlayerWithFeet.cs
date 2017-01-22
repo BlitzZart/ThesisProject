@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System;
 using UnityStandardAssets.Characters.ThirdPerson;
-using UnityEditor;
 
 public class PlayerWithFeet : ATrackingEntity {
     public bool useCorrectedCenter = true;

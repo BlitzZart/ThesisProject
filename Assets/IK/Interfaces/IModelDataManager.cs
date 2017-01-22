@@ -5,8 +5,11 @@ using System.Text;
 
 namespace ModularIK {
     public interface IModelDataManager {
-        void Register(IDataReceiver obj);
-        void UnRegister(IDataReceiver obj);
+        void SubscribeReceiver(IDataReceiver obj);
+        void UnsubscribeReceiver(IDataReceiver obj);
+
+        void AddProvider(AComponentData provider);
+        void RemoveProvider(AComponentData provider);
 
         // call this in game loop
         void UpdateModelData();

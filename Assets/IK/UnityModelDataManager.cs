@@ -5,43 +5,56 @@ using System.Collections.Generic;
 
 
 class UnityModelDataManager : MonoBehaviour {
-    private UMDM umdm;
+    private ModelDataManager mdm;
     private IKModelController IKModelController;
 
     #region unity callbacks
     private void Start() {
-        umdm = new UMDM();
-        IKModelController = new IKModelController(umdm);
+        mdm = new ModelDataManager();  
+
+        IKModelController = new IKModelController(mdm, FindObjectOfType<IKControl>());
     }
 
     private void Update() {
-        umdm.UpdateModelData();
-        umdm.UpdateCallbacks();
+        mdm.UpdateModelData();
+        mdm.UpdateCallbacks();
     }
     #endregion
 
     #region public
-    public void Register(IDataReceiver obj) {
-        umdm.Register(obj);
+    public void SubscribeReceiver(IDataReceiver obj) {
+        mdm.SubscribeReceiver(obj);
     }
 
-    public void UnRegister(IDataReceiver obj) {
-        umdm.UnRegister(obj);
+    public void UnsubscribeReseiver(IDataReceiver obj) {
+        mdm.UnsubscribeReceiver(obj);
     }
+    public void AddProvider(AComponentData provider) {
+        mdm.AddProvider(provider);
+    }
+    public void RemoveProvider(AComponentData provider) {
+        mdm.RemoveProvider(provider);
+    }
+
     #endregion
 
     #region private
-    private class UMDM : IModelDataManager {
+    private class ModelDataManager : IModelDataManager {
         private List<IDataReceiver> modelTransrom;
         private List<IDataReceiver> singleData;
         private ModelData modelData;
 
-        public void Register(IDataReceiver obj) {
+        public ModelDataManager() {
+            modelData = new ModelData();
+            modelTransrom = new List<IDataReceiver>();
+        }
+
+        public void SubscribeReceiver(IDataReceiver obj) {
             if (!modelTransrom.Contains(obj))
                 modelTransrom.Add(obj);
         }
 
-        public void UnRegister(IDataReceiver obj) {
+        public void UnsubscribeReceiver(IDataReceiver obj) {
             if (modelTransrom.Contains(obj))
                 modelTransrom.Remove(obj);
         }
@@ -52,13 +65,22 @@ class UnityModelDataManager : MonoBehaviour {
 
         public void UpdateCallbacks() {
             foreach (IDataReceiver item in modelTransrom) {
-                item.VectorData(modelData.HipPosition, modelData.HipRotation);
+                //item.VectorData(modelData.HipPosition, modelData.HipRotation);
 
-                if (item is ILeftFootReceiver)
-                    item.VectorData(modelData.LeftFootPosition, modelData.LeftFootRotation);
-                else if (item is IRightFootReceiver)
-                    item.VectorData(modelData.RightFootPosition, modelData.RightFootRotation);
+                if (item is ILeftFootReceiver) {
+                    (item as ILeftFootReceiver).VectorData(modelData.LeftFootPosition, modelData.LeftFootRotation);
+                }
+                if (item is IRightFootReceiver) {
+                    (item as IRightFootReceiver).VectorData(modelData.RightFootPosition, modelData.RightFootRotation);
+                }
             }
+        }
+
+        public void AddProvider(AComponentData provider) {
+            modelData.AddProvider(provider);
+        }
+        public void RemoveProvider(AComponentData provider) {
+            modelData.RemoveProvider(provider);
         }
     }
     #endregion
