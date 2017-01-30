@@ -17,7 +17,6 @@ namespace ModularIK {
         }
 
         private LeftFootData leftFoot;
-        private RightFootData rightFoot;
         public LeftFootData LeftFoot
         {
             get
@@ -25,11 +24,20 @@ namespace ModularIK {
                 return leftFoot;
             }
         }
+        private RightFootData rightFoot;
         public RightFootData RightFoot
         {
             get
             {
                 return rightFoot;
+            }
+        }
+        private HipData hipData;
+        public HipData HipData
+        {
+            get
+            {
+                return hipData;
             }
         }
 
@@ -106,6 +114,8 @@ namespace ModularIK {
                 leftFoot = (LeftFootData)provider;
             else if (provider is RightFootData)
                 rightFoot = (RightFootData)provider;
+            else if (provider is HipData)
+                hipData = (HipData)provider;
         }
         public void RemoveProvider(AComponentData provider) {
             providers.Remove(provider);
@@ -113,23 +123,22 @@ namespace ModularIK {
                 leftFoot = null;
             else if (provider is RightFootData)
                 rightFoot = null;
+            else if (provider is HipData)
+                hipData = null;
         }
 
         public void Update() {
             foreach (AComponentData item in providers) {
                 if (item is LeftFootData || item is RightFootData)
                     HandleFeet(item);
+                if (item is HipData)
+                    HandleHip(item);
             }
         }
         #endregion
 
         #region private
-        #region feet
-        private void ProcessFeet() {
-
-        }
         private void HandleFeet(AComponentData foot) {
-            ProcessFeet();
             if (foot == leftFoot) {
                 leftFootPosition = foot.Position();
                 leftFootRotation = foot.Rotation();
@@ -139,9 +148,11 @@ namespace ModularIK {
                 rightFootRotation = foot.Rotation();
             }
         }
-
-        #endregion
-
+        private void HandleHip(AComponentData hip)
+        {
+            hipPosition = hip.Position();
+            hipRotation = hip.Rotation();
+        }
         #endregion
     }
 }

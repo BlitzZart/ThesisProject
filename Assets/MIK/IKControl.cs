@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
-
+using UnityStandardAssets.Characters.ThirdPerson;
 
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(AICharacterControl))]
 public class IKControl : MonoBehaviour {
 
     protected Animator animator;
 
+    private AICharacterControl aiCharacter; 
     [Range(0.0f, 1.0f)]
     public float weight = 1;
     public bool ikActive = false;
@@ -21,36 +23,47 @@ public class IKControl : MonoBehaviour {
     public Transform leftFootObj = null;
     public Transform lookObj = null;
     public Transform leftKneeHint = null;
+    public Transform hip;
 
     public Vector3 leftFootPosition, rightFootPosition;
     public Vector3 leftFootRotation, rightFootRotation;
 
+    private Vector3 hipPosition;
+
     #region unity callbacks
     void Start() {
         animator = GetComponent<Animator>();
+        aiCharacter = GetComponent<AICharacterControl>();
     }
 
     //a callback for calculating IK
     void OnAnimatorIK() {
         if (animator) {
-
             //if the IK is active, set the position and rotation directly to the goal. 
             if (ikActive) {
                 //UpdateUsingTransforms();
                 UpdateUsingVectors();
             }
-
             //if the IK is not active, set the position and rotation of the hand and head back to the original position
             else {
                 animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 0);
                 animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, 0);
-
                 animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 0);
                 animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 0);
+
+                print("NO IK");
 
                 animator.SetLookAtWeight(0);
             }
         }
+    }
+    #endregion
+
+    #region public
+    public void SetDestination(Vector3 destination)
+    {        
+        hip.position = destination;
+        aiCharacter.SetDestination(destination);
     }
     #endregion
 
@@ -74,17 +87,17 @@ public class IKControl : MonoBehaviour {
 
     }
 
-    private void UpdateUsingVectors() {
-            animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, weight);
-            animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, weight);
-            animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootPosition);
-            animator.SetIKRotation(AvatarIKGoal.LeftFoot, Quaternion.Euler(leftFootRotation));
+    private void UpdateUsingVectors()
+    {
+        animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, weight);
+        animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, weight);
+        animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootPosition);
+        animator.SetIKRotation(AvatarIKGoal.LeftFoot, Quaternion.Euler(leftFootRotation));
 
-            animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, weight);
-            animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, weight);
-            animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootPosition);
-            animator.SetIKRotation(AvatarIKGoal.RightFoot, Quaternion.Euler(rightFootRotation));
-
+        animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, weight);
+        animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, weight);
+        animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootPosition);
+        animator.SetIKRotation(AvatarIKGoal.RightFoot, Quaternion.Euler(rightFootRotation));
     }
 
     private void UpdateUsingTransforms() {

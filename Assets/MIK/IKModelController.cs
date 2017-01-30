@@ -11,7 +11,6 @@ using UnityEngine;
 /// </summary>
 class IKModelController :  ICenterReceiver, ILeftFootReceiver, IRightFootReceiver {
     private IModelDataManager modelDataManager;
-    private Transform ikBody;
     IKControl ikControl;
 
     public IKModelController(IModelDataManager mdm, IKControl ik) {
@@ -27,14 +26,12 @@ class IKModelController :  ICenterReceiver, ILeftFootReceiver, IRightFootReceive
 
         //if (this.ikControl == null)
         //    return;
-
+        //ikBody = this.ikControl.transform;
         //if (this.ikControl.rightFootObj || this.ikControl.leftFootObj)
         //    return;
-
-        //ikBody = this.ikControl.transform;
-
         //ik.rightFootObj = rightFoot;
         //ik.leftFootObj = leftFoot;
+
     }
 
     // TODO: fix disposing - this is not a MonoBehaviour anymore
@@ -44,20 +41,22 @@ class IKModelController :  ICenterReceiver, ILeftFootReceiver, IRightFootReceive
     #endregion
 
     // TODO: get rid of this implementation
-    void ICenterReceiver.VectorData(float[] position, float[] rotation) {
+    void IDataReceiver.VectorData(float[] position, float[] rotation)
+    {
+        // DONT USE ME
     }
 
-    void IDataReceiver.VectorData(float[] position, float[] rotation) {
-        //Debug.Log(System.Reflection.MethodBase.GetCurrentMethod().Name + " | x " + position[0] + " y " + position[2]);
+    void ICenterReceiver.VectorData(float[] position, float[] rotation) {
+        ikControl.SetDestination(new Vector3(position[0], position[1], position[2]));
     }
 
     void ILeftFootReceiver.VectorData(float[] position, float[] rotation) {
         ikControl.leftFootPosition = new Vector3(position[0], position[1], position[2]);
-        //Debug.Log("LeftFootReceiver " + position[0]);
+        ikControl.rightFootRotation = Quaternion.LookRotation(new Vector3(rotation[0], rotation[1], rotation[2]), Vector3.up).eulerAngles;
     }
 
     void IRightFootReceiver.VectorData(float[] position, float[] rotation) {
         ikControl.rightFootPosition = new Vector3(position[0], position[1], position[2]);
-        //Debug.Log("RightFootReceiver " + position[0]);
+        ikControl.leftFootRotation = Quaternion.LookRotation(new Vector3(rotation[0], rotation[1], rotation[2]), Vector3.up).eulerAngles;
     }
 }

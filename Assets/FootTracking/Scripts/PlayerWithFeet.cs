@@ -106,7 +106,7 @@ public class PlayerWithFeet : ATrackingEntity {
         if (ai == null || moveBodyInScript)
             return;
 
-        ai.SetTarget(target);
+        //ai.SetTarget(target);
     }
 
     private void TrackFeet() {

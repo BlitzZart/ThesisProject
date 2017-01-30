@@ -11,7 +11,6 @@ public class PlayerFoot : MonoBehaviour {
     public float speed, speed01, height;
 
     private Vector3 lastPosition;
-
     SimpleKalman kalman;
 
     public AnimationCurve curve;
@@ -19,14 +18,21 @@ public class PlayerFoot : MonoBehaviour {
     #region unity callbacks
     void Start() {
         kalman = new SimpleKalman();
+        kalman.Q = 0.00005;
+        kalman.R = 0.01;
     }
 
     void Update() {
-        UseSimpleKalman();
+        EstimateFootHeight();
     }
+
+    private void OnDrawGizmos()
+    {
+    }
+
     #endregion
 
-    private void UseSimpleKalman() {
+    private void EstimateFootHeight() {
         // get speed and clamp it to max speed
         speed = Mathf.Clamp((transform.position - lastPosition).magnitude / Time.deltaTime, 0, maxSpeed);
         // store last foot position
@@ -42,4 +48,5 @@ public class PlayerFoot : MonoBehaviour {
         // apply height
         transform.position = new Vector3(transform.position.x, height, transform.position.z);
     }
+
 }
