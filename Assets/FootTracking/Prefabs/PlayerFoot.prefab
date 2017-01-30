@@ -119,6 +119,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+  lineMaterial: {fileID: 2100000, guid: 66a00a4fe7f9f6a4b87cd946a504fa2f, type: 2}
 --- !u!135 &135000012715972184
 SphereCollider:
   m_ObjectHideFlags: 1

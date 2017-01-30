@@ -5,6 +5,13 @@ public class SimpleKalman {
     public double R = 0.01;
     public double P = 1, X = 0, K;
 
+    public void Reinitialize()
+    {
+        P = 1;
+        X = 0;
+        K = 0;
+    }
+
     public double UseFilter(double value) {
         return KalmanUpdate(value);
     }

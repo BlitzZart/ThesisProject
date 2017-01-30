@@ -232,14 +232,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d36bc2f31f415bb40b311c662aec21ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerFootPrefab: {fileID: 4000010550517316, guid: 662e09980871f834f9e1f458c65d91cb,
+  playerFootPrefab: {fileID: 114000012934586054, guid: 662e09980871f834f9e1f458c65d91cb,
     type: 2}
   leftFoot: {fileID: 0}
   rightFoot: {fileID: 0}
   tempFoot: {fileID: 0}
-  filterFeet: 1
-  kalmanQ: 0.0020000000949949026
-  kalmanR: 0.009999999776482582
+  applyFilterOnFeet: 1
+  correctCrossing: 1
+  kalmanQ: 0.0010000000474974513
+  kalmanR: 0.0010000000474974513
 --- !u!136 &136000012056536958
 CapsuleCollider:
   m_ObjectHideFlags: 1

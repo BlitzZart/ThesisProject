@@ -39,14 +39,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             agent.SetDestination(destination);
         }
 
-        private void OnDrawGizmos()
-        {
-            if (agent == null)
-                return;
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(agent.destination, 0.2f);
-        }
-
         //public void SetTarget(Transform target)
         //{
         //    this.target = target;
