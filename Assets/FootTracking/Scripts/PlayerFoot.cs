@@ -5,7 +5,10 @@ public class PlayerFoot : MonoBehaviour {
     [Range(-0.1f, 1.1f)]
     public float speed, speed01, height;
 
-    private Vector3 lastPosition;
+    // TODO: Only for präsi
+    public bool enableFootHeight = false;
+
+    //private Vector3 lastPosition;
     SimpleKalman kalman;
 
     public AnimationCurve curve;
@@ -24,10 +27,6 @@ public class PlayerFoot : MonoBehaviour {
         kalman.Q = 0.00005;
         kalman.R = 0.01;
     }
-
-    void Update() {
-        EstimateFootHeight();
-    }
     #endregion
 
     #region public
@@ -44,6 +43,7 @@ public class PlayerFoot : MonoBehaviour {
         lineRenderer.SetWidth(0.01f, 0.01f);
         lineRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         lineRenderer.receiveShadows = false;
+        lineRenderer.enabled = false;
     }
     public void AddFootTracePoint(Vector3 point)
     {
@@ -55,14 +55,20 @@ public class PlayerFoot : MonoBehaviour {
 
         lineRenderer.SetPosition(currentLineEntries++ % numberOfLineEntries, point);
     }
-    #endregion
 
-    #region private
-    private void EstimateFootHeight() {
+    public float EstimateFootHeight(Vector3 position, Vector3 lastPosition) {
+        if (!enableFootHeight)
+        {
+            transform.position = position;
+            return 0;
+        }
+
+
+        // TODO: Get rid of this hack!
+        position.y = lastPosition.y = 0;
+
         // get speed and clamp it to max speed
-        speed = Mathf.Clamp((transform.position - lastPosition).magnitude / Time.deltaTime, 0, maxSpeed);
-        // store last foot position
-        lastPosition = transform.position;
+        speed = Mathf.Clamp((position - lastPosition).magnitude / Time.deltaTime, 0, maxSpeed);
         // scale speed to 0 - 1
         speed01 = speed / maxSpeed;
         // apply filter
@@ -70,7 +76,9 @@ public class PlayerFoot : MonoBehaviour {
         // take height from curve
         height = curve.Evaluate(speed01);
         // apply height
-        transform.position = new Vector3(transform.position.x, height, transform.position.z);
+        transform.position = new Vector3(position.x, height, position.z);
+
+        return height;
     }
     #endregion
 }

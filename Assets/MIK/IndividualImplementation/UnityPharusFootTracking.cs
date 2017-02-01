@@ -4,9 +4,8 @@ namespace ModularIK
 {
     class UnityPharusFootTracking : ATrackingEntity
     {
-
         public PlayerFoot playerFootPrefab;
-        public PlayerFoot leftFoot, rightFoot, tempFoot; // temp foot is used for food exchange when crossovers occure
+        private PlayerFoot leftFoot, rightFoot;
 
         private LeftFootData leftFootData; //tempFootData; TODO: find a solution for temtFootData (Maybe not needed bacause the processing happens earlier)
         private RightFootData rightFootData;
@@ -14,8 +13,9 @@ namespace ModularIK
         private Vector3 leftFootPosition, lastLeftFootPosition, rightFootPosition, lastRightFootPosition, tempFootPos;
         private Vector3 lastCenterPosition;
         private Vector3 centerPosition;
+        private Vector2 fastOrientation;
 
-        private bool useLineRenderers = false;
+        private bool useLineRenderers = true;
 
         public bool applyFilterOnFeet = true;
         public bool correctCrossing = true;
@@ -24,7 +24,11 @@ namespace ModularIK
         [Range(0.1f, 0.00001f)]
         public double kalmanR = 0.01;
 
-        SimpleKalman[] filters;
+        // 0: left x, 1: left y
+        // 2: right x, 3: right y
+        SimpleKalman[] kalmanFilters;
+        // 0: orientatino x, 1: orientation y
+        SimpleKalman[] orientationFilter;
 
         private float _scaling = 0.01f;
 
@@ -32,13 +36,20 @@ namespace ModularIK
         private void Start()
         {
             // init filter
-            filters = new SimpleKalman[4];
-
-            for (int i = 0; i < filters.Length; i++)
+            kalmanFilters = new SimpleKalman[4];
+            for (int i = 0; i < kalmanFilters.Length; i++)
             {
-                filters[i] = new SimpleKalman();
-                filters[i].Q = kalmanQ;
-                filters[i].R = kalmanR;
+                kalmanFilters[i] = new SimpleKalman();
+                kalmanFilters[i].Q = kalmanQ;
+                kalmanFilters[i].R = kalmanR;
+            }
+
+            orientationFilter = new SimpleKalman[2];
+            for (int i = 0; i < orientationFilter.Length; i++)
+            {
+                orientationFilter[i] = new SimpleKalman();
+                orientationFilter[i].Q = 0.0001;
+                orientationFilter[i].R = 0.005;
             }
 
             InitFeet();
@@ -75,7 +86,6 @@ namespace ModularIK
         #endregion
 
         #region private
-
         private void InitFeet()
         {
             leftFootData = new LeftFootData(() => GetLeftFootPosition(), () => GetCenterRotation()/*GetLeftFootRotation()*/);
@@ -86,6 +96,15 @@ namespace ModularIK
             mdm.AddProvider(leftFootData);
             mdm.AddProvider(rightFootData);
             mdm.AddProvider(hipData);
+
+            leftFoot = Instantiate(playerFootPrefab);
+            rightFoot = Instantiate(playerFootPrefab);
+
+            if (useLineRenderers)
+            {
+                leftFoot.InitLineRenderer(Color.red);
+                rightFoot.InitLineRenderer(Color.blue);
+            }
         }
         private float[] GetLeftFootPosition()
         {
@@ -116,70 +135,10 @@ namespace ModularIK
         {
             return new float[] { Orientation.x, 0, Orientation.y };
         }
-
-        private void TrackFeet()
-        {
-            if (Echoes == null)
-                return;
-
-            lastLeftFootPosition = leftFootPosition;
-            lastRightFootPosition = rightFootPosition;
-
-            if (Echoes.Count > 1)
-            { // found 2 feet
-                Vector3 pos = UnityTracking.TrackingAdapter.GetScreenPositionFromRelativePosition(Echoes[1].x, Echoes[1].y);
-                // TODO: get rid of "/ _scaling" at foot height
-                rightFoot.transform.position = new Vector3(pos.x, rightFoot.transform.position.y / _scaling, pos.y) * _scaling;
-                pos = UnityTracking.TrackingAdapter.GetScreenPositionFromRelativePosition(Echoes[0].x, Echoes[0].y);
-                leftFoot.transform.position = new Vector3(pos.x, leftFoot.transform.position.y / _scaling, pos.y) * _scaling;
-
-                // feet are crossed
-                if (leftFoot.transform.localPosition.x > rightFoot.transform.localPosition.x)
-                {
-                    Vector3 temp = leftFoot.transform.position;
-                    leftFoot.transform.position = rightFoot.transform.position;
-                    rightFoot.transform.position = temp;
-                }
-            }
-            else if (Echoes.Count > 0)
-            {  // found 1 foot
-                Vector3 pos = UnityTracking.TrackingAdapter.GetScreenPositionFromRelativePosition(Echoes[0].x, Echoes[0].y);
-                tempFoot.transform.position = new Vector3(pos.x, tempFoot.transform.position.y / _scaling, pos.y) * _scaling;
-                if (tempFoot.transform.localPosition.x < 0)
-                {
-                    leftFoot.transform.position = tempFoot.transform.position;
-                }
-                else
-                {
-                    rightFoot.transform.position = tempFoot.transform.position;
-                }
-            }
-
-            // set
-            leftFootPosition = leftFoot.transform.position;
-            rightFootPosition = rightFoot.transform.position;
-        }
-
-        private void FilterFeet()
-        {
-            foreach (SimpleKalman item in filters)
-            {
-                item.Q = kalmanQ;
-                item.R = kalmanR;
-            }
-
-            leftFoot.transform.position = new Vector3((float)filters[0].UseFilter(leftFoot.transform.position.x), leftFoot.transform.position.y, (float)filters[1].UseFilter(leftFoot.transform.position.z));
-            rightFoot.transform.position = new Vector3((float)filters[2].UseFilter(rightFoot.transform.position.x), rightFoot.transform.position.y, (float)filters[3].UseFilter(rightFoot.transform.position.z));
-
-            leftFootPosition = leftFoot.transform.position;
-            rightFootPosition = rightFoot.transform.position;
-        }
-
         private void CalculateHip()
         {
             centerPosition = (rightFootPosition + leftFootPosition) / 2;
         }
-
         private void CheckEchos()
         {
             if (Echoes.Count < 1)
@@ -197,13 +156,13 @@ namespace ModularIK
         private bool IsLeftOfCenter(Vector2 c)
         {
             Vector2 a = new Vector2(centerPosition.x, centerPosition.z);
-            Vector2 b = a + Orientation;
+            Vector2 b = a + fastOrientation;
             return ((b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)) > 0;
         }
 
         private void ReinitializeAllFilters()
         {
-            foreach (SimpleKalman item in filters)
+            foreach (SimpleKalman item in kalmanFilters)
                 item.Reinitialize();
         }
 
@@ -260,19 +219,33 @@ namespace ModularIK
 
         }
 
-        private void NewFilterFeet()
+        private void NewFootFiltering()
         {
             if (!applyFilterOnFeet)
                 return;
 
-            foreach (SimpleKalman item in filters)
+            foreach (SimpleKalman item in kalmanFilters)
             {
                 item.Q = kalmanQ;
                 item.R = kalmanR;
             }
 
-            leftFootPosition = new Vector3((float)filters[0].UseFilter(leftFootPosition.x), leftFootPosition.y, (float)filters[1].UseFilter(leftFootPosition.z));
-            rightFootPosition = new Vector3((float)filters[2].UseFilter(rightFootPosition.x), rightFootPosition.y, (float)filters[3].UseFilter(rightFootPosition.z));
+            leftFootPosition = new Vector3((float)kalmanFilters[0].UseFilter(leftFootPosition.x), leftFootPosition.y, (float)kalmanFilters[1].UseFilter(leftFootPosition.z));
+            rightFootPosition = new Vector3((float)kalmanFilters[2].UseFilter(rightFootPosition.x), rightFootPosition.y, (float)kalmanFilters[3].UseFilter(rightFootPosition.z));
+        }
+        private void OrientationFiltering()
+        {
+            Vector3 tempFast = (centerPosition - lastCenterPosition);
+            fastOrientation = new Vector2(tempFast.x, tempFast.z).normalized;
+            //fastOrientation = (Orientation + fastOrientation) / 2;
+            fastOrientation = new Vector2((float)orientationFilter[0].UseFilter(fastOrientation.x), (float)orientationFilter[1].UseFilter(fastOrientation.y));
+        }
+
+        public void FootHeight()
+        {
+            // get heights
+            leftFootPosition.y = leftFoot.EstimateFootHeight(leftFootPosition, lastLeftFootPosition);
+            rightFootPosition.y = rightFoot.EstimateFootHeight(rightFootPosition, lastRightFootPosition);
         }
 
         private void NewTracking()
@@ -281,7 +254,6 @@ namespace ModularIK
             lastCenterPosition = centerPosition;
             lastLeftFootPosition = leftFootPosition;
             lastRightFootPosition = rightFootPosition;
-
 
             // TODO: handle more than 2 Echoes? (hardly occures!)
             if (Echoes.Count > 1)
@@ -293,13 +265,21 @@ namespace ModularIK
                 OneFoot();
             }
             else
-            {   // no foot found
+            {   // no feet found
                 NoFoot();
             }
 
-            NewFilterFeet();
+            NewFootFiltering();
+
+
             // update center position
             centerPosition = (leftFootPosition + rightFootPosition) / 2;
+            centerPosition.y = 0;
+            transform.position = centerPosition;
+            //centerPosition += new Vector3(Orientation.x, 0, Orientation.y) * 0.3f;
+
+            OrientationFiltering();
+            FootHeight();
         }
         #region debug drawing
         float lineDuration = 5;
@@ -309,6 +289,7 @@ namespace ModularIK
             Debug.DrawLine(lastRightFootPosition, rightFootPosition, r, lineDuration);
             Debug.DrawLine(lastCenterPosition, centerPosition, c, lineDuration);
             Debug.DrawRay(centerPosition, new Vector3(Orientation.x, 0, Orientation.y) * 0.5f, Color.magenta);
+            Debug.DrawRay(centerPosition, new Vector3(fastOrientation.x, 0, fastOrientation.y) * 0.5f, Color.white);
 
             if (useLineRenderers)
             {

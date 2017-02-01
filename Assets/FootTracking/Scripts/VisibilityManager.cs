@@ -1,45 +1,106 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using ModularIK;
 
 public class VisibilityManager : MonoBehaviour {
-    public MeshRenderer body, correctedBody, leftFoot, rightFoot;
+    public RawImage topDownView;
     public SkinnedMeshRenderer model;
-
-    PlayerWithFeet player;
+    public PlayerFoot[] feet;
+    private IKControl ikControl;
+    private UnityPharusFootTracking footTracking;
 
     void Start() {
-        Init();
 
     }
 
-    private void Init() {
-        if (player == null)
-            player = FindObjectOfType<PlayerWithFeet>();
-        if (player == null)
+    private bool GetFeet()
+    {
+        if (feet.Length < 2)
+            feet = FindObjectsOfType<PlayerFoot>();
+
+        return feet.Length > 1;
+    }
+    private bool GetIK()
+    {
+        if (ikControl == null)
+            ikControl = FindObjectOfType<IKControl>();
+
+        return ikControl != null;
+    }
+    private bool GetTrackingEntity()
+    {
+        if (footTracking == null)
+            footTracking = FindObjectOfType<UnityPharusFootTracking>();
+
+        return footTracking != null;
+    }
+
+    public void EnableIK()
+    {
+        if (!GetIK())
             return;
 
-        body = player.body.GetComponent<MeshRenderer>();
-        correctedBody = player.correctedCenter.GetComponent<MeshRenderer>();
-        rightFoot = player.rightFoot.GetComponent<MeshRenderer>();
-        leftFoot = player.leftFoot.GetComponent<MeshRenderer>();
-
+        ikControl.ikActive = !ikControl.ikActive;
     }
-
-    public void ShowBody() {
-        Init();
-        body.enabled = !body.enabled;
+    public void ShowTopDown() {
+        topDownView.enabled = !topDownView.enabled;
     }
-    public void ShowCorrectedBody() {
-        Init();
-        correctedBody.enabled = !correctedBody.enabled;
+    public void ShowLineRenderers()
+    {
+        if (!GetFeet())
+            return;
+
+        foreach (PlayerFoot item in feet)
+        {
+            LineRenderer lr = item.GetComponent<LineRenderer>();
+            lr.enabled = !lr.enabled;
+        }
     }
     public void ShowFeet() {
-        Init();
-        leftFoot.enabled = rightFoot.enabled = !leftFoot.enabled;
+        if (!GetFeet())
+            return;
+
+        foreach (PlayerFoot item in feet)
+        {
+            MeshRenderer mr = item.GetComponent<MeshRenderer>();
+            mr.enabled = !mr.enabled;
+        }
+    }
+    public void ShowCenter()
+    {
+        if (!GetTrackingEntity())
+            return;
+
+
     }
     public void ShowModel() {
-        Init();
         model.enabled = !model.enabled;
+    }
+
+    public void EnableFilter()
+    {
+        if (!GetTrackingEntity())
+            return;
+
+        footTracking.applyFilterOnFeet = !footTracking.applyFilterOnFeet;
+    }
+    public void EnableCorrection()
+    {
+        if (!GetTrackingEntity())
+            return;
+
+        footTracking.correctCrossing = !footTracking.correctCrossing;
+    }
+    public void EnableFootHeight()
+    {
+        if (!GetFeet())
+            return;
+
+        foreach (PlayerFoot item in feet)
+        {
+            item.enableFootHeight = !item.enableFootHeight;
+        }
     }
 
 }

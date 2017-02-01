@@ -51,8 +51,6 @@ public class IKControl : MonoBehaviour {
                 animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 0);
                 animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 0);
 
-                print("NO IK");
-
                 animator.SetLookAtWeight(0);
             }
         }
@@ -62,7 +60,7 @@ public class IKControl : MonoBehaviour {
     #region public
     public void SetDestination(Vector3 destination)
     {        
-        hip.position = destination;
+        //hip.position = destination;
         aiCharacter.SetDestination(destination);
     }
     #endregion
