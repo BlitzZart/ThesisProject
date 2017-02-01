@@ -5,7 +5,7 @@ public class BuildSetup : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Screen.fullScreen = false;
+        //Screen.fullScreen = false;
     }
 	
 	// Update is called once per frame

@@ -9,6 +9,7 @@ public class VisibilityManager : MonoBehaviour {
     public PlayerFoot[] feet;
     private IKControl ikControl;
     private UnityPharusFootTracking footTracking;
+    private MeshRenderer center;
 
     void Start() {
 
@@ -34,6 +35,16 @@ public class VisibilityManager : MonoBehaviour {
             footTracking = FindObjectOfType<UnityPharusFootTracking>();
 
         return footTracking != null;
+    }
+    private bool GetCenter()
+    {
+        if (!GetTrackingEntity())
+            return false;
+
+        if (center == null)
+            center = footTracking.GetComponentInChildren<MeshRenderer>();
+
+        return center != null;
     }
 
     public void EnableIK()
@@ -69,10 +80,10 @@ public class VisibilityManager : MonoBehaviour {
     }
     public void ShowCenter()
     {
-        if (!GetTrackingEntity())
+        if (!GetCenter())
             return;
 
-
+        center.enabled = !center.enabled;
     }
     public void ShowModel() {
         model.enabled = !model.enabled;

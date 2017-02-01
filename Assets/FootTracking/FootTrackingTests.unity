@@ -167,7 +167,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 179171371}
-        m_MethodName: ShowFeet
+        m_MethodName: ShowCenter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2173,7 +2173,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1004272275}
-  m_LocalRotation: {x: 0.29266578, y: 0.6537696, z: -0.30481607, w: 0.6277096}
+  m_LocalRotation: {x: 0.29266575, y: 0.65376955, z: -0.30481604, w: 0.62770957}
   m_LocalPosition: {x: -13.31, y: 8.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 49.994003, y: 92.33, z: 0}

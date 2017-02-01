@@ -3,7 +3,6 @@ using ModularIK;
 using UnityEngine;
 using System.Collections.Generic;
 
-
 class UnityModelDataManager : MonoBehaviour {
     private ModelDataManager mdm;
     private IKModelController IKModelController;
