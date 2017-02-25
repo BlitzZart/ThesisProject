@@ -7,15 +7,18 @@ namespace ModularIK
         public PlayerFoot playerFootPrefab;
         private PlayerFoot leftFoot, rightFoot;
 
-        private LeftFootData leftFootData; //tempFootData; TODO: find a solution for temtFootData (Maybe not needed bacause the processing happens earlier)
+        private LeftFootData leftFootData; //tempFootData; TODO: find a solution for tempFootData (Maybe not needed bacause the processing happens earlier)
         private RightFootData rightFootData;
+        private LeftHandData leftHandData;
+
         private HipData hipData;
         private Vector3 leftFootPosition, lastLeftFootPosition, rightFootPosition, lastRightFootPosition, tempFootPos;
         private Vector3 lastCenterPosition;
         private Vector3 centerPosition;
+        private Vector3 hipPosition;
         private Vector2 fastOrientation;
 
-        private bool useLineRenderers = true;
+        private bool useLineRenderers = false;
 
         public bool applyFilterOnFeet = true;
         public bool correctCrossing = true;
@@ -29,6 +32,8 @@ namespace ModularIK
         SimpleKalman[] kalmanFilters;
         // 0: orientatino x, 1: orientation y
         SimpleKalman[] orientationFilter;
+        // filter hip height
+        SimpleKalman hipHeightFilter;
 
         private float _scaling = 0.01f;
 
@@ -51,6 +56,9 @@ namespace ModularIK
                 orientationFilter[i].Q = 0.0001;
                 orientationFilter[i].R = 0.005;
             }
+            hipHeightFilter = new SimpleKalman();
+            hipHeightFilter.Q = 0.0001;
+            hipHeightFilter.R = 0.003;
 
             InitFeet();
         }
@@ -73,6 +81,8 @@ namespace ModularIK
             UnityModelDataManager mdm = GetComponent<UnityModelDataManager>();
             mdm.RemoveProvider(leftFootData);
             mdm.RemoveProvider(rightFootData);
+            mdm.RemoveProvider(hipData);
+            mdm.RemoveProvider(leftHandData);
         }
         #endregion
 
@@ -85,17 +95,19 @@ namespace ModularIK
 
         #endregion
 
-        #region private
+        #region data provider methods
         private void InitFeet()
         {
             leftFootData = new LeftFootData(() => GetLeftFootPosition(), () => GetCenterRotation()/*GetLeftFootRotation()*/);
             rightFootData = new RightFootData(() => GetRightFootPosition(), () => GetCenterRotation()/*GetRightFootRotation()*/);
             hipData = new HipData(() => GetCenterPosition(), () => GetCenterRotation());
+            leftHandData = new LeftHandData(() => GetLeftHandPosition(), () => GetLeftHandRotation());
 
             UnityModelDataManager mdm = GetComponent<UnityModelDataManager>();
             mdm.AddProvider(leftFootData);
             mdm.AddProvider(rightFootData);
             mdm.AddProvider(hipData);
+            mdm.AddProvider(leftHandData);
 
             leftFoot = Instantiate(playerFootPrefab);
             rightFoot = Instantiate(playerFootPrefab);
@@ -129,16 +141,29 @@ namespace ModularIK
         {
             return new float[] { centerPosition.x, centerPosition.y, centerPosition.z };
         }
-
         // TODO: this is the smoothed orientation of pharus
         private float[] GetCenterRotation()
         {
             return new float[] { Orientation.x, 0, Orientation.y };
         }
-        private void CalculateHip()
-        {
-            centerPosition = (rightFootPosition + leftFootPosition) / 2;
+        // hands
+        private float[] GetLeftHandPosition() {
+            return new float[] { leftFootPosition.x, leftFootPosition.y, leftFootPosition.z };
         }
+        private float[] GetLeftHandRotation() {
+            Vector3 dir = leftFootPosition - lastLeftFootPosition;
+            return new float[] { dir.x, dir.y, dir.z };
+        }
+        //private float[] GetRightHandRotation() {
+        //    Vector3 dir = rightFootPosition - lastRightFootPosition;
+        //    return new float[] { dir.x, dir.y, dir.z };
+        //}
+        //private float[] GetRightHandPosition() {
+        //    return new float[] { rightFootPosition.x, rightFootPosition.y, rightFootPosition.z };
+        //}
+
+        #endregion
+        #region private
         private void CheckEchos()
         {
             if (Echoes.Count < 1)
@@ -150,8 +175,6 @@ namespace ModularIK
                 Debug.LogError("lost one foot echo");
             }
         }
-        #endregion
-
         // check if a point is on the left side of the center line (aligned to orientation)
         private bool IsLeftOfCenter(Vector2 c)
         {
@@ -165,7 +188,6 @@ namespace ModularIK
             foreach (SimpleKalman item in kalmanFilters)
                 item.Reinitialize();
         }
-
         private void TwoFeet()
         {
             // convert echoes to screen position
@@ -241,11 +263,13 @@ namespace ModularIK
             fastOrientation = new Vector2((float)orientationFilter[0].UseFilter(fastOrientation.x), (float)orientationFilter[1].UseFilter(fastOrientation.y));
         }
 
-        public void FootHeight()
+        private void FootAndHipHeight()
         {
             // get heights
-            leftFootPosition.y = leftFoot.EstimateFootHeight(leftFootPosition, lastLeftFootPosition);
-            rightFootPosition.y = rightFoot.EstimateFootHeight(rightFootPosition, lastRightFootPosition);
+            leftFootPosition.y = leftFoot.EstimateHeight(leftFootPosition, lastLeftFootPosition);
+            rightFootPosition.y = rightFoot.EstimateHeight(rightFootPosition, lastRightFootPosition);
+            // TODO: calculation is just hacked right now
+            centerPosition.y =  (float)hipHeightFilter.UseFilter(((leftFootPosition.y + rightFootPosition.y) - 0.4f) * -1.0f);
         }
 
         private void NewTracking()
@@ -279,8 +303,9 @@ namespace ModularIK
             //centerPosition += new Vector3(Orientation.x, 0, Orientation.y) * 0.3f;
 
             OrientationFiltering();
-            FootHeight();
+            FootAndHipHeight();
         }
+        #endregion
         #region debug drawing
         float lineDuration = 5;
         private void DrawTraces(Color l, Color r, Color c)

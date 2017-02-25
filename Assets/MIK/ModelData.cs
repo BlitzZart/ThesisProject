@@ -40,6 +40,13 @@ namespace ModularIK {
                 return hipData;
             }
         }
+        private LeftHandData leftHand;
+        public LeftHandData LeftHand {
+            get {
+                return leftHand;
+            }
+        }
+
 
         private float[] hipPosition = new float[3];
         private float[] hipRotation = new float[3];
@@ -49,6 +56,8 @@ namespace ModularIK {
         private float[] leftFootRotation = new float[3];
         private float[] rightFootPosition = new float[3];
         private float[] rightFootRotation = new float[3];
+        private float[] leftHandPosition = new float[3];
+        private float[] leftHandRotation = new float[3];
 
         public float[] HipPosition
         {
@@ -106,6 +115,8 @@ namespace ModularIK {
                 return rightFootRotation;
             }
         }
+        public float[] LeftHandPosition { get { return leftHandPosition; } }
+        public float[] LeftHandRotation { get { return leftHandRotation; } }
 
         #region public
         public void AddProvider(AComponentData provider) {
@@ -116,6 +127,8 @@ namespace ModularIK {
                 rightFoot = (RightFootData)provider;
             else if (provider is HipData)
                 hipData = (HipData)provider;
+            else if (provider is LeftHandData)
+                leftHand = (LeftHandData)provider;
         }
         public void RemoveProvider(AComponentData provider) {
             providers.Remove(provider);
@@ -125,6 +138,8 @@ namespace ModularIK {
                 rightFoot = null;
             else if (provider is HipData)
                 hipData = null;
+            else if (provider is LeftHandData)
+                leftHand = null;
         }
 
         public void Update() {
@@ -133,6 +148,8 @@ namespace ModularIK {
                     HandleFeet(item);
                 if (item is HipData)
                     HandleHip(item);
+                if (item is LeftHandData /*|| Right hand*/)
+                    HandleHands(item);
             }
         }
         #endregion
@@ -152,6 +169,10 @@ namespace ModularIK {
         {
             hipPosition = hip.Position();
             hipRotation = hip.Rotation();
+        }
+        private void HandleHands(AComponentData hand) {
+            leftHandPosition = hand.Position();
+            leftHandRotation = hand.Rotation();
         }
         #endregion
     }

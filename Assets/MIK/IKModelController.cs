@@ -1,4 +1,4 @@
-﻿using Assets.Helper;
+﻿using System;
 using ModularIK;
 using UnityEngine;
 
@@ -9,7 +9,7 @@ using UnityEngine;
 /// Set this up to fit the needs of the IK-Avatar.
 /// Functionality is controlled by implemented interfaces (IDataReceiver).
 /// </summary>
-class IKModelController :  ICenterReceiver, ILeftFootReceiver, IRightFootReceiver {
+class IKModelController :  ICenterReceiver, ILeftFootReceiver, IRightFootReceiver, ILeftHandReceiver {
     private IModelDataManager modelDataManager;
     IKControl ikControl;
 
@@ -47,7 +47,8 @@ class IKModelController :  ICenterReceiver, ILeftFootReceiver, IRightFootReceive
     }
 
     void ICenterReceiver.VectorData(float[] position, float[] rotation) {
-        ikControl.SetDestination(new Vector3(position[0], position[1], position[2]));
+        ikControl.SetPosition(new Vector3(position[0], position[1], position[2]));
+        ikControl.SetRotation(Quaternion.LookRotation(new Vector3(rotation[0], rotation[1], rotation[2]), Vector3.up));
     }
 
     void ILeftFootReceiver.VectorData(float[] position, float[] rotation) {
@@ -59,4 +60,14 @@ class IKModelController :  ICenterReceiver, ILeftFootReceiver, IRightFootReceive
         ikControl.rightFootPosition = new Vector3(position[0], position[1], position[2]);
         ikControl.leftFootRotation = Quaternion.LookRotation(new Vector3(rotation[0], rotation[1], rotation[2]), Vector3.up).eulerAngles;
     }
+    void ILeftHandReceiver.VectorData(float[] position, float[] rotation) {
+        ikControl.leftHandPosition = new Vector3(position[0], position[1], position[2]);
+        ikControl.leftHandRotation = Quaternion.LookRotation(new Vector3(rotation[0], rotation[1], rotation[2]), Vector3.up).eulerAngles;
+    }
+
+    void HipHeightApproximation() {
+
+    }
+
+
 }

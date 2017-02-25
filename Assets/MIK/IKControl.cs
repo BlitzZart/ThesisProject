@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using System;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
 
 [RequireComponent(typeof(Animator))]
@@ -25,8 +24,10 @@ public class IKControl : MonoBehaviour {
     public Transform leftKneeHint = null;
     public Transform hip;
 
-    public Vector3 leftFootPosition, rightFootPosition;
-    public Vector3 leftFootRotation, rightFootRotation;
+    public Vector3 leftFootPosition, rightFootPosition, leftHandPosition;
+    public Vector3 leftFootRotation, rightFootRotation, leftHandRotation;
+
+    private bool handInit = false;
 
     private Vector3 hipPosition;
 
@@ -34,6 +35,9 @@ public class IKControl : MonoBehaviour {
     void Start() {
         animator = GetComponent<Animator>();
         aiCharacter = GetComponent<AICharacterControl>();
+
+
+        StartCoroutine(InitHandsDelayed());
     }
 
     //a callback for calculating IK
@@ -58,11 +62,20 @@ public class IKControl : MonoBehaviour {
     #endregion
 
     #region public
-    public void SetDestination(Vector3 destination)
-    {        
+    public void SetPosition(Vector3 destination)
+    {
         //hip.position = destination;
-        aiCharacter.SetDestination(destination);
+        if (!ikActive)
+            aiCharacter.SetDestination(destination);
+        else
+            transform.position = destination;
     }
+
+    public void SetRotation(Quaternion rotation) {
+        if (ikActive)
+            transform.rotation = rotation;
+    }
+
     #endregion
 
     #region private
@@ -72,11 +85,32 @@ public class IKControl : MonoBehaviour {
     private void Hip() {
 
     }
-    private void Hands() {
 
+    private IEnumerator InitHandsDelayed() {
+        yield return new WaitForSeconds(1);
+        handInit = true;
+    }
+    private void Hands() {
+        //if (!handInit)
+        //    return;
+
+        animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, weight);
+        //animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, weight);
+        print("Foot " + leftFootPosition);
+        print("Hand " + leftHandPosition);
+        animator.SetIKPosition(AvatarIKGoal.LeftHand, leftHandPosition);
+        //animator.SetIKRotation(AvatarIKGoal.LeftHand, Quaternion.Euler(leftHandRotation));
     }
     private void Feet() {
+        animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, weight);
+        animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, weight);
+        animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootPosition);
+        animator.SetIKRotation(AvatarIKGoal.LeftFoot, Quaternion.Euler(leftFootRotation));
 
+        animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, weight);
+        animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, weight);
+        animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootPosition);
+        animator.SetIKRotation(AvatarIKGoal.RightFoot, Quaternion.Euler(rightFootRotation));
     }
     private void Elbows() {
 
@@ -87,15 +121,9 @@ public class IKControl : MonoBehaviour {
 
     private void UpdateUsingVectors()
     {
-        animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, weight);
-        animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, weight);
-        animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootPosition);
-        animator.SetIKRotation(AvatarIKGoal.LeftFoot, Quaternion.Euler(leftFootRotation));
-
-        animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, weight);
-        animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, weight);
-        animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootPosition);
-        animator.SetIKRotation(AvatarIKGoal.RightFoot, Quaternion.Euler(rightFootRotation));
+        Hands();
+        Feet();
+        Hip();
     }
 
     private void UpdateUsingTransforms() {

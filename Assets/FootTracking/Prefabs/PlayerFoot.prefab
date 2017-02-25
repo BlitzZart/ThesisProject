@@ -93,7 +93,7 @@ MonoBehaviour:
   speed: 0
   speed01: 0
   height: 0
-  enableFootHeight: 0
+  enableFootHeight: 1
   curve:
     serializedVersion: 2
     m_Curve:
@@ -102,10 +102,10 @@ MonoBehaviour:
       inSlope: 0
       outSlope: 0
       tangentMode: 0
-    - time: 0.09753272
+    - time: 0.14584732
       value: 0.0010668836
-      inSlope: 0.048758365
-      outSlope: 0.048758365
+      inSlope: -0.0005537107
+      outSlope: -0.0005537107
       tangentMode: 0
     - time: 0.21738741
       value: 0.07321971

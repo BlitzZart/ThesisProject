@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ModularIK.ModelData" Collapsed="true">
+    <Position X="5" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AARBAAwAAAAMQgABAwAAAANAAAAAwAAQAIBQAEBCEAE=</HashCode>
+      <FileName>Assets\MIK\ModelData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.MIK.Presentation.ModelDataManager" Collapsed="true">
+    <Position X="7.25" Y="3" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAQAgAAAAAAABAAAAAAAgAAAAABAAAACAAA=</HashCode>
+      <FileName>Assets\MIK\Presentation\ModelDataManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModularIK.AComponentData" Collapsed="true">
+    <Position X="0.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAgAACgKAAAIAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIK\CompoentnData\Abstracts\AComponentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModularIK.LeftFootData" Collapsed="true">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIK\CompoentnData\LeftFootData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModularIK.RightFootData" Collapsed="true">
+    <Position X="2.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIK\CompoentnData\RightFootData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModularIK.UnityPharusFootTracking" Collapsed="true">
+    <Position X="0.5" Y="3.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>KEQlEAygACRAEAIoEkAQDAAAEDAEDwIAAYQEIAAaFAE=</HashCode>
+      <FileName>Assets\MIK\IndividualImplementation\UnityPharusFootTracking.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IKControl" Collapsed="true">
+    <Position X="10.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BBZRACCACCACEoBBFAIAYABAABEAABAgAIAUASIAQAI=</HashCode>
+      <FileName>Assets\MIK\IKControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IKModelController" Collapsed="true">
+    <Position X="10.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAJAAAAAAAAAAAQAAAAAAAAQAAAAAAACIAAIAAAAAA=</HashCode>
+      <FileName>Assets\MIK\IKModelController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="ModularIK.ILeftFootReceiver" Collapsed="true">
+    <Position X="11" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIK\Interfaces\DataReceiver\ILeftFootReceiver.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModularIK.IRightFootReceiver" Collapsed="true">
+    <Position X="12.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIK\Interfaces\DataReceiver\IRightFootReceiver.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModularIK.IDataReceiver" Collapsed="true">
+    <Position X="11" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIK\Interfaces\DataReceiver\IDataReceiver.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModularIK.IModelDataManager" Collapsed="true">
+    <Position X="7.25" Y="2" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAQAgAAAAAAAAAAAAAAAgAAAAABAAAACAAA=</HashCode>
+      <FileName>Assets\MIK\Interfaces\IModelDataManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

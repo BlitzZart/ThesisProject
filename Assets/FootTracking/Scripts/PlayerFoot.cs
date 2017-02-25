@@ -17,7 +17,7 @@ public class PlayerFoot : MonoBehaviour {
     // ---- trace rendering ----
     public Material lineMaterial;
     private LineRenderer lineRenderer;
-    private int numberOfLineEntries = 512;
+    private int numberOfLineEntries = 128;
     private int currentLineEntries;
     // -------------------------
 
@@ -56,7 +56,13 @@ public class PlayerFoot : MonoBehaviour {
         lineRenderer.SetPosition(currentLineEntries++ % numberOfLineEntries, point);
     }
 
-    public float EstimateFootHeight(Vector3 position, Vector3 lastPosition) {
+    public float EstimateRotation()
+    {
+
+        return 0;
+    }
+
+    public float EstimateHeight(Vector3 position, Vector3 lastPosition) {
         if (!enableFootHeight)
         {
             transform.position = position;
