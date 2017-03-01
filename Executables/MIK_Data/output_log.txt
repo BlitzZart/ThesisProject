@@ -1,0 +1,325 @@
+Mono path[0] = 'D:/Repositories/ThesisProject/Executables/MIK_Data/Managed'
+Mono path[1] = 'D:/Repositories/ThesisProject/Executables/MIK_Data/Mono'
+Mono config path = 'D:/Repositories/ThesisProject/Executables/MIK_Data/Mono/etc'
+PlayerConnection initialized from D:/Repositories/ThesisProject/Executables/MIK_Data (debug = 0)
+PlayerConnection initialized network socket : 0.0.0.0 55162
+Multi-casting "[IP] 10.0.0.70 [Port] 55162 [Flags] 2 [Guid] 2146073603 [EditorId] 1817354830 [Version] 1048832 [Id] WindowsPlayer(r3d_ws) [Debug] 0" to [225.0.0.222:54997]...
+PlayerConnection already initialized - listening to [10.0.0.70:55162]
+Initialize engine version: 5.4.1f1 (649f48bbbf0f)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 970 (ID=0x13c2)
+    Vendor:   NVIDIA
+    VRAM:     4058 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\MathNet.Numerics.dll (this message is harmless)
+Loading D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\MathNet.Numerics.dll into Unity Child Domain
+Platform assembly: D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\System.Threading.dll (this message is harmless)
+Loading D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\System.Threading.dll into Unity Child Domain
+Platform assembly: D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\ZedGraph.dll (this message is harmless)
+Loading D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\ZedGraph.dll into Unity Child Domain
+Platform assembly: D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\System.Data.dll (this message is harmless)
+Loading D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\System.Data.dll into Unity Child Domain
+- Completed reload, in  0.043 seconds
+Platform assembly: D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\System.dll (this message is harmless)
+Platform assembly: D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\System.Xml.dll (this message is harmless)
+OnLevelWasLoaded was found on EvaluationManager
+This message has been deprecated and will be removed in a later version of Unity.
+Add a delegate to SceneManager.sceneLoaded instead to get notifications after scene loading has completed
+ 
+(Filename: C:/buildslave/unity/build/Runtime/Mono/MonoScriptCache.cpp Line: 375)
+
+desktop: 1920x1080 60Hz; virtual: 3840x1080 at -1920,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.969275 ms
+Platform assembly: D:\Repositories\ThesisProject\Executables\MIK_Data\Managed\System.Configuration.dll (this message is harmless)
+XML config: TrackLink enabled: True
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+UnityPharus.<InitInstance>c__Iterator0:MoveNext() (at D:\Repositories\ThesisProject\Assets\3rdParty\UnityTrackingClient\UnityPharusFramework\UnityPharusManager.cs:286)
+UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at C:\buildslave\unity\build\Runtime\Export\Coroutines.cs:17)
+ 
+(Filename: D:/Repositories/ThesisProject/Assets/3rdParty/UnityTrackingClient/UnityPharusFramework/UnityPharusManager.cs Line: 286)
+
+XML config: using UDP: 239.1.1.1:44345
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+UnityPharus.<InitInstance>c__Iterator0:MoveNext() (at D:\Repositories\ThesisProject\Assets\3rdParty\UnityTrackingClient\UnityPharusFramework\UnityPharusManager.cs:304)
+UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at C:\buildslave\unity\build\Runtime\Export\Coroutines.cs:17)
+ 
+(Filename: D:/Repositories/ThesisProject/Assets/3rdParty/UnityTrackingClient/UnityPharusFramework/UnityPharusManager.cs Line: 304)
+
+XML config: new target resolution: 545x510
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+UnityPharus.<InitInstance>c__Iterator0:MoveNext() (at D:\Repositories\ThesisProject\Assets\3rdParty\UnityTrackingClient\UnityPharusFramework\UnityPharusManager.cs:337)
+UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at C:\buildslave\unity\build\Runtime\Export\Coroutines.cs:17)
+ 
+(Filename: D:/Repositories/ThesisProject/Assets/3rdParty/UnityTrackingClient/UnityPharusFramework/UnityPharusManager.cs Line: 337)
+
+--- Connection establised: receiving data from PharusServer at 239.1.1.1:44345 ---
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+UnityPharus.UnityPharusListener:InitTracking() (at D:\Repositories\ThesisProject\Assets\3rdParty\UnityTrackingClient\UnityPharusFramework\UnityPharusListener.cs:138)
+UnityPharus.UnityPharusListener:NewUnityPharusListenerUDP(String, Int32) (at D:\Repositories\ThesisProject\Assets\3rdParty\UnityTrackingClient\UnityPharusFramework\UnityPharusListener.cs:92)
+UnityPharus.<InitInstance>c__Iterator0:MoveNext() (at D:\Repositories\ThesisProject\Assets\3rdParty\UnityTrackingClient\UnityPharusFramework\UnityPharusManager.cs:379)
+UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at C:\buildslave\unity\build\Runtime\Export\Coroutines.cs:17)
+ 
+(Filename: D:/Repositories/ThesisProject/Assets/3rdParty/UnityTrackingClient/UnityPharusFramework/UnityPharusListener.cs Line: 138)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.ILeftHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:64)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:82)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.IRightHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:68)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:85)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.IRightHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:68)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:85)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.IRightHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:68)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:85)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.IRightHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:68)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:85)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.IRightHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:68)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:85)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.IRightHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:68)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:85)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.IRightHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:68)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:85)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.ILeftHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:64)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:82)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.IRightHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:68)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:85)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.ILeftHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:64)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:82)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.IRightHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:68)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:85)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.ILeftHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:64)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:82)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.IRightHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:68)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:85)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.ILeftHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:64)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:82)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.IRightHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:68)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:85)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.ILeftHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:64)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:82)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.IRightHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:68)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:85)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.ILeftHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:64)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:82)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.IRightHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:68)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:85)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.ILeftHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:64)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:82)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Look rotation viewing vector is zero
+UnityEngine.Quaternion:INTERNAL_CALL_LookRotation(Vector3&, Vector3&, Quaternion&)
+UnityEngine.Quaternion:LookRotation(Vector3, Vector3) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\MathBindings.gen.cs:746)
+IKModelController:ModularIK.IRightHandReceiver.VectorData(Single[], Single[]) (at D:\Repositories\ThesisProject\Assets\MIK\IKModelController.cs:68)
+ModelDataManager:UpdateCallbacks() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:85)
+UnityModelDataManager:Update() (at D:\Repositories\ThesisProject\Assets\MIK\UnityModelDataManager.cs:19)
+
+[C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cpp line 82] 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/MathBindings.gen.cs Line: 746)
+
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 2ff4 -> priority: 1 
+--- Disconnected from PharusServer: port is now free ---
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+UnityPharus.UnityPharusListener:Shutdown() (at D:\Repositories\ThesisProject\Assets\3rdParty\UnityTrackingClient\UnityPharusFramework\UnityPharusListener.cs:175)
+UnityPharus.UnityPharusManager:OnDestroy() (at D:\Repositories\ThesisProject\Assets\3rdParty\UnityTrackingClient\UnityPharusFramework\UnityPharusManager.cs:191)
+ 
+(Filename: D:/Repositories/ThesisProject/Assets/3rdParty/UnityTrackingClient/UnityPharusFramework/UnityPharusListener.cs Line: 175)
+
+A blocking operation was interrupted by a call to WSACancelBlockingCall.
+
