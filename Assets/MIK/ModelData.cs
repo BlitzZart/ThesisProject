@@ -8,35 +8,27 @@ namespace ModularIK {
     /// </summary>
     class ModelData {
         private List<AComponentData> providers = new List<AComponentData>();
-        public List<AComponentData> Providers
-        {
-            get
-            {
+        public List<AComponentData> Providers {
+            get {
                 return providers;
             }
         }
 
         private LeftFootData leftFoot;
-        public LeftFootData LeftFoot
-        {
-            get
-            {
+        public LeftFootData LeftFoot {
+            get {
                 return leftFoot;
             }
         }
         private RightFootData rightFoot;
-        public RightFootData RightFoot
-        {
-            get
-            {
+        public RightFootData RightFoot {
+            get {
                 return rightFoot;
             }
         }
         private HipData hipData;
-        public HipData HipData
-        {
-            get
-            {
+        public HipData HipData {
+            get {
                 return hipData;
             }
         }
@@ -44,6 +36,12 @@ namespace ModularIK {
         public LeftHandData LeftHand {
             get {
                 return leftHand;
+            }
+        }
+        private RightHandData rightHand;
+        public RightHandData RightHand {
+            get {
+                return rightHand;
             }
         }
 
@@ -58,65 +56,53 @@ namespace ModularIK {
         private float[] rightFootRotation = new float[3];
         private float[] leftHandPosition = new float[3];
         private float[] leftHandRotation = new float[3];
+        private float[] rightHandPosition = new float[3];
+        private float[] rightHandRotation = new float[3];
 
-        public float[] HipPosition
-        {
-            get
-            {
+        public float[] HipPosition {
+            get {
                 return hipPosition;
             }
         }
-        public float[] HipRotation
-        {
-            get
-            {
+        public float[] HipRotation {
+            get {
                 return hipRotation;
             }
         }
-        public float[] HeadPosition
-        {
-            get
-            {
+        public float[] HeadPosition {
+            get {
                 return headPosition;
             }
         }
-        public float[] HeadRotation
-        {
-            get
-            {
+        public float[] HeadRotation {
+            get {
                 return headRotation;
             }
         }
-        public float[] LeftFootPosition
-        {
-            get
-            {
+        public float[] LeftFootPosition {
+            get {
                 return leftFootPosition;
             }
         }
-        public float[] LeftFootRotation
-        {
-            get
-            {
+        public float[] LeftFootRotation {
+            get {
                 return leftFootRotation;
             }
         }
-        public float[] RightFootPosition
-        {
-            get
-            {
+        public float[] RightFootPosition {
+            get {
                 return rightFootPosition;
             }
         }
-        public float[] RightFootRotation
-        {
-            get
-            {
+        public float[] RightFootRotation {
+            get {
                 return rightFootRotation;
             }
         }
         public float[] LeftHandPosition { get { return leftHandPosition; } }
         public float[] LeftHandRotation { get { return leftHandRotation; } }
+        public float[] RightHandPosition { get { return rightHandPosition; } }
+        public float[] RightHandRotation { get { return rightHandRotation; } }
 
         #region public
         public void AddProvider(AComponentData provider) {
@@ -129,6 +115,8 @@ namespace ModularIK {
                 hipData = (HipData)provider;
             else if (provider is LeftHandData)
                 leftHand = (LeftHandData)provider;
+            else if (provider is RightHandData)
+                rightHand = (RightHandData)provider;
         }
         public void RemoveProvider(AComponentData provider) {
             providers.Remove(provider);
@@ -140,6 +128,8 @@ namespace ModularIK {
                 hipData = null;
             else if (provider is LeftHandData)
                 leftHand = null;
+            else if (provider is RightHandData)
+                rightHand = null;
         }
 
         public void Update() {
@@ -148,7 +138,7 @@ namespace ModularIK {
                     HandleFeet(item);
                 if (item is HipData)
                     HandleHip(item);
-                if (item is LeftHandData /*|| Right hand*/)
+                if (item is LeftHandData || item is RightHandData)
                     HandleHands(item);
             }
         }
@@ -165,14 +155,19 @@ namespace ModularIK {
                 rightFootRotation = foot.Rotation();
             }
         }
-        private void HandleHip(AComponentData hip)
-        {
+        private void HandleHip(AComponentData hip) {
             hipPosition = hip.Position();
             hipRotation = hip.Rotation();
         }
         private void HandleHands(AComponentData hand) {
-            leftHandPosition = hand.Position();
-            leftHandRotation = hand.Rotation();
+            if (hand == leftHand) {
+                leftHandPosition = hand.Position();
+                leftHandRotation = hand.Rotation();
+            }
+            else {
+                rightHandPosition = hand.Position(); // rightHand.Position();
+                rightHandRotation = hand.Rotation();
+            }
         }
         #endregion
     }

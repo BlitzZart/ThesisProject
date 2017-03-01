@@ -81,6 +81,9 @@ class UnityModelDataManager : MonoBehaviour {
                 if (item is ILeftHandReceiver) {
                     (item as ILeftHandReceiver).VectorData(modelData.LeftHandPosition, modelData.LeftHandRotation);
                 }
+                if (item is IRightHandReceiver) {
+                    (item as IRightHandReceiver).VectorData(modelData.RightHandPosition, modelData.RightHandRotation);
+                }
             }
         }
 

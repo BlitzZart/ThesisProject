@@ -10,6 +10,7 @@ namespace ModularIK
         private LeftFootData leftFootData; //tempFootData; TODO: find a solution for tempFootData (Maybe not needed bacause the processing happens earlier)
         private RightFootData rightFootData;
         private LeftHandData leftHandData;
+        private RightHandData rightHandData;
 
         private HipData hipData;
         private Vector3 leftFootPosition, lastLeftFootPosition, rightFootPosition, lastRightFootPosition, tempFootPos;
@@ -18,7 +19,7 @@ namespace ModularIK
         private Vector3 hipPosition;
         private Vector2 fastOrientation;
 
-        private bool useLineRenderers = false;
+        private bool useLineRenderers = true;
 
         public bool applyFilterOnFeet = true;
         public bool correctCrossing = true;
@@ -83,6 +84,7 @@ namespace ModularIK
             mdm.RemoveProvider(rightFootData);
             mdm.RemoveProvider(hipData);
             mdm.RemoveProvider(leftHandData);
+            mdm.RemoveProvider(rightHandData);
         }
         #endregion
 
@@ -102,12 +104,14 @@ namespace ModularIK
             rightFootData = new RightFootData(() => GetRightFootPosition(), () => GetCenterRotation()/*GetRightFootRotation()*/);
             hipData = new HipData(() => GetCenterPosition(), () => GetCenterRotation());
             leftHandData = new LeftHandData(() => GetLeftHandPosition(), () => GetLeftHandRotation());
+            rightHandData = new RightHandData(() => GetRightHandPosition(), () => GetRightHandRotation());
 
             UnityModelDataManager mdm = GetComponent<UnityModelDataManager>();
             mdm.AddProvider(leftFootData);
             mdm.AddProvider(rightFootData);
             mdm.AddProvider(hipData);
             mdm.AddProvider(leftHandData);
+            mdm.AddProvider(rightHandData);
 
             leftFoot = Instantiate(playerFootPrefab);
             rightFoot = Instantiate(playerFootPrefab);
@@ -139,7 +143,7 @@ namespace ModularIK
         // TODO: consider to provide a non-monobehavior solution which approximates the hip position based on foot data
         private float[] GetCenterPosition()
         {
-            return new float[] { centerPosition.x, centerPosition.y, centerPosition.z };
+            return new float[] { centerPosition.x, centerPosition.y + 0.07f, centerPosition.z };
         }
         // TODO: this is the smoothed orientation of pharus
         private float[] GetCenterRotation()
@@ -148,12 +152,21 @@ namespace ModularIK
         }
         // hands
         private float[] GetLeftHandPosition() {
-            return new float[] { leftFootPosition.x, leftFootPosition.y, leftFootPosition.z };
+            return new float[] { leftFootPosition.x, -leftFootPosition.y, leftFootPosition.z };
+        }
+        private float[] GetRightHandPosition() {
+            return new float[] { rightFootPosition.x, -rightFootPosition.y, rightFootPosition.z };
         }
         private float[] GetLeftHandRotation() {
             Vector3 dir = leftFootPosition - lastLeftFootPosition;
             return new float[] { dir.x, dir.y, dir.z };
         }
+        private float[] GetRightHandRotation() {
+            Vector3 dir = rightFootPosition - lastRightFootPosition;
+            return new float[] { dir.x, dir.y, dir.z };
+        }
+
+
         //private float[] GetRightHandRotation() {
         //    Vector3 dir = rightFootPosition - lastRightFootPosition;
         //    return new float[] { dir.x, dir.y, dir.z };

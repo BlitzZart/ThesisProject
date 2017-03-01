@@ -24,8 +24,8 @@ public class IKControl : MonoBehaviour {
     public Transform leftKneeHint = null;
     public Transform hip;
 
-    public Vector3 leftFootPosition, rightFootPosition, leftHandPosition;
-    public Vector3 leftFootRotation, rightFootRotation, leftHandRotation;
+    public Vector3 leftFootPosition, rightFootPosition, leftHandPosition, rightHandPosition;
+    public Vector3 leftFootRotation, rightFootRotation, leftHandRotation, rightHandRotation;
 
     private bool handInit = false;
 
@@ -96,9 +96,17 @@ public class IKControl : MonoBehaviour {
 
         animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, weight);
         //animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, weight);
-        print("Foot " + leftFootPosition);
-        print("Hand " + leftHandPosition);
-        animator.SetIKPosition(AvatarIKGoal.LeftHand, leftHandPosition);
+        animator.GetIKPosition(AvatarIKGoal.LeftHand);
+        animator.SetIKPosition(AvatarIKGoal.LeftHand, Vector3.Lerp(
+            animator.GetIKPosition(AvatarIKGoal.LeftHand),
+            rightHandPosition - transform.right * 0.41f + Vector3.up * 0.95f, 35.0f * Time.deltaTime));
+        //animator.SetIKRotation(AvatarIKGoal.LeftHand, Quaternion.Euler(leftHandRotation));
+
+        animator.SetIKPositionWeight(AvatarIKGoal.RightHand, weight);
+        //animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, weight);
+        animator.SetIKPosition(AvatarIKGoal.RightHand, Vector3.Lerp(
+            animator.GetIKPosition(AvatarIKGoal.RightHand),
+            leftHandPosition + transform.right * 0.41f + Vector3.up * 0.95f, 35.0f * Time.deltaTime));
         //animator.SetIKRotation(AvatarIKGoal.LeftHand, Quaternion.Euler(leftHandRotation));
     }
     private void Feet() {

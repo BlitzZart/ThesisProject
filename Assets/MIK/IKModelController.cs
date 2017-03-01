@@ -1,5 +1,4 @@
-﻿using System;
-using ModularIK;
+﻿using ModularIK;
 using UnityEngine;
 
 /// <summary>
@@ -9,7 +8,7 @@ using UnityEngine;
 /// Set this up to fit the needs of the IK-Avatar.
 /// Functionality is controlled by implemented interfaces (IDataReceiver).
 /// </summary>
-class IKModelController :  ICenterReceiver, ILeftFootReceiver, IRightFootReceiver, ILeftHandReceiver {
+class IKModelController :  ICenterReceiver, ILeftFootReceiver, IRightFootReceiver, ILeftHandReceiver, IRightHandReceiver {
     private IModelDataManager modelDataManager;
     IKControl ikControl;
 
@@ -64,10 +63,12 @@ class IKModelController :  ICenterReceiver, ILeftFootReceiver, IRightFootReceive
         ikControl.leftHandPosition = new Vector3(position[0], position[1], position[2]);
         ikControl.leftHandRotation = Quaternion.LookRotation(new Vector3(rotation[0], rotation[1], rotation[2]), Vector3.up).eulerAngles;
     }
+    void IRightHandReceiver.VectorData(float[] position, float[] rotation) {
+        ikControl.rightHandPosition = new Vector3(position[0], position[1], position[2]);
+        ikControl.rightHandRotation = Quaternion.LookRotation(new Vector3(rotation[0], rotation[1], rotation[2]), Vector3.up).eulerAngles;
+    }
 
     void HipHeightApproximation() {
 
     }
-
-
 }
