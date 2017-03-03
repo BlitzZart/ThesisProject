@@ -27,7 +27,6 @@ public class IKControl : MonoBehaviour {
     public Vector3 leftFootPosition, rightFootPosition, leftHandPosition, rightHandPosition;
     public Vector3 leftFootRotation, rightFootRotation, leftHandRotation, rightHandRotation;
 
-    private bool handInit = false;
 
     private Vector3 hipPosition;
 
@@ -36,8 +35,6 @@ public class IKControl : MonoBehaviour {
         animator = GetComponent<Animator>();
         aiCharacter = GetComponent<AICharacterControl>();
 
-
-        StartCoroutine(InitHandsDelayed());
     }
 
     //a callback for calculating IK
@@ -86,13 +83,7 @@ public class IKControl : MonoBehaviour {
 
     }
 
-    private IEnumerator InitHandsDelayed() {
-        yield return new WaitForSeconds(1);
-        handInit = true;
-    }
     private void Hands() {
-        //if (!handInit)
-        //    return;
 
         animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, weight);
         //animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, weight);

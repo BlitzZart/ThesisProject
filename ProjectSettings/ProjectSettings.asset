@@ -6,7 +6,7 @@ PlayerSettings:
   serializedVersion: 8
   productGUID: 3c5b8efd6ed2b2742bbbfeec9a2548f1
   AndroidProfiler: 0
-  defaultScreenOrientation: 0
+  defaultScreenOrientation: 3
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
@@ -94,7 +94,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleIdentifier: com.rohschinken.MOORClient
+  bundleIdentifier: at.ooe.fhooe.pie.mik
   bundleVersion: 1.0
   preloadedAssets: []
   metroEnableIndependentInputSource: 0
@@ -465,7 +465,7 @@ PlayerSettings:
   - XboxOne::VR::enable
   - iOS::VR::enable
   - tvOS::VR::enable
-  Android::VR::enable: 0
+  Android::VR::enable: 1
   Metro::VR::enable: 0
   N3DS::VR::enable: 0
   PS3::VR::enable: 0
@@ -473,7 +473,7 @@ PlayerSettings:
   PSM::VR::enable: 0
   PSP2::VR::enable: 0
   SamsungTV::VR::enable: 0
-  Standalone::VR::enable: 0
+  Standalone::VR::enable: 1
   Tizen::VR::enable: 0
   WebGL::VR::enable: 0
   WebGL::analyzeBuildSize: 0

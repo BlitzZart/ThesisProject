@@ -33,9 +33,9 @@ namespace UnityPharus
             [SerializeField] private string _udpMulticastIpAddress = "239.1.1.1";
 			[SerializeField] private int _udpLocalPort = 44345;
 			[Tooltip("in pixel")]
-			[SerializeField] private int _targetScreenWidth = 1920;
+			[SerializeField] private int _targetScreenWidth = 545;
 			[Tooltip("in pixel")]
-			[SerializeField] private int _targetScreenHeight = 1080;
+			[SerializeField] private int _targetScreenHeight = 510;
 			[Tooltip("in centimeter")]
 			[SerializeField] private float _stageX = 1600f;
 			[Tooltip("in centimeter")]
