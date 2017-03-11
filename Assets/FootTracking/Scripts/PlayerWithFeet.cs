@@ -33,7 +33,7 @@ public class PlayerWithFeet : ATrackingEntity {
         leftFoot.GetComponent<MeshRenderer>().material = _feetMaterials[0];
         rightFoot.GetComponent<MeshRenderer>().material = _feetMaterials[1];
 
-        AssignIKModel();
+        //AssignIKModel();
         AssignAIAgent(correctedCenter);
     }
 
@@ -86,19 +86,19 @@ public class PlayerWithFeet : ATrackingEntity {
         transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
     }
 
-    private void AssignIKModel() {
-        IKControl ik = FindObjectOfType<IKControl>();
-        if (ik == null)
-            return;
+    //private void AssignIKModel() {
+    //    IKControl ik = FindObjectOfType<IKControl>();
+    //    if (ik == null)
+    //        return;
 
-        if (ik.rightFootObj || ik.leftFootObj)
-            return;
+    //    if (ik.rightFootObj || ik.leftFootObj)
+    //        return;
 
-        ikBody = ik.transform;
+    //    ikBody = ik.transform;
 
-        ik.rightFootObj = rightFoot;
-        ik.leftFootObj = leftFoot;
-    }
+    //    ik.rightFootObj = rightFoot;
+    //    ik.leftFootObj = leftFoot;
+    //}
 
     private void AssignAIAgent(Transform target) {
         AICharacterControl ai = FindObjectOfType<AICharacterControl>();

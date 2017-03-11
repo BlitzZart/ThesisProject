@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModularIK {
+namespace MIKA {
     public abstract class AComponentData {
         protected Func<float[]> position, rotation;
 

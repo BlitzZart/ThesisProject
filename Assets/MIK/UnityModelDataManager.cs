@@ -1,5 +1,5 @@
 ﻿using System;
-using ModularIK;
+using MIKA;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -83,6 +83,10 @@ class UnityModelDataManager : MonoBehaviour {
                 }
                 if (item is IRightHandReceiver) {
                     (item as IRightHandReceiver).VectorData(modelData.RightHandPosition, modelData.RightHandRotation);
+                }
+
+                if (item is IHeadReceiver) {
+                    (item as IHeadReceiver).VectorData(modelData.HeadPosition, modelData.HeadRotation);
                 }
             }
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ModularIK {
+namespace MIKA {
     /// <summary>
     /// ModelData just provides all available and necessary data.
     /// Various DataProvider deliver this data.
@@ -42,6 +42,12 @@ namespace ModularIK {
         public RightHandData RightHand {
             get {
                 return rightHand;
+            }
+        }
+        private HeadData headData;
+        public HeadData HeadData {
+            get {
+                return headData;
             }
         }
 
@@ -117,6 +123,8 @@ namespace ModularIK {
                 leftHand = (LeftHandData)provider;
             else if (provider is RightHandData)
                 rightHand = (RightHandData)provider;
+            else if (provider is HeadData)
+                headData = (HeadData)provider;
         }
         public void RemoveProvider(AComponentData provider) {
             providers.Remove(provider);
@@ -130,6 +138,8 @@ namespace ModularIK {
                 leftHand = null;
             else if (provider is RightHandData)
                 rightHand = null;
+            else if (provider is HeadData)
+                headData = null;
         }
 
         public void Update() {
@@ -140,6 +150,8 @@ namespace ModularIK {
                     HandleHip(item);
                 if (item is LeftHandData || item is RightHandData)
                     HandleHands(item);
+                if (item is HeadData)
+                    HandleHead(item);
             }
         }
         #endregion
@@ -168,6 +180,10 @@ namespace ModularIK {
                 rightHandPosition = hand.Position(); // rightHand.Position();
                 rightHandRotation = hand.Rotation();
             }
+        }
+        private void HandleHead(AComponentData head) {
+            headPosition = head.Position();
+            headRotation = head.Rotation();
         }
         #endregion
     }

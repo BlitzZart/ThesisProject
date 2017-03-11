@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ModularIK {
+namespace MIKA {
     public interface IModelDataManager {
         void SubscribeReceiver(IDataReceiver obj);
         void UnsubscribeReceiver(IDataReceiver obj);

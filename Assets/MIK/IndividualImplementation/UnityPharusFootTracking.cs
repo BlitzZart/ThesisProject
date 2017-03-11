@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ModularIK
+namespace MIKA
 {
     class UnityPharusFootTracking : ATrackingEntity
     {

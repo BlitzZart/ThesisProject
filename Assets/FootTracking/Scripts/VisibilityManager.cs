@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using ModularIK;
+using MIKA;
 
 public class VisibilityManager : MonoBehaviour {
     public RawImage topDownView;

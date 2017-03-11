@@ -1,5 +1,5 @@
 ﻿namespace MIKA {
-    interface ILeftHandReceiver : IDataReceiver {
+    interface IHeadReceiver : IDataReceiver {
         new void VectorData(float[] position, float[] rotation);
     }
 }
