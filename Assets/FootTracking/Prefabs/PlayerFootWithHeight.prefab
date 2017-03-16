@@ -24,7 +24,7 @@ GameObject:
   - 23: {fileID: 23000013533173162}
   - 114: {fileID: 114000012934586054}
   m_Layer: 0
-  m_Name: PlayerFoot
+  m_Name: PlayerFootWithHeight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

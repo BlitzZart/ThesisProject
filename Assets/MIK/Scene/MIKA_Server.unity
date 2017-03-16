@@ -2115,6 +2115,128 @@ Transform:
   - {fileID: 1820016187}
   m_Father: {fileID: 924012672}
   m_RootOrder: 0
+--- !u!1001 &1003043606
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4000013046636974, guid: f40f151420f216a439ffa0a160156537, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013046636974, guid: f40f151420f216a439ffa0a160156537, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013046636974, guid: f40f151420f216a439ffa0a160156537, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013046636974, guid: f40f151420f216a439ffa0a160156537, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013046636974, guid: f40f151420f216a439ffa0a160156537, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013046636974, guid: f40f151420f216a439ffa0a160156537, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013046636974, guid: f40f151420f216a439ffa0a160156537, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013046636974, guid: f40f151420f216a439ffa0a160156537, type: 2}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013463669218, guid: f40f151420f216a439ffa0a160156537,
+        type: 2}
+      propertyPath: m_AssetId.i0
+      value: 244
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013463669218, guid: f40f151420f216a439ffa0a160156537,
+        type: 2}
+      propertyPath: m_AssetId.i1
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013463669218, guid: f40f151420f216a439ffa0a160156537,
+        type: 2}
+      propertyPath: m_AssetId.i2
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013463669218, guid: f40f151420f216a439ffa0a160156537,
+        type: 2}
+      propertyPath: m_AssetId.i3
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013463669218, guid: f40f151420f216a439ffa0a160156537,
+        type: 2}
+      propertyPath: m_AssetId.i4
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013463669218, guid: f40f151420f216a439ffa0a160156537,
+        type: 2}
+      propertyPath: m_AssetId.i5
+      value: 242
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013463669218, guid: f40f151420f216a439ffa0a160156537,
+        type: 2}
+      propertyPath: m_AssetId.i6
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013463669218, guid: f40f151420f216a439ffa0a160156537,
+        type: 2}
+      propertyPath: m_AssetId.i7
+      value: 164
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013463669218, guid: f40f151420f216a439ffa0a160156537,
+        type: 2}
+      propertyPath: m_AssetId.i8
+      value: 57
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013463669218, guid: f40f151420f216a439ffa0a160156537,
+        type: 2}
+      propertyPath: m_AssetId.i9
+      value: 255
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013463669218, guid: f40f151420f216a439ffa0a160156537,
+        type: 2}
+      propertyPath: m_AssetId.i10
+      value: 160
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013463669218, guid: f40f151420f216a439ffa0a160156537,
+        type: 2}
+      propertyPath: m_AssetId.i11
+      value: 161
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013463669218, guid: f40f151420f216a439ffa0a160156537,
+        type: 2}
+      propertyPath: m_AssetId.i12
+      value: 96
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013463669218, guid: f40f151420f216a439ffa0a160156537,
+        type: 2}
+      propertyPath: m_AssetId.i13
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013463669218, guid: f40f151420f216a439ffa0a160156537,
+        type: 2}
+      propertyPath: m_AssetId.i14
+      value: 101
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013463669218, guid: f40f151420f216a439ffa0a160156537,
+        type: 2}
+      propertyPath: m_AssetId.i15
+      value: 55
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: f40f151420f216a439ffa0a160156537, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1004272275
 GameObject:
   m_ObjectHideFlags: 0
@@ -3333,7 +3455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 504bce0a5e9081d418f08a25fe29964b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerPrefab: {fileID: 106092, guid: d89669100a38803429599352a6f09286, type: 2}
+  _playerPrefab: {fileID: 106092, guid: 4f8504bfb83a0e5418baa726b071d832, type: 2}
   _addUnknownPlayerOnUpdate: 1
 --- !u!4 &1695215989
 Transform:
@@ -3971,7 +4093,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2066047060}
-  - 114: {fileID: 2066047062}
   - 114: {fileID: 2066047061}
   m_Layer: 0
   m_Name: NetworkManager
@@ -4004,17 +4125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae14f4f3281368418542193209a625e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2066047062
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2066047059}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -822479833, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   m_NetworkPort: 7777
   m_ServerBindToIP: 0
   m_ServerBindAddress: 
@@ -4024,13 +4134,14 @@ MonoBehaviour:
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
   m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 0}
+  m_PlayerPrefab: {fileID: 1000010729024126, guid: f40f151420f216a439ffa0a160156537,
+    type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
   m_OfflineScene: 
   m_OnlineScene: 
   m_SpawnPrefabs: []
-  m_CustomConfig: 0
+  m_CustomConfig: 1
   m_MaxConnections: 4
   m_ConnectionConfig:
     m_PacketSize: 1500
@@ -4059,7 +4170,7 @@ MonoBehaviour:
     m_ReactorMaximumReceivedMessages: 1024
     m_ReactorMaximumSentMessages: 1024
     m_MaxPacketSize: 2000
-  m_Channels: 
+  m_Channels: 050000000000000002000000
   m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 1
@@ -4072,3 +4183,6 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
+  ConnectionIP: localhost
+  ConnectionPort: 7777
+  isServer: 0
