@@ -7,6 +7,8 @@ public class SetPositionTo : MonoBehaviour {
     private float height = 1.60f;
 
     private void Update () {
+        if (target == null)
+            return;
         transform.position = Vector3.Lerp(transform.position, new Vector3(target.position.x, height, target.position.z), lerpSpeed * Time.deltaTime);
 	}
 }
