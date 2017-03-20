@@ -1,14 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using System;
 
 namespace MIKA {
     [NetworkSettings(channel = 2)]
     public class NetworkPlayer : NetworkBehaviour, ICenterReceiver, ILeftFootReceiver, IRightFootReceiver, ILeftHandReceiver, IRightHandReceiver, IHeadReceiver {
-
+        private float eyeHeight = 1.65f;
         private float centerLerpSpeed = 13;
         public Transform leftFoot, rightFoot;
 
+        // data provider
+        private HeadData headData;
+
+        // data receiver
         [SyncVar]
         private Vector3     centerPosition, leftFootPosition, rightFootPosition, leftHandPosition, rightHandPosition, lookAtTarget;
         [SyncVar]
@@ -16,6 +21,10 @@ namespace MIKA {
         [SyncVar]
         private Quaternion  centerRrotation;
 
+        // ---- CLIENT ----
+        private GearVRHead vrHead;
+
+        // ---- SERVER ----
         private UnityModelDataManager modelDataManager;
         private IKControl ikControl;
 
@@ -26,33 +35,21 @@ namespace MIKA {
         //    AssignIKModel(ik);
         //}
 
-
         #region unity callbacks
         void Start() {
             if (isServer) {
-                modelDataManager = FindObjectOfType<UnityModelDataManager>();
-                modelDataManager.SubscribeReceiver(this);
-
-                StartCoroutine(TryAssignFeet());
+                SetUpServer();
             } else if (isLocalPlayer) {
-                OVRCameraRig ovr = FindObjectOfType<OVRCameraRig>();
-
-                if (ovr != null) {
-                    ovr.transform.parent = transform;
-                }
+                SetUpLocalPlayer();
             }
         }
 
         void Update() {
             if (isServer) {
-                // TODO: not for own character
-                // but has to be done on clients too. for opposite character
-                ProcessIK();
-
+                UpdateServer();
             } else if (isLocalPlayer) {
-                UpdateOwnTransformations();
+                UpdateLocalPlayer();
             }
-
         }
 
         private void OnDestroy() {
@@ -62,6 +59,38 @@ namespace MIKA {
         #endregion
 
         #region private
+        // ---- CLIENT ----
+        private void SetUpLocalPlayer() {
+            // set OVR camera to networkplayer position
+            OVRCameraRig ovr = FindObjectOfType<OVRCameraRig>();
+            if (ovr != null) {
+                ovr.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+                ovr.transform.parent = transform;
+                vrHead = ovr.GetComponent<GearVRHead>();
+            }
+        }
+        private void UpdateLocalPlayer() {
+            UpdateOwnTransformations();
+            CmdSetLookAtTarget(vrHead.lookAtTarget.position);
+        }
+        // ---- SERVER ----
+        private void SetUpServer() {
+            InitHead();
+
+            modelDataManager = FindObjectOfType<UnityModelDataManager>();
+            modelDataManager.AddProvider(headData);
+
+            modelDataManager.SubscribeReceiver(this);
+
+            StartCoroutine(TryAssignFeet());
+        }
+        private void UpdateServer() {
+            // TODO: not for own character
+            // but has to be done on clients too. for opposite character
+            UpdateOwnTransformations();
+            ProcessIK();
+        }
+
         private void AssignIKModel(IKControl ikControl) {
             this.ikControl = ikControl;
 
@@ -91,17 +120,46 @@ namespace MIKA {
             Vector3 pos = centerPosition;
             pos.y = 1.65f;
             transform.position = Vector3.Lerp(transform.position, pos, centerLerpSpeed * Time.deltaTime);
-
-
         }
 
         #endregion
 
         #region networking
+        [Command]
+        private void CmdSetLookAtTarget(Vector3 target) {
+            if (!isServer)
+                return;
+
+            lookAtTarget = target;
+        }
+        #endregion
+
+        #region Data provider
+        //IEnumerator PollModelDataManager() {
+        //    UnityModelDataManager mdm = FindObjectOfType<UnityModelDataManager>();
+        //    while (mdm == null) {
+        //        yield return new WaitForSeconds(0.7f);
+        //        mdm = FindObjectOfType<UnityModelDataManager>();
+        //    }
+        //    mdm.AddProvider(headData);
+        //}
+
+        private void InitHead() {
+            headData = new HeadData(() => GetHeadPosition(), () => GetHeadRotation());
+        }
+
+        private float[] GetHeadPosition() {
+            print("Gaze @ " + lookAtTarget);
+            return new float[] { lookAtTarget.x, lookAtTarget.y, lookAtTarget.z };
+        }
+
+        private float[] GetHeadRotation() {
+            return new float[] { transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z };
+        }
 
         #endregion
 
-        #region DataReceiver
+        #region Data receiver
         // TODO: get rid of this implementation
         void IDataReceiver.VectorData(float[] position, float[] rotation) {
             // DONT USE ME
@@ -130,7 +188,10 @@ namespace MIKA {
             rightHandRotation = Quaternion.LookRotation(new Vector3(rotation[0], rotation[1], rotation[2]), Vector3.up).eulerAngles;
         }
         void IHeadReceiver.VectorData(float[] position, float[] rotation) {
-            lookAtTarget = new Vector3(position[0], position[1], position[2]);
+            // client provides this information
+
+            // TODO TODO TODO: activate this code!!!
+            // lookAtTarget = new Vector3(position[0], position[1], position[2]);
         }
 
         void HipHeightApproximation() {
@@ -160,6 +221,13 @@ namespace MIKA {
             ikControl.rightHandRotation = leftHandRotation;
 
             ikControl.lookAtTarget = lookAtTarget;
+        }
+        #endregion
+
+        #region debug
+        private void OnDrawGizmos() {
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(lookAtTarget, 0.1f);
         }
         #endregion
     }

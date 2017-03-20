@@ -2,6 +2,8 @@
 using System.Collections;
 
 namespace MIKA {
+    // offline solution
+    // has been used for testing without network connetion to the headset
     public class GearVRHead : MonoBehaviour {
         public Transform lookAtTarget;
         private HeadData headData;
@@ -17,12 +19,11 @@ namespace MIKA {
                 mdm.RemoveProvider(headData);
         }
 
-
         IEnumerator PollModelDataManager() {
             UnityModelDataManager mdm = FindObjectOfType<UnityModelDataManager>();
             while (mdm == null) {
-                yield return new WaitForSeconds(0.7f);
                 mdm = FindObjectOfType<UnityModelDataManager>();
+                yield return new WaitForSeconds(0.7f);
             }
             mdm.AddProvider(headData);
         }
