@@ -54,6 +54,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftFoot: {fileID: 0}
   rightFoot: {fileID: 0}
+  vrFootPrefab: {fileID: 1000012235625834, guid: b47686a982bce48479f4b42154402fc9,
+    type: 2}
 --- !u!114 &114000013463669218
 MonoBehaviour:
   m_ObjectHideFlags: 1

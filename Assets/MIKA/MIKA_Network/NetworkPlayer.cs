@@ -10,6 +10,8 @@ namespace MIKA {
         private float centerLerpSpeed = 13;
         public Transform leftFoot, rightFoot;
 
+        public GameObject vrFootPrefab;
+
         // data provider
         private HeadData headData;
 
@@ -53,8 +55,11 @@ namespace MIKA {
         }
 
         private void OnDestroy() {
-            if (isServer)
+            if (isServer) {
                 modelDataManager.UnsubscribeReseiver(this);
+                headData = null;
+            }
+
         }
         #endregion
 
@@ -68,11 +73,24 @@ namespace MIKA {
                 ovr.transform.parent = transform;
                 vrHead = ovr.GetComponent<GearVRHead>();
             }
+            SetUpLocalFeet();
+        }
+        private void SetUpLocalFeet() {
+            leftFoot = Instantiate(vrFootPrefab).transform;
+            rightFoot = Instantiate(vrFootPrefab).transform;
         }
         private void UpdateLocalPlayer() {
             UpdateOwnTransformations();
             CmdSetLookAtTarget(vrHead.lookAtTarget.position);
+            UpdateLocalFeet();
         }
+        private void UpdateLocalFeet() {
+            leftFootPosition.y = 0;
+            leftFoot.position = Vector3.Lerp(leftFoot.position, leftFootPosition, 20 * Time.deltaTime);
+            rightFootPosition.y = 0;
+            rightFoot.position = Vector3.Lerp(rightFoot.position, rightFootPosition, 20 * Time.deltaTime); ;
+        }
+
         // ---- SERVER ----
         private void SetUpServer() {
             InitHead();
@@ -90,7 +108,6 @@ namespace MIKA {
             UpdateOwnTransformations();
             ProcessIK();
         }
-
         private void AssignIKModel(IKControl ikControl) {
             this.ikControl = ikControl;
 
@@ -103,7 +120,6 @@ namespace MIKA {
             //ik.leftFootObj = leftFoot;
 
         }
-
         private IEnumerator TryAssignFeet() {
             while (leftFoot == null ||rightFoot == null) {
                 UnityPharusFootTracking go = FindObjectOfType<UnityPharusFootTracking>();
@@ -115,7 +131,6 @@ namespace MIKA {
                 yield return new WaitForSeconds(0.333f);
             }
         }
-
         private void UpdateOwnTransformations() {
             Vector3 pos = centerPosition;
             pos.y = 1.65f;
@@ -149,12 +164,13 @@ namespace MIKA {
         }
 
         private float[] GetHeadPosition() {
-            print("Gaze @ " + lookAtTarget);
             return new float[] { lookAtTarget.x, lookAtTarget.y, lookAtTarget.z };
         }
 
         private float[] GetHeadRotation() {
-            return new float[] { transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z };
+            if (this != null)
+                return new float[] { transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z };
+            return null;
         }
 
         #endregion
@@ -227,7 +243,7 @@ namespace MIKA {
         #region debug
         private void OnDrawGizmos() {
             Gizmos.color = Color.green;
-            Gizmos.DrawSphere(lookAtTarget, 0.1f);
+            Gizmos.DrawSphere(lookAtTarget, 0.04f);
         }
         #endregion
     }

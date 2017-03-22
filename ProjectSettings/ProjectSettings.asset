@@ -475,7 +475,7 @@ PlayerSettings:
   SamsungTV::VR::enable: 0
   Standalone::VR::enable: 1
   Tizen::VR::enable: 0
-  WebGL::VR::enable: 0
+  WebGL::VR::enable: 1
   WebGL::analyzeBuildSize: 0
   WebGL::dataCaching: 0
   WebGL::useEmbeddedResources: 0
