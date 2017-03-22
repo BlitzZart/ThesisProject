@@ -11,16 +11,16 @@ namespace MIKA {
 
         public GameObject IK_Model;
 
-        // Use this for initialization
         void Start() {
-            if (SceneManager.GetActiveScene().name.ToLower().Contains("server"))
+            if (SceneManager.GetActiveScene().name.ToLower().Contains("server")) {
                 StartCoroutine(StartUpServer());
-            else
-                JoinClient();
-
+            }
+            else {
+                JoinClient(); 
+                //StartCoroutine(CheckAndJoinClient());
+            }
         }
 
-        // Update is called once per frame
         void Update() {
 
         }
@@ -38,6 +38,17 @@ namespace MIKA {
             StartClient();
             isClient = true;
         }
+
+        //private IEnumerator CheckAndJoinClient() {
+        //    bool conn = false;
+        //    while (!conn) {
+        //        if (!IsClientConnected()) {
+        //            JoinClient();
+        //            conn = true;
+        //        }
+        //        yield return new WaitForSeconds(2);
+        //    }
+        //}
 
 
         void SetIPAddress() {

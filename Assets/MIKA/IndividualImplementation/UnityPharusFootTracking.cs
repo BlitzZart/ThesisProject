@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace MIKA
 {
-    class UnityPharusFootTracking : ATrackingEntity
+    class UnityPharusFootTracking : ATrackingEntity, IHeadReceiver
     {
-        
+        public bool walksBackwards = false;
         public GameObject avatarPrefab;
 
         public PlayerFoot playerFootPrefab;
@@ -72,11 +73,15 @@ namespace MIKA
             hipHeightFilter.R = 0.003;
 
             InitFeet();
+
+            // register data receiver becaus head rotation is needed here
+            UnityModelDataManager mdm = GetComponent<UnityModelDataManager>();
+            mdm.SubscribeReceiver(this);
         }
 
         private void Update()
         {
-            NewTracking();
+            FootTracking();
             //TrackFeet();
             //if (filterFeet)
             //    FilterFeet();
@@ -95,6 +100,8 @@ namespace MIKA
             mdm.RemoveProvider(hipData);
             mdm.RemoveProvider(leftHandData);
             mdm.RemoveProvider(rightHandData);
+
+            mdm.SubscribeReceiver(this);
         }
         #endregion
 
@@ -134,7 +141,11 @@ namespace MIKA
         }
         private float[] GetLeftFootPosition()
         {
-            return new float[] { leftFootPosition.x, leftFootPosition.y, leftFootPosition.z };
+            if (walksBackwards) {
+                return new float[] { rightFootPosition.x, rightFootPosition.y, rightFootPosition.z };
+            } else {
+                return new float[] { leftFootPosition.x, leftFootPosition.y, leftFootPosition.z };
+            }
         }
         private float[] GetLeftFootRotation()
         {
@@ -148,7 +159,12 @@ namespace MIKA
         }
         private float[] GetRightFootPosition()
         {
-            return new float[] { rightFootPosition.x, rightFootPosition.y, rightFootPosition.z };
+            if (walksBackwards) {
+                return new float[] { leftFootPosition.x, leftFootPosition.y, leftFootPosition.z };
+            }
+            else {
+                return new float[] { rightFootPosition.x, rightFootPosition.y, rightFootPosition.z };
+            }
         }
         // TODO: consider to provide a non-monobehavior solution which approximates the hip position based on foot data
         private float[] GetCenterPosition()
@@ -158,7 +174,7 @@ namespace MIKA
         // TODO: this is the smoothed orientation of pharus
         private float[] GetCenterRotation()
         {
-            return new float[] { Orientation.x, 0, Orientation.y };
+            return (walksBackwards) ? new float[] { -Orientation.x, 0, -Orientation.y }: new float[] { Orientation.x, 0, Orientation.y };
         }
         // hands
         private float[] GetLeftHandPosition() {
@@ -175,7 +191,6 @@ namespace MIKA
             Vector3 dir = rightFootPosition - lastRightFootPosition;
             return new float[] { dir.x, dir.y, dir.z };
         }
-
 
         //private float[] GetRightHandRotation() {
         //    Vector3 dir = rightFootPosition - lastRightFootPosition;
@@ -263,8 +278,7 @@ namespace MIKA
         {
 
         }
-
-        private void NewFootFiltering()
+        private void FootFiltering()
         {
             if (!applyFilterOnFeet)
                 return;
@@ -285,7 +299,6 @@ namespace MIKA
             //fastOrientation = (Orientation + fastOrientation) / 2;
             fastOrientation = new Vector2((float)orientationFilter[0].UseFilter(fastOrientation.x), (float)orientationFilter[1].UseFilter(fastOrientation.y));
         }
-
         private void FootAndHipHeight()
         {
             // get heights
@@ -294,8 +307,7 @@ namespace MIKA
             // TODO: calculation is just hacked right now
             centerPosition.y =  (float)hipHeightFilter.UseFilter(((leftFootPosition.y + rightFootPosition.y) - 0.4f) * -1.0f);
         }
-
-        private void NewTracking()
+        private void FootTracking()
         {
             // store last positions
             lastCenterPosition = centerPosition;
@@ -316,7 +328,7 @@ namespace MIKA
                 NoFoot();
             }
 
-            NewFootFiltering();
+            FootFiltering();
 
 
             // update center position
@@ -327,6 +339,23 @@ namespace MIKA
 
             OrientationFiltering();
             FootAndHipHeight();
+        }
+
+        void IHeadReceiver.VectorData(float[] position, float[] rotation) {
+            Vector2 headOrientation2D = new Vector2(rotation[0], rotation[2]).normalized;
+
+            // get angle between movement vector and head direction vector
+            if (Vector2.Angle(Orientation, headOrientation2D) > 90) {
+                walksBackwards = true;
+            }
+            else {
+                walksBackwards = false;
+            }
+            Debug.DrawRay(centerPosition, new Vector3(headOrientation2D.x, 0, headOrientation2D.y) * 1, Color.red);
+        }
+
+        void IDataReceiver.VectorData(float[] position, float[] rotation) {
+            //throw new NotImplementedException();
         }
         #endregion
         #region debug drawing
