@@ -34,7 +34,7 @@ public class IKControl : MonoBehaviour {
     void Start() {
         animator = GetComponent<Animator>();
         aiCharacter = GetComponent<AICharacterControl>();
-
+        ActivateAllIK();
     }
 
     //a callback for calculating IK
@@ -47,10 +47,10 @@ public class IKControl : MonoBehaviour {
             }
             //if the IK is not active, set the position and rotation of the hand and head back to the original position
             else {
-                animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 0);
-                animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, 0);
-                animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 0);
-                animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 0);
+                //animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 0);
+                //animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, 0);
+                //animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 0);
+                //animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 0);
 
                 animator.SetLookAtWeight(0);
             }
@@ -88,7 +88,7 @@ public class IKControl : MonoBehaviour {
 
         animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, weight);
         //animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, weight);
-        animator.GetIKPosition(AvatarIKGoal.LeftHand);
+        //animator.GetIKPosition(AvatarIKGoal.LeftHand);
         animator.SetIKPosition(AvatarIKGoal.LeftHand, Vector3.Lerp(
             animator.GetIKPosition(AvatarIKGoal.LeftHand),
             rightHandPosition - transform.right * 0.41f + Vector3.up * 0.95f, 35.0f * Time.deltaTime));
@@ -125,6 +125,24 @@ public class IKControl : MonoBehaviour {
         Feet();
         Hip();
         Head();
+    }
+
+    private void ActivateAllIK() {
+        animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
+        animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 1);
+        animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 1);
+        animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, 1);
+
+        animator.SetIKHintPositionWeight(AvatarIKHint.LeftKnee, 1);
+        animator.SetIKHintPositionWeight(AvatarIKHint.RightKnee, 1);
+
+        animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
+        animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
+        animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
+        animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1);
+
+        animator.SetIKHintPositionWeight(AvatarIKHint.LeftElbow, 1);
+        animator.SetIKHintPositionWeight(AvatarIKHint.RightElbow, 1);
     }
 
     //private void UpdateUsingTransforms() {

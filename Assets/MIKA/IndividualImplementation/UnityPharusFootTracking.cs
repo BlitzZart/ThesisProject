@@ -20,6 +20,7 @@ namespace MIKA
 
         private HipData hipData;
         private Vector3 leftFootPosition, lastLeftFootPosition, rightFootPosition, lastRightFootPosition, tempFootPos;
+        private Vector3 leftHandPosition, rightHandPosition;
         private Vector3 lastCenterPosition;
         private Vector3 centerPosition;
         private Vector3 hipPosition;
@@ -81,7 +82,7 @@ namespace MIKA
 
         private void Update()
         {
-            FootTracking();
+            //FootTracking();
             //TrackFeet();
             //if (filterFeet)
             //    FilterFeet();
@@ -90,6 +91,10 @@ namespace MIKA
             //CheckEchos();
 
             DrawTraces(Color.red, Color.blue, Color.green);
+        }
+
+        private void FixedUpdate() {
+            FootTracking();
         }
 
         private void OnDestroy()
@@ -169,7 +174,7 @@ namespace MIKA
         // TODO: consider to provide a non-monobehavior solution which approximates the hip position based on foot data
         private float[] GetCenterPosition()
         {
-            return new float[] { centerPosition.x, centerPosition.y + 0.07f, centerPosition.z };
+            return new float[] { centerPosition.x,  0 /*centerPosition.y + 0.07f*/, centerPosition.z };
         }
         // TODO: this is the smoothed orientation of pharus
         private float[] GetCenterRotation()
@@ -178,6 +183,13 @@ namespace MIKA
         }
         // hands
         private float[] GetLeftHandPosition() {
+            leftHandPosition = new Vector3(leftFootPosition.x, -leftFootPosition.y, leftFootPosition.z);
+
+
+            //new Vector3 hand = Vector3.Lerp(
+            //animator.GetIKPosition(AvatarIKGoal.LeftHand),
+            //rightHandPosition - transform.right * 0.41f + Vector3.up * 0.95f, 35.0f * Time.deltaTime));
+
             return new float[] { leftFootPosition.x, -leftFootPosition.y, leftFootPosition.z };
         }
         private float[] GetRightHandPosition() {
