@@ -18,10 +18,6 @@ public class IKControl : MonoBehaviour {
         useHip,
         UseLeftKnee, useLeftFoot, useRightKnee, useLeftKnee;
 
-    /*public Transform rightFootObj = null;
-    public Transform leftFootObj = null;
-    public Transform lookObj = null;
-    public Transform leftKneeHint = null;*/
     public Transform hip;
 
     public Vector3 leftFootPosition, rightFootPosition, leftHandPosition, rightHandPosition;
@@ -55,6 +51,7 @@ public class IKControl : MonoBehaviour {
                 animator.SetLookAtWeight(0);
             }
         }
+        
     }
     #endregion
 
@@ -87,19 +84,12 @@ public class IKControl : MonoBehaviour {
     private void Hands() {
 
         animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, weight);
-        //animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, weight);
-        //animator.GetIKPosition(AvatarIKGoal.LeftHand);
-        animator.SetIKPosition(AvatarIKGoal.LeftHand, Vector3.Lerp(
-            animator.GetIKPosition(AvatarIKGoal.LeftHand),
-            rightHandPosition - transform.right * 0.41f + Vector3.up * 0.95f, 35.0f * Time.deltaTime));
-        //animator.SetIKRotation(AvatarIKGoal.LeftHand, Quaternion.Euler(leftHandRotation));
+        animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, weight);
+        animator.SetIKPosition(AvatarIKGoal.LeftHand, leftHandPosition);
 
         animator.SetIKPositionWeight(AvatarIKGoal.RightHand, weight);
-        //animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, weight);
-        animator.SetIKPosition(AvatarIKGoal.RightHand, Vector3.Lerp(
-            animator.GetIKPosition(AvatarIKGoal.RightHand),
-            leftHandPosition + transform.right * 0.41f + Vector3.up * 0.95f, 35.0f * Time.deltaTime));
-        //animator.SetIKRotation(AvatarIKGoal.LeftHand, Quaternion.Euler(leftHandRotation));
+        animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, weight);
+        animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandPosition);
     }
     private void Feet() {
         animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, weight);
@@ -145,31 +135,5 @@ public class IKControl : MonoBehaviour {
         animator.SetIKHintPositionWeight(AvatarIKHint.RightElbow, 1);
     }
 
-    //private void UpdateUsingTransforms() {
-    //    // Set the look target position, if one has been assigned
-    //    if (lookObj != null) {
-    //        animator.SetLookAtWeight(1);
-    //        animator.SetLookAtPosition(lookObj.position);
-    //    }
-
-    //    if (leftKneeHint != null) {
-    //        animator.SetIKHintPositionWeight(AvatarIKHint.LeftKnee, 1);
-    //        animator.SetIKHintPosition(AvatarIKHint.LeftKnee, leftKneeHint.position);
-    //    }
-
-    //    // Set the right hand target position and rotation, if one has been assigned
-    //    if (rightFootObj != null) {
-    //        animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, weight);
-    //        animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, weight);
-    //        animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootObj.position);
-    //        animator.SetIKRotation(AvatarIKGoal.RightFoot, rightFootObj.rotation);
-    //    }
-    //    if (leftFootObj != null) {
-    //        animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, weight);
-    //        animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, weight);
-    //        animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootObj.position);
-    //        animator.SetIKRotation(AvatarIKGoal.LeftFoot, leftFootObj.rotation);
-    //    }
-    //}
     #endregion
 }

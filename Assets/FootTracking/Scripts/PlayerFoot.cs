@@ -5,6 +5,8 @@ public class PlayerFoot : MonoBehaviour {
     [Range(-0.1f, 1.1f)]
     public float speed, speed01, height;
 
+    private Vector3 footDirection;
+
     // TODO: Only for präsi
     public bool enableFootHeight = false;
 
@@ -12,6 +14,7 @@ public class PlayerFoot : MonoBehaviour {
     SimpleKalman kalman;
 
     public AnimationCurve curve;
+    public AnimationCurve rotationCurve;
 
 
     // ---- trace rendering ----
@@ -56,10 +59,12 @@ public class PlayerFoot : MonoBehaviour {
         lineRenderer.SetPosition(currentLineEntries++ % numberOfLineEntries, point);
     }
 
-    public float EstimateRotation()
+    Vector3 footVelocity;
+    public Vector3 EstimateRotation(Vector3 position, Vector3 lastPosition)
     {
-
-        return 0;
+        Vector3 direction = Vector3.SmoothDamp(footDirection, position - lastPosition, ref footVelocity, 0.5f) * rotationCurve.Evaluate(speed01);
+        footDirection = direction;
+        return footDirection;
     }
 
     public float EstimateHeight(Vector3 position, Vector3 lastPosition) {

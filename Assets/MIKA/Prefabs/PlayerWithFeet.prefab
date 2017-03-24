@@ -130,6 +130,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d36bc2f31f415bb40b311c662aec21ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  footRotationCruve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0.49821004
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0.0011962652
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   avatarPrefab: {fileID: 1000011741016600, guid: ab80c86650220e74eaaa110f49da93d2,
     type: 2}
   playerFootPrefab: {fileID: 114000012934586054, guid: 662e09980871f834f9e1f458c65d91cb,
