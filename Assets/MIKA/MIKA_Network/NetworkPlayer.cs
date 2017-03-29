@@ -55,11 +55,12 @@ namespace MIKA {
         }
 
         private void OnDestroy() {
-            if (isServer) {
+            if (modelDataManager != null) {
+                modelDataManager.RemoveProvider(headData);
                 modelDataManager.UnsubscribeReseiver(this);
+
                 headData = null;
             }
-
         }
         #endregion
 

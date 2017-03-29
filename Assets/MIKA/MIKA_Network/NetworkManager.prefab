@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000012874547414}
   - 114: {fileID: 114000011986618118}
+  - 114: {fileID: 114000011150230248}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -40,6 +41,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &114000011150230248
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013276337500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 712f752fe3002294fa63544a8e479557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BroadcastPort: 47777
+  m_BroadcastKey: 2222
+  m_BroadcastVersion: 1
+  m_BroadcastSubVersion: 1
+  m_BroadcastInterval: 1000
+  m_UseNetworkManager: 0
+  m_BroadcastData: HELLO
+  m_ShowGUI: 0
+  m_OffsetX: 0
+  m_OffsetY: 0
 --- !u!114 &114000011986618118
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -55,7 +77,7 @@ MonoBehaviour:
   m_ServerBindToIP: 0
   m_ServerBindAddress: 
   m_NetworkAddress: localhost
-  m_DontDestroyOnLoad: 1
+  m_DontDestroyOnLoad: 0
   m_RunInBackground: 1
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
@@ -111,6 +133,7 @@ MonoBehaviour:
   matchMaker: {fileID: 0}
   ConnectionIP: 10.0.0.8
   ConnectionPort: 7777
+  mode: 1
   isServer: 0
   isClient: 0
   IK_Model: {fileID: 0}
