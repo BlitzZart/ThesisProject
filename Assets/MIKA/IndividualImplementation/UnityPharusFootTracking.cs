@@ -4,7 +4,10 @@ using UnityEngine;
 namespace MIKA {
     class UnityPharusFootTracking : ATrackingEntity, IHeadReceiver {
         public AnimationCurve footRotationCruve;
-        private float footHipHeightOffset = 0.0f;
+        [Range(0, 2)]
+        public float distanceBetweenFeet = 0.0f;
+        [Range(-0.5f, 0.5f)]
+        public float currenHipHeight;
 
         public GameObject avatarPrefab;
         private GameObject avatar;
@@ -170,12 +173,11 @@ namespace MIKA {
             return new float[] { rightFootDirection.x, rightFootDirection.y, rightFootDirection.z };
         }
         // TODO: consider to provide a non-monobehavior solution which approximates the hip position based on foot data
-        private Vector3 lastCenter;
+
         private float[] GetCenterPosition() {
             // add a small offset in walking direction
             Vector3 centerWithOffset = centerPosition + avatar.transform.forward * 0.06f;
-            lastCenter = centerWithOffset;
-            return new float[] { centerWithOffset.x, 0/*-0.05f/* - centerPosition.y * 0.33f *//*+ 0.07f*/, centerWithOffset.z };
+            return new float[] { centerWithOffset.x, centerPosition.y , centerWithOffset.z };
         }
         // TODO: this is the smoothed orientation of pharus
         private float[] GetCenterRotation() {
@@ -297,8 +299,10 @@ namespace MIKA {
             // get heights
             leftFootPosition.y = leftFoot.EstimateHeight(leftFootPosition, lastLeftFootPosition);
             rightFootPosition.y = rightFoot.EstimateHeight(rightFootPosition, lastRightFootPosition);
-            // TODO: calculation is just hacked right now
-            centerPosition.y = (float)hipHeightFilter.UseFilter(((leftFootPosition.y + rightFootPosition.y) - 0.4f) * -1.0f);
+
+            distanceBetweenFeet = Vector3.Distance(leftFootPosition, rightFootPosition);
+            centerPosition.y = -(float)hipHeightFilter.UseFilter(Mathf.Clamp(((distanceBetweenFeet - 0.25f)  * 0.25f), 0.0f, 1.0f) - 0.02f);
+            currenHipHeight = centerPosition.y;
         }
         private void FootTracking() {
             // store last positions

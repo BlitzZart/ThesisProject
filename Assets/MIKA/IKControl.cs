@@ -8,9 +8,9 @@ public class IKControl : MonoBehaviour {
 
     protected Animator animator;
 
-    private AICharacterControl aiCharacter; 
-    [Range(0.0f, 1.0f)]
-    public float weight = 1;
+    private AICharacterControl aiCharacter;
+    [Range(-1.0f, 1.0f)]
+    public float hipOffset = 0;
     public bool ikActive = false;
 
     public bool useHead,
@@ -24,13 +24,15 @@ public class IKControl : MonoBehaviour {
     public Vector3 leftFootRotation, rightFootRotation, leftHandRotation, rightHandRotation;
     public Vector3 lookAtTarget;
 
-    private Vector3 hipPosition;
-
     #region unity callbacks
     void Start() {
         animator = GetComponent<Animator>();
         aiCharacter = GetComponent<AICharacterControl>();
         ActivateAllIK();
+    }
+
+    private void Update() {
+        Hip();
     }
 
     //a callback for calculating IK
@@ -82,11 +84,9 @@ public class IKControl : MonoBehaviour {
         }
     }
     private void Hip() {
+        // ! hip is controlled by setting transform position
         if (!useHip)
             return;
-
-
-
     }
     private void Hands() {
         if (useLeftHand) {
@@ -139,7 +139,6 @@ public class IKControl : MonoBehaviour {
     {
         Hands();
         Feet();
-        Hip();
         Head();
     }
 

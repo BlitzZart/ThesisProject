@@ -19,7 +19,6 @@ class IKModelController :  ICenterReceiver, ILeftFootReceiver, IRightFootReceive
 
         AssignIKModel(ik);
     }
-
     #region private
     private void AssignIKModel(IKControl ikControl) {
         this.ikControl = ikControl;
@@ -27,11 +26,6 @@ class IKModelController :  ICenterReceiver, ILeftFootReceiver, IRightFootReceive
         //if (this.ikControl == null)
         //    return;
         //ikBody = this.ikControl.transform;
-        //if (this.ikControl.rightFootObj || this.ikControl.leftFootObj)
-        //    return;
-        //ik.rightFootObj = rightFoot;
-        //ik.leftFootObj = leftFoot;
-
     }
 
     // TODO: fix disposing - this is not a MonoBehaviour anymore
@@ -40,22 +34,18 @@ class IKModelController :  ICenterReceiver, ILeftFootReceiver, IRightFootReceive
     }
     #endregion
 
-    // TODO: get rid of this implementation
     void IDataReceiver.VectorData(float[] position, float[] rotation)
     {
-        // DONT USE ME
+        // TODO: get rid of this implementation
     }
-
     void ICenterReceiver.VectorData(float[] position, float[] rotation) {
         ikControl.SetPosition(new Vector3(position[0], position[1], position[2]));
         ikControl.SetRotation(Quaternion.LookRotation(new Vector3(rotation[0], rotation[1], rotation[2]), Vector3.up));
     }
-
     void ILeftFootReceiver.VectorData(float[] position, float[] rotation) {
         ikControl.leftFootPosition = new Vector3(position[0], position[1], position[2]);
         ikControl.rightFootRotation = Quaternion.LookRotation(new Vector3(rotation[0], rotation[1], rotation[2]), Vector3.up).eulerAngles;
     }
-
     void IRightFootReceiver.VectorData(float[] position, float[] rotation) {
         ikControl.rightFootPosition = new Vector3(position[0], position[1], position[2]);
         ikControl.leftFootRotation = Quaternion.LookRotation(new Vector3(rotation[0], rotation[1], rotation[2]), Vector3.up).eulerAngles;
@@ -70,9 +60,5 @@ class IKModelController :  ICenterReceiver, ILeftFootReceiver, IRightFootReceive
     }
     void IHeadReceiver.VectorData(float[] position, float[] rotation) {
         ikControl.lookAtTarget = new Vector3(position[0], position[1], position[2]);
-    }
-
-    void HipHeightApproximation() {
-
     }
 }
