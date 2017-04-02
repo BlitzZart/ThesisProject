@@ -16,6 +16,7 @@ namespace MIKA {
         public bool isServer, isClient;
 
         public GameObject IK_Model;
+        public GameObject ballPrefab;
 
         #region unity callbacks
         private void Awake() {
@@ -62,6 +63,20 @@ namespace MIKA {
             //SetPort();
             StartServer();
             isServer = true;
+
+
+            GameObject go = Instantiate(ballPrefab);
+
+            while (true) {
+                NetworkPlayer np = FindObjectOfType<NetworkPlayer>();
+                if (np != null) {
+                    NetworkServer.SpawnWithClientAuthority(go, np.gameObject);
+                    break;
+                }
+                print("Search for player");
+                yield return new WaitForSeconds(1);
+            }
+
         }
 
         private void JoinClient() {

@@ -66,6 +66,12 @@ namespace MIKA {
 
         #region private
         // ---- CLIENT ----
+        private void CalibrateHeadset() {
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                OVRCameraRig ovr = FindObjectOfType<OVRCameraRig>();
+                ovr.transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+        }
         private void SetUpLocalPlayer() {
             // set OVR camera to networkplayer position
             OVRCameraRig ovr = FindObjectOfType<OVRCameraRig>();
@@ -84,6 +90,7 @@ namespace MIKA {
             UpdateOwnTransformations();
             CmdSetLookAtTarget(vrHead.lookAtTarget.position);
             UpdateLocalFeet();
+            CalibrateHeadset();
         }
         private void UpdateLocalFeet() {
             leftFootPosition.y = 0;
