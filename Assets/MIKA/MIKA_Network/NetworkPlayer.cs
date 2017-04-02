@@ -8,6 +8,7 @@ namespace MIKA {
     public class NetworkPlayer : NetworkBehaviour, ICenterReceiver, ILeftFootReceiver, IRightFootReceiver, ILeftHandReceiver, IRightHandReceiver, IHeadReceiver {
         private float eyeHeight = 1.65f;
         private float centerLerpSpeed = 13;
+        private OVRCameraRig ovr;
         public Transform leftFoot, rightFoot;
 
         public GameObject vrFootPrefab;
@@ -66,15 +67,9 @@ namespace MIKA {
 
         #region private
         // ---- CLIENT ----
-        private void CalibrateHeadset() {
-            if (Input.GetKeyDown(KeyCode.Escape)) {
-                OVRCameraRig ovr = FindObjectOfType<OVRCameraRig>();
-                ovr.transform.rotation = Quaternion.Euler(0, 0, 0);
-            }
-        }
         private void SetUpLocalPlayer() {
             // set OVR camera to networkplayer position
-            OVRCameraRig ovr = FindObjectOfType<OVRCameraRig>();
+            ovr = FindObjectOfType<OVRCameraRig>();
             if (ovr != null) {
                 ovr.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
                 ovr.transform.parent = transform;
@@ -90,7 +85,6 @@ namespace MIKA {
             UpdateOwnTransformations();
             CmdSetLookAtTarget(vrHead.lookAtTarget.position);
             UpdateLocalFeet();
-            CalibrateHeadset();
         }
         private void UpdateLocalFeet() {
             leftFootPosition.y = 0;

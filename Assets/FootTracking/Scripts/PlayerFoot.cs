@@ -79,7 +79,7 @@ public class PlayerFoot : MonoBehaviour {
         position.y = lastPosition.y = 0;
 
         // get speed and clamp it to max speed
-        speed = Mathf.Clamp((position - lastPosition).magnitude / Time.deltaTime, 0, maxSpeed);
+        speed = Mathf.Clamp((position - lastPosition).magnitude / Time.fixedDeltaTime, 0, maxSpeed);
         // scale speed to 0 - 1
         speed01 = speed / maxSpeed;
         // apply filter

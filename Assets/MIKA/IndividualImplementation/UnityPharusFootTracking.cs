@@ -96,6 +96,7 @@ namespace MIKA {
 
         private void FixedUpdate() {
             FootTracking();
+            FootRotaion();
         }
 
         private void OnDestroy() {
@@ -158,25 +159,17 @@ namespace MIKA {
             }
         }
         private float[] GetLeftFootRotation() {
-            leftFootDirection = leftFoot.EstimateRotation(leftFootPosition, lastLeftFootPosition);
-            if (walksBackwards)
-                leftFootDirection = new Vector3(-Orientation.x, 0, -Orientation.y);
             return new float[] { leftFootDirection.x, leftFootDirection.y, leftFootDirection.z };
         }
         private float[] GetRightFootRotation() {
 
-            if (walksBackwards)
-                rightFootDirection = new Vector3(-Orientation.x, 0, -Orientation.y);
-            else {
-                rightFootDirection = (rightFoot.EstimateRotation(rightFootPosition, lastRightFootPosition)/* + new Vector3(Orientation.x, 0, Orientation.y) / 2*/);
-            }
             return new float[] { rightFootDirection.x, rightFootDirection.y, rightFootDirection.z };
         }
         // TODO: consider to provide a non-monobehavior solution which approximates the hip position based on foot data
 
         private float[] GetCenterPosition() {
             // add a small offset in walking direction
-            Vector3 centerWithOffset = centerPosition + avatar.transform.forward * 0.06f;
+            Vector3 centerWithOffset = centerPosition + avatar.transform.forward * 0.07f;
             return new float[] { centerWithOffset.x, centerPosition.y , centerWithOffset.z };
         }
         // TODO: this is the smoothed orientation of pharus
@@ -330,6 +323,17 @@ namespace MIKA {
 
             OrientationFiltering();
             FootAndHipHeight();
+        }
+        private void FootRotaion() {
+            if (walksBackwards) {
+                leftFootDirection = new Vector3(-Orientation.x, 0, -Orientation.y);
+                rightFootDirection = new Vector3(-Orientation.x, 0, -Orientation.y);
+            }
+
+            else {
+                leftFootDirection = leftFoot.EstimateRotation(leftFootPosition, lastLeftFootPosition);
+                rightFootDirection = (rightFoot.EstimateRotation(rightFootPosition, lastRightFootPosition)/* + new Vector3(Orientation.x, 0, Orientation.y) / 2*/);
+            }
         }
 
         void IHeadReceiver.VectorData(float[] position, float[] rotation) {

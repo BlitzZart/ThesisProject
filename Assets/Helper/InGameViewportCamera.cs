@@ -13,7 +13,7 @@ public class InGameViewportCamera : MonoBehaviour {
     KeyCode rightKey = KeyCode.D;
     KeyCode reset = KeyCode.Escape;
 
-    float moveSpeed = 0.2f;
+    float moveSpeed = 16.2f;
     
     float roationSpeed = 3.0f;
     float scaleSpeed = 2.0f;
@@ -61,7 +61,7 @@ public class InGameViewportCamera : MonoBehaviour {
             translation = new Vector3(-Input.GetAxis("Mouse X"), -Input.GetAxis("Mouse Y"), 0) * moveSpeed;
         }
         // apply translation
-        transform.Translate(translation);
+        transform.Translate(translation * Time.deltaTime);
 
         // rotate
         if (Input.GetMouseButton(1)) {

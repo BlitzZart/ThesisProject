@@ -24,7 +24,7 @@ namespace UnityStandardAssets.Utility
 
         private void Update()
         {
-            m_Text.text = string.Format((1.0f/Time.smoothDeltaTime).ToString(), m_CurrentFps);
+            m_Text.text = string.Format((1.0f/Time.smoothDeltaTime).ToString("0"), m_CurrentFps);
             // measure average frames per second
             //m_FpsAccumulator++;
             //if (Time.realtimeSinceStartup > m_FpsNextPeriod)
