@@ -161,16 +161,19 @@ namespace MIKA {
             return new float[] { leftFootDirection.x, leftFootDirection.y, leftFootDirection.z };
         }
         private float[] GetRightFootRotation() {
-            rightFootDirection = rightFoot.EstimateRotation(rightFootPosition, lastRightFootPosition);
+
             if (walksBackwards)
                 rightFootDirection = new Vector3(-Orientation.x, 0, -Orientation.y);
+            else {
+                rightFootDirection = (rightFoot.EstimateRotation(rightFootPosition, lastRightFootPosition)/* + new Vector3(Orientation.x, 0, Orientation.y) / 2*/);
+            }
             return new float[] { rightFootDirection.x, rightFootDirection.y, rightFootDirection.z };
         }
         // TODO: consider to provide a non-monobehavior solution which approximates the hip position based on foot data
         private Vector3 lastCenter;
         private float[] GetCenterPosition() {
             // add a small offset in walking direction
-            Vector3 centerWithOffset = centerPosition + avatar.transform.forward * 0.03f;
+            Vector3 centerWithOffset = centerPosition + avatar.transform.forward * 0.06f;
             lastCenter = centerWithOffset;
             return new float[] { centerWithOffset.x, 0/*-0.05f/* - centerPosition.y * 0.33f *//*+ 0.07f*/, centerWithOffset.z };
         }
@@ -257,8 +260,6 @@ namespace MIKA {
                     //ReinitializeAllFilters();
                 }
             }
-
-            //transform.position = (leftFootPosition + rightFootPosition) / 2;
         }
         private void OneFoot() {
             //// convert echo to screen position

@@ -92,7 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   speed01: 0
-  height: 0
+  height: -0.092
   enableFootHeight: 1
   curve:
     serializedVersion: 2
@@ -107,20 +107,20 @@ MonoBehaviour:
       inSlope: -0.00128377
       outSlope: -0.00128377
       tangentMode: 0
-    - time: 0.27640292
-      value: 0.027336216
+    - time: 0.27197328
+      value: 0.015114775
       inSlope: 0.39934123
       outSlope: 0.39934123
       tangentMode: 0
-    - time: 0.38572076
-      value: 0.09948903
+    - time: 0.38129112
+      value: 0.06833634
       inSlope: 0.582186
       outSlope: 0.582186
       tangentMode: 0
-    - time: 0.70101
-      value: 0.19993746
-      inSlope: 0.036731362
-      outSlope: 0.036731362
+    - time: 0.6949192
+      value: 0.16215925
+      inSlope: 0.01482223
+      outSlope: 0.01482223
       tangentMode: 0
     - time: 0.99666667
       value: 0.00091670454

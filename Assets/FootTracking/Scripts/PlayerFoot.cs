@@ -62,7 +62,7 @@ public class PlayerFoot : MonoBehaviour {
     Vector3 footVelocity;
     public Vector3 EstimateRotation(Vector3 position, Vector3 lastPosition)
     {
-        Vector3 direction = Vector3.SmoothDamp(footDirection, position - lastPosition, ref footVelocity, 0.5f) * rotationCurve.Evaluate(speed01);
+        Vector3 direction = (Vector3.SmoothDamp(footDirection, position - lastPosition, ref footVelocity, 0.66f) * rotationCurve.Evaluate(speed01)) * 0.5f;
         footDirection = direction;
         return footDirection;
     }

@@ -2481,16 +2481,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weight: 1
   ikActive: 1
-  useHead: 0
+  useHead: 1
   useLeftElbow: 0
-  useLeftHand: 0
+  useLeftHand: 1
   useRightElbow: 0
-  useRightHand: 0
-  useHip: 0
-  UseLeftKnee: 0
-  useLeftFoot: 0
-  useRightKnee: 0
+  useRightHand: 1
+  useHip: 1
   useLeftKnee: 0
+  useLeftFoot: 1
+  useRightKnee: 0
+  useRightFoot: 1
   hip: {fileID: 4000011341438214}
   leftFootPosition: {x: 0, y: 0, z: 0}
   rightFootPosition: {x: 0, y: 0, z: 0}
