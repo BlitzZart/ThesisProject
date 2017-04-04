@@ -178,14 +178,18 @@ namespace MIKA {
         }
         // hands
         private float[] GetLeftHandPosition() {
-            leftHandPosition = rightFootPosition - avatar.transform.right * 0.5f; // - Vector3.up * 0.25f;
-            //Vector3.Lerp(lastLeftFootPosition, rightFootPosition - avatar.transform.right * 0.41f + Vector3.up * 0.95f, 35.0f * Time.fixedDeltaTime);
+            //leftHandPosition = rightFootPosition - avatar.transform.right * 0.4f - avatar.transform.up * 0.7f + avatar.transform.forward * 0.1f;
+            leftHandPosition = Vector3.Lerp(lastLeftFootPosition,
+                rightFootPosition - avatar.transform.right * 0.4f - avatar.transform.up * 0.35f + avatar.transform.forward * 0.17f,
+                65.0f * Time.fixedDeltaTime);
             //lastLeftFootPosition = leftHandPosition;
             return new float[] { leftHandPosition.x, -leftHandPosition.y, leftHandPosition.z };
         }
         private float[] GetRightHandPosition() {
-            rightHandPosition = leftFootPosition + avatar.transform.right * 0.5f; // - Vector3.up * 0.90f;
-            //Vector3.Lerp(lastRightFootPosition, leftFootPosition - avatar.transform.right * 0.41f + Vector3.up * 0.95f, 135.0f * Time.fixedDeltaTime);
+            //rightHandPosition = leftFootPosition + avatar.transform.right * 0.4f - avatar.transform.up * 0.7f + avatar.transform.forward * 0.1f;
+            rightHandPosition = Vector3.Lerp(lastRightFootPosition,
+                leftFootPosition + avatar.transform.right * 0.4f - avatar.transform.up * 0.35f + avatar.transform.forward * 0.17f,
+                65.0f * Time.fixedDeltaTime);
             //lastRightFootPosition = rightHandPosition;
             return new float[] { rightHandPosition.x, -rightHandPosition.y, rightHandPosition.z };
         }
@@ -294,7 +298,7 @@ namespace MIKA {
             rightFootPosition.y = rightFoot.EstimateHeight(rightFootPosition, lastRightFootPosition);
 
             distanceBetweenFeet = Vector3.Distance(leftFootPosition, rightFootPosition);
-            centerPosition.y = -(float)hipHeightFilter.UseFilter(Mathf.Clamp(((distanceBetweenFeet - 0.25f)  * 0.25f), 0.0f, 1.0f) - 0.02f);
+            centerPosition.y = -(float)hipHeightFilter.UseFilter(Mathf.Clamp(((distanceBetweenFeet - 0.4f)  * 0.5f), 0.0f, 1.0f) - 0.02f);
             currenHipHeight = centerPosition.y;
         }
         private void FootTracking() {
