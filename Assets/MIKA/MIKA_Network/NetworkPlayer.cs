@@ -4,14 +4,16 @@ using UnityEngine.Networking;
 using System;
 
 namespace MIKA {
-    [NetworkSettings(channel = 2)]
+    [NetworkSettings(channel = 2, sendInterval = 0)] // sendInterval = 0 means that everytime a SyncVar changes an update will be sent
     public class NetworkPlayer : NetworkBehaviour, ICenterReceiver, ILeftFootReceiver, IRightFootReceiver, ILeftHandReceiver, IRightHandReceiver, IHeadReceiver {
-        private float eyeHeight = 1.65f;
-        private float centerLerpSpeed = 13;
+        private float eyeHeight = 1.60f;
+        private float centerLerpSpeed = 100;
         private OVRCameraRig ovr;
-        public Transform leftFoot, rightFoot;
+        private Transform leftFoot, rightFoot;
 
         public GameObject vrFootPrefab;
+        public GameObject avatarPrefab;
+        private GameObject avatar;
 
         // data provider
         private HeadData headData;
@@ -75,7 +77,11 @@ namespace MIKA {
                 ovr.transform.parent = transform;
                 vrHead = ovr.GetComponent<GearVRHead>();
             }
+
             SetUpLocalFeet();
+
+            avatar = Instantiate(avatarPrefab);
+            this.ikControl = avatar.GetComponent<IKControl>();
         }
         private void SetUpLocalFeet() {
             leftFoot = Instantiate(vrFootPrefab).transform;
@@ -85,11 +91,12 @@ namespace MIKA {
             UpdateOwnTransformations();
             CmdSetLookAtTarget(vrHead.lookAtTarget.position);
             UpdateLocalFeet();
+            ProcessIK();
         }
         private void UpdateLocalFeet() {
-            leftFootPosition.y = 0;
+            //leftFootPosition.y = 0;
             leftFoot.position = Vector3.Lerp(leftFoot.position, leftFootPosition, 20 * Time.deltaTime);
-            rightFootPosition.y = 0;
+            //rightFootPosition.y = 0;
             rightFoot.position = Vector3.Lerp(rightFoot.position, rightFootPosition, 20 * Time.deltaTime); ;
         }
 
@@ -110,18 +117,6 @@ namespace MIKA {
             UpdateOwnTransformations();
             ProcessIK();
         }
-        private void AssignIKModel(IKControl ikControl) {
-            this.ikControl = ikControl;
-
-            //if (this.ikControl == null)
-            //    return;
-            //ikBody = this.ikControl.transform;
-            //if (this.ikControl.rightFootObj || this.ikControl.leftFootObj)
-            //    return;
-            //ik.rightFootObj = rightFoot;
-            //ik.leftFootObj = leftFoot;
-
-        }
         private IEnumerator TryAssignFeet() {
             while (leftFoot == null ||rightFoot == null) {
                 UnityPharusFootTracking go = FindObjectOfType<UnityPharusFootTracking>();
@@ -133,6 +128,8 @@ namespace MIKA {
                 yield return new WaitForSeconds(0.333f);
             }
         }
+
+        // ---- BOTH ----
         private void UpdateOwnTransformations() {
             Vector3 pos = centerPosition;
             pos.y = 1.65f;

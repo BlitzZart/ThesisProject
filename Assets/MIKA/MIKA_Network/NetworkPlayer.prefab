@@ -52,9 +52,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 538f17225951eff4ea7f808a2f4b7f72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftFoot: {fileID: 0}
-  rightFoot: {fileID: 0}
   vrFootPrefab: {fileID: 1000012235625834, guid: b47686a982bce48479f4b42154402fc9,
+    type: 2}
+  avatarPrefab: {fileID: 1000011741016600, guid: ab80c86650220e74eaaa110f49da93d2,
     type: 2}
 --- !u!114 &114000013463669218
 MonoBehaviour:

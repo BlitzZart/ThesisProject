@@ -51,11 +51,9 @@ namespace MIKA {
         private float _scaling = 0.01f;
 
         #region unity callbacks
-
         private void Awake() {
             avatar = Instantiate(avatarPrefab);
         }
-
         private void Start() {
             // init filter
             kalmanFilters = new SimpleKalman[4];
@@ -81,7 +79,6 @@ namespace MIKA {
             UnityModelDataManager mdm = GetComponent<UnityModelDataManager>();
             mdm.SubscribeReceiver(this);
         }
-
         private void Update() {
             //FootTracking();
             //TrackFeet();
@@ -93,12 +90,10 @@ namespace MIKA {
 
             //DrawTraces(Color.red, Color.blue, Color.green);
         }
-
         private void FixedUpdate() {
             FootTracking();
             FootRotaion();
         }
-
         private void OnDestroy() {
             UnityModelDataManager mdm = GetComponent<UnityModelDataManager>();
             mdm.RemoveProvider(leftFootData);
@@ -334,7 +329,6 @@ namespace MIKA {
                 rightFootDirection = new Vector3(-Orientation.x, 0, -Orientation.y);
             }
             else {
-
                 if (Speed >= 0.6f) {
                     leftFootDirection = leftFoot.EstimateRotation(leftFootPosition, lastLeftFootPosition);
                     rightFootDirection = rightFoot.EstimateRotation(rightFootPosition, lastRightFootPosition);
