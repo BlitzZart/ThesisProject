@@ -6,7 +6,7 @@ using System;
 namespace MIKA {
     [NetworkSettings(channel = 2, sendInterval = 0)] // sendInterval = 0 means that everytime a SyncVar changes an update will be sent
     public class NetworkPlayer : NetworkBehaviour, ICenterReceiver, ILeftFootReceiver, IRightFootReceiver, ILeftHandReceiver, IRightHandReceiver, IHeadReceiver {
-        private float eyeHeight = 1.60f;
+        private float eyeHeight = 1.65f;
         private float centerLerpSpeed = 100;
         private OVRCameraRig ovr;
         private Transform leftFoot, rightFoot;
@@ -25,20 +25,15 @@ namespace MIKA {
         private Vector3     leftFootRotation, rightFootRotation, leftHandRotation, rightHandRotation;
         [SyncVar]
         private Quaternion  centerRrotation;
+        [SyncVar]
+        public int playerNumber;
 
         // ---- CLIENT ----
         private GearVRHead vrHead;
-
         // ---- SERVER ----
         private UnityModelDataManager modelDataManager;
+        // ---- BOTH ----
         private IKControl ikControl;
-
-        //public IKModelController(IModelDataManager mdm, IKControl ik) {
-        //    modelDataManager = mdm;
-        //    modelDataManager.SubscribeReceiver(this);
-
-        //    AssignIKModel(ik);
-        //}
 
         #region unity callbacks
         void Start() {
@@ -46,17 +41,19 @@ namespace MIKA {
                 SetUpServer();
             } else if (isLocalPlayer) {
                 SetUpLocalPlayer();
+            } else if (isClient) {
+                SetUpAvatar();
             }
         }
-
         void Update() {
             if (isServer) {
                 UpdateServer();
             } else if (isLocalPlayer) {
                 UpdateLocalPlayer();
+            } else if (isClient) {
+                ProcessIK();
             }
         }
-
         private void OnDestroy() {
             if (modelDataManager != null) {
                 modelDataManager.RemoveProvider(headData);
@@ -77,15 +74,16 @@ namespace MIKA {
                 ovr.transform.parent = transform;
                 vrHead = ovr.GetComponent<GearVRHead>();
             }
-
             SetUpLocalFeet();
-
-            avatar = Instantiate(avatarPrefab);
-            this.ikControl = avatar.GetComponent<IKControl>();
+            SetUpAvatar();
         }
         private void SetUpLocalFeet() {
             leftFoot = Instantiate(vrFootPrefab).transform;
             rightFoot = Instantiate(vrFootPrefab).transform;
+        }
+        private void SetUpAvatar() {
+            avatar = Instantiate(avatarPrefab);
+            ikControl = avatar.GetComponent<IKControl>();
         }
         private void UpdateLocalPlayer() {
             UpdateOwnTransformations();
@@ -95,20 +93,16 @@ namespace MIKA {
         }
         private void UpdateLocalFeet() {
             //leftFootPosition.y = 0;
-            leftFoot.position = Vector3.Lerp(leftFoot.position, leftFootPosition, 20 * Time.deltaTime);
+            leftFoot.position = leftFootPosition;// Vector3.Lerp(leftFoot.position, leftFootPosition, 20 * Time.deltaTime);
             //rightFootPosition.y = 0;
-            rightFoot.position = Vector3.Lerp(rightFoot.position, rightFootPosition, 20 * Time.deltaTime); ;
+            rightFoot.position = rightFootPosition;// Vector3.Lerp(rightFoot.position, rightFootPosition, 20 * Time.deltaTime); ;
         }
 
         // ---- SERVER ----
         private void SetUpServer() {
             InitHead();
 
-            modelDataManager = FindObjectOfType<UnityModelDataManager>();
-            modelDataManager.AddProvider(headData);
-
-            modelDataManager.SubscribeReceiver(this);
-
+            StartCoroutine(TryAssignPlayer());
             StartCoroutine(TryAssignFeet());
         }
         private void UpdateServer() {
@@ -116,6 +110,22 @@ namespace MIKA {
             // but has to be done on clients too. for opposite character
             UpdateOwnTransformations();
             ProcessIK();
+        }
+        private IEnumerator TryAssignPlayer() {
+            while (modelDataManager == null) {
+                UnityModelDataManager[] mdms = FindObjectsOfType<UnityModelDataManager>();
+
+                foreach (UnityModelDataManager item in mdms) {
+                    if (item.playerAssigned == 0) {
+                        modelDataManager = item;
+                        playerNumber = modelDataManager.playerAssigned = (int)modelDataManager.GetComponent<UnityPharusFootTracking>().TrackID;
+                        modelDataManager.AddProvider(headData);
+                        modelDataManager.SubscribeReceiver(this);
+                    }
+                }
+
+                yield return new WaitForSeconds(0.333f);
+            }
         }
         private IEnumerator TryAssignFeet() {
             while (leftFoot == null ||rightFoot == null) {
@@ -210,9 +220,6 @@ namespace MIKA {
             // lookAtTarget = new Vector3(position[0], position[1], position[2]);
         }
 
-        void HipHeightApproximation() {
-
-        }
         #endregion
 
         #region ik processing

@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 class UnityModelDataManager : MonoBehaviour {
+    public int playerAssigned = 0;
     private ModelDataManager mdm;
     private IKModelController IKModelController;
 
