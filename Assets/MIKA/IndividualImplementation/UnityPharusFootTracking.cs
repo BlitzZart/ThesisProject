@@ -333,10 +333,15 @@ namespace MIKA {
                 leftFootDirection = new Vector3(-Orientation.x, 0, -Orientation.y);
                 rightFootDirection = new Vector3(-Orientation.x, 0, -Orientation.y);
             }
-
             else {
-                leftFootDirection = leftFoot.EstimateRotation(leftFootPosition, lastLeftFootPosition);
-                rightFootDirection = (rightFoot.EstimateRotation(rightFootPosition, lastRightFootPosition)/* + new Vector3(Orientation.x, 0, Orientation.y) / 2*/);
+
+                if (Speed >= 0.6f) {
+                    leftFootDirection = leftFoot.EstimateRotation(leftFootPosition, lastLeftFootPosition);
+                    rightFootDirection = rightFoot.EstimateRotation(rightFootPosition, lastRightFootPosition);
+                }
+                else {
+                    leftFootDirection = rightFootDirection = new Vector3(Orientation.x, 0, Orientation.y);
+                }
             }
         }
 
