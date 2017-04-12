@@ -2,7 +2,7 @@
 
 public class PlayerFoot : MonoBehaviour {
     private float maxSpeed = 3;
-    [Range(-0.1f, 1.1f)]
+    [Range(-0.1f, 3.1f)]
     public float speed, speed01, height;
 
     private Vector3 footDirection;
