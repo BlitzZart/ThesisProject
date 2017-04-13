@@ -25,6 +25,7 @@ namespace MIKA {
         private RightHandData rightHandData;
 
         private HipData hipData;
+        private Vector3 hiddenLeftFootPosition, hiddenRightFootPosition;
         private Vector3 leftFootPosition, lastLeftFootPosition, rightFootPosition, lastRightFootPosition, tempFootPos;
         private Vector3 leftFootDirection, rightFootDirection;
         private Vector3 leftHandPosition, lastLeftHandPosition, rightHandPosition, lastRightHandPosition;
@@ -79,20 +80,11 @@ namespace MIKA {
             UnityModelDataManager mdm = GetComponent<UnityModelDataManager>();
             mdm.SubscribeReceiver(this);
         }
-        private void Update() {
-            //FootTracking();
-            //TrackFeet();
-            //if (filterFeet)
-            //    FilterFeet();
-
-            //CalculateHip();
-            //CheckEchos();
-
-            //DrawTraces(Color.red, Color.blue, Color.green);
-        }
         private void FixedUpdate() {
             FootTracking();
             FootRotaion();
+            //CheckEchos();
+            //DrawTraces(Color.red, Color.blue, Color.green);
         }
         private void OnDestroy() {
             UnityModelDataManager mdm = GetComponent<UnityModelDataManager>();
@@ -111,7 +103,6 @@ namespace MIKA {
             // transform tracking data. flip y and z axis and scale (1 unit = 1 meter)
             //transform.position = new Vector3(coords.x, 0, coords.y) * _scaling;
         }
-
         #endregion
 
         #region data provider methods
@@ -161,7 +152,6 @@ namespace MIKA {
             return new float[] { rightFootDirection.x, rightFootDirection.y, rightFootDirection.z };
         }
         // TODO: consider to provide a non-monobehavior solution which approximates the hip position based on foot data
-
         private float[] GetCenterPosition() {
             // add a small offset in walking direction
             Vector3 centerWithOffset = centerPosition + avatar.transform.forward * 0.07f;
@@ -221,7 +211,6 @@ namespace MIKA {
             Vector2 b = a + fastOrientation;
             return ((b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)) > 0;
         }
-
         private void ReinitializeAllFilters() {
             foreach (SimpleKalman item in kalmanFilters)
                 item.Reinitialize();
@@ -256,15 +245,19 @@ namespace MIKA {
             }
         }
         private void OneFoot() {
-            //// convert echo to screen position
-            //Vector2 e0 = UnityTracking.TrackingAdapter.GetScreenPositionFromRelativePosition(Echoes[0].x, Echoes[0].y);
+            // convert echo to screen position
+            Vector2 e0 = UnityTracking.TrackingAdapter.GetScreenPositionFromRelativePosition(Echoes[0].x, Echoes[0].y);
 
-            //// update proper foot
-            //// check if the echo is left or right of center
-            //if (IsLeftOfCenter(e0 * _scaling))
-            //    leftFootPosition = new Vector3(e0.x, 0, e0.y) * _scaling;
-            //else
-            //    rightFootPosition = new Vector3(e0.x, 0, e0.y) * _scaling;
+            // update proper foot
+            // check if the echo is left or right of center
+            if (IsLeftOfCenter(e0 * _scaling)) {
+                leftFootPosition = new Vector3(e0.x, 0, e0.y) * _scaling;
+                //rightFootPosition += (rightFootPosition - lastRightFootPosition);
+            }
+            else {
+                rightFootPosition = new Vector3(e0.x, 0, e0.y) * _scaling;
+                //leftFootPosition += (leftFootPosition - lastLeftFootPosition);
+            }
         }
         private void NoFoot() {
 

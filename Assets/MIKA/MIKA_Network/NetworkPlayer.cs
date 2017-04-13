@@ -6,8 +6,8 @@ using System;
 namespace MIKA {
     [NetworkSettings(channel = 2, sendInterval = 0)] // sendInterval = 0 means that everytime a SyncVar changes an update will be sent
     public class NetworkPlayer : NetworkBehaviour, ICenterReceiver, ILeftFootReceiver, IRightFootReceiver, ILeftHandReceiver, IRightHandReceiver, IHeadReceiver {
-        private float eyeHeight = 1.65f;
-        private float centerLerpSpeed = 100;
+        private float eyeHeight = 1.45f;
+        private float centerLerpSpeed = 50; // affets ovr-camera position (is parented to NetworkPlayer)
         private OVRCameraRig ovr;
         private Transform leftFoot, rightFoot;
 
@@ -75,7 +75,7 @@ namespace MIKA {
                 vrHead = ovr.GetComponent<GearVRHead>();
             }
             SetUpLocalFeet();
-            SetUpAvatar();
+            //SetUpAvatar();
         }
         private void SetUpLocalFeet() {
             leftFoot = Instantiate(vrFootPrefab).transform;
