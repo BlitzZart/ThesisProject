@@ -7,5 +7,13 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 0
     path: Assets/MIKA/Scene/MIKA_Server.unity
-  - enabled: 1
+    guid: 97fa123dcb8f3514b841afe218838eaa
+  - enabled: 0
     path: Assets/MIKA/Scene/MIKA_VR.unity
+    guid: 6bb4c693a4f135944aaefa3dac260bca
+  - enabled: 0
+    path: Assets/MIKA/VIVE/MIKA_VIVE_Server.unity
+    guid: b5a1f663baf69284ba8b770a95eeac1b
+  - enabled: 1
+    path: Assets/fun/GearViveFun.unity
+    guid: cbd4b0e8f7385d542aa433b082d3744b
