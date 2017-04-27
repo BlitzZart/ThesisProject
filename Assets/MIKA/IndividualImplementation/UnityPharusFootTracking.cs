@@ -161,21 +161,31 @@ namespace MIKA {
         }
         // hands
         private float[] GetLeftHandPosition() {
-            //leftHandPosition = rightFootPosition - avatar.transform.right * 0.4f - avatar.transform.up * 0.7f + avatar.transform.forward * 0.1f;
-            leftHandPosition = Vector3.Lerp(lastLeftFootPosition,
-                rightFootPosition - avatar.transform.right * 0.4f - avatar.transform.up * 0.35f + avatar.transform.forward * 0.17f,
-                65.0f * Time.fixedDeltaTime);
-            //lastLeftFootPosition = leftHandPosition;
+
+            leftHandPosition = Vector3.Lerp(leftHandPosition,
+                                            rightFootPosition - avatar.transform.right * GetHandBodyDistance(rightFootPosition)
+                                            - avatar.transform.up * 0.45f + avatar.transform.forward * 0.17f,
+                                            15.0f * Time.fixedDeltaTime);
+
             return new float[] { leftHandPosition.x, -leftHandPosition.y, leftHandPosition.z };
         }
         private float[] GetRightHandPosition() {
-            //rightHandPosition = leftFootPosition + avatar.transform.right * 0.4f - avatar.transform.up * 0.7f + avatar.transform.forward * 0.1f;
-            rightHandPosition = Vector3.Lerp(lastRightFootPosition,
-                leftFootPosition + avatar.transform.right * 0.4f - avatar.transform.up * 0.35f + avatar.transform.forward * 0.17f,
-                65.0f * Time.fixedDeltaTime);
-            //lastRightFootPosition = rightHandPosition;
+            rightHandPosition = Vector3.Lerp(rightHandPosition,
+                                            leftFootPosition + avatar.transform.right * GetHandBodyDistance(leftFootPosition)
+                                            - avatar.transform.up * 0.45f + avatar.transform.forward * 0.17f,
+                                            15.0f * Time.fixedDeltaTime);
+
             return new float[] { rightHandPosition.x, -rightHandPosition.y, rightHandPosition.z };
         }
+        private float GetHandBodyDistance(Vector3 footPos) {
+            float minDistance = 0.43f;
+
+            float distance = Vector3.Distance(leftFootPosition, rightFootPosition);
+            float oneMinusDot = 1 - Mathf.Abs(Vector3.Dot(avatar.transform.forward, (centerPosition - leftFootPosition).normalized));
+
+            return Mathf.Max(minDistance, (distance * (oneMinusDot)));
+        }
+
         private float[] GetLeftHandRotation() {
             Vector3 dir = leftFootPosition - lastLeftFootPosition;
             return new float[] { dir.x, dir.y, dir.z };
