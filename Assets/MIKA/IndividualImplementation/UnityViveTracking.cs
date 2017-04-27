@@ -6,8 +6,6 @@ namespace MIKA {
         public AnimationCurve footRotationCruve;
         [Range(0, 2)]
         public float distanceBetweenFeet = 0.0f;
-        [Range(-0.5f, 0.5f)]
-        public float currenHipHeight;
 
         public GameObject avatarPrefab;
         private GameObject avatar;
@@ -116,21 +114,30 @@ namespace MIKA {
             mdm.AddProvider(leftHandData);
             mdm.AddProvider(rightHandData);
         }
+        private float CorrectFootHeightOffset() {
+            float footHeightOffset = 0;
+            float maxOffset = 0.07f;
+            if (centerPosition.y < 0.0) {
+                footHeightOffset = Mathf.Clamp(Mathf.Abs(centerPosition.y * 2.0f), 0, maxOffset);
+            }
+            return footHeightOffset;
+        }
+
         private float[] GetLeftFootPosition() {
-            if (walksBackwards) {
-                return new float[] { rightFootPosition.x, rightFootPosition.y, rightFootPosition.z };
-            }
-            else {
-                return new float[] { leftFootPosition.x, leftFootPosition.y, leftFootPosition.z };
-            }
+            //if (walksBackwards) {
+            //    return new float[] { rightFootPosition.x, rightFootPosition.y, rightFootPosition.z };
+            //}
+            //else {
+                return new float[] { leftFootPosition.x, leftFootPosition.y + CorrectFootHeightOffset(), leftFootPosition.z };
+            //}
         }
         private float[] GetRightFootPosition() {
-            if (walksBackwards) {
-                return new float[] { leftFootPosition.x, leftFootPosition.y, leftFootPosition.z };
-            }
-            else {
-                return new float[] { rightFootPosition.x, rightFootPosition.y, rightFootPosition.z };
-            }
+            //if (walksBackwards) {
+            //    return new float[] { leftFootPosition.x, leftFootPosition.y, leftFootPosition.z };
+            //}
+            //else {
+                return new float[] { rightFootPosition.x, rightFootPosition.y + CorrectFootHeightOffset(), rightFootPosition.z };
+            //}
         }
         private float[] GetLeftFootRotation() {
             //return new float[] { leftFootDirection.x, leftFootDirection.y, leftFootDirection.z };
@@ -194,8 +201,8 @@ namespace MIKA {
             leftFootPosition = vLeftFoot.position;
             rightFootPosition = vRightFoot.position;
 
-            leftFootDirection = vLeftFoot.rotation.eulerAngles;
-            rightFootDirection = vRightFoot.rotation.eulerAngles;
+            leftFootDirection = vLeftFoot.forward;
+            rightFootDirection = vRightFoot.forward;
         }
         
         //private void FootFiltering() {
@@ -219,7 +226,6 @@ namespace MIKA {
         private void FootAndHipHeight() {
             distanceBetweenFeet = Vector3.Distance(leftFootPosition, rightFootPosition);
             centerPosition.y = -(float)hipHeightFilter.UseFilter(Mathf.Clamp(((distanceBetweenFeet - 0.4f)  * 0.5f), 0.0f, 1.0f) - 0.02f);
-            currenHipHeight = centerPosition.y;
         }
         private void FootTracking() {
             // store last positions

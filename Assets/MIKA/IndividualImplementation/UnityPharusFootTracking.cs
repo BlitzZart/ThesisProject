@@ -97,14 +97,12 @@ namespace MIKA {
             mdm.SubscribeReceiver(this);
         }
         #endregion
-
         #region public
         public override void SetPosition(Vector2 coords) {
             // transform tracking data. flip y and z axis and scale (1 unit = 1 meter)
             //transform.position = new Vector3(coords.x, 0, coords.y) * _scaling;
         }
         #endregion
-
         #region data provider methods
         private void InitFeet() {
             leftFootData = new LeftFootData(() => GetLeftFootPosition(), () => GetLeftFootRotation()/*GetLeftFootRotation()*/);

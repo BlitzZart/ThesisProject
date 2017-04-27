@@ -5,35 +5,35 @@ using System.Collections.Generic;
 
 class UnityModelDataManager : MonoBehaviour {
     public int playerAssigned = 0;
-    private ModelDataManager mdm;
+    private ModelDataManager modelDataManager;
     private IKModelController IKModelController;
 
     #region unity callbacks
     private void Start() {
-        mdm = new ModelDataManager();  
+        modelDataManager = new ModelDataManager();  
 
-        IKModelController = new IKModelController(mdm, FindObjectOfType<IKControl>());
+        IKModelController = new IKModelController(modelDataManager, FindObjectOfType<IKControl>());
     }
 
     private void Update() {
-        mdm.UpdateModelData();
-        mdm.UpdateCallbacks();
+        modelDataManager.UpdateModelData();
+        modelDataManager.UpdateCallbacks();
     }
     #endregion
 
     #region public
     public void SubscribeReceiver(IDataReceiver obj) {
-        mdm.SubscribeReceiver(obj);
+        modelDataManager.SubscribeReceiver(obj);
     }
 
     public void UnsubscribeReseiver(IDataReceiver obj) {
-        mdm.UnsubscribeReceiver(obj);
+        modelDataManager.UnsubscribeReceiver(obj);
     }
     public void AddProvider(AComponentData provider) {
-        mdm.AddProvider(provider);
+        modelDataManager.AddProvider(provider);
     }
     public void RemoveProvider(AComponentData provider) {
-        mdm.RemoveProvider(provider);
+        modelDataManager.RemoveProvider(provider);
     }
 
     #endregion

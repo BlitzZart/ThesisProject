@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Either NetworkDataProvider&#xD;&#xA;or&#xD;&#xA;NetworkPlayer">
+    <Position X="10.25" Y="1.5" Height="0.75" Width="1.7" />
+  </Comment>
+  <Class Name="UnityModelDataManager">
+    <Position X="2.5" Y="2" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="UnityModelDataManager.ModelDataManager" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\MIKA\UnityModelDataManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAgACAAAAAAQAAAAAAAQAAAgAAAAABAAAACAIA=</HashCode>
+      <FileName>Assets\MIKA\UnityModelDataManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MIKA.ModelData" Collapsed="true">
+    <Position X="4.75" Y="3.75" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AARRAAwA0gCMQkABQ4AAAAPQAAAA0gAYAIBQCEBCEAE=</HashCode>
+      <FileName>Assets\MIKA\ModelData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IKModelController" Collapsed="true">
+    <Position X="7.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAJAAAAAAAAACAQAAAAEAAAQAAAAAAACIAAIAAAAQA=</HashCode>
+      <FileName>Assets\MIKA\IKModelController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IKControl" Collapsed="true">
+    <Position X="7.75" Y="4.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>BBZRACAAiiACEoBANAIAIABQABAAAggAAIAUCCAAABI=</HashCode>
+      <FileName>Assets\MIKA\IKControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MIKA.AComponentData" Collapsed="true">
+    <Position X="0.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAgAACgKAAAIAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIKA\CompoentnData\Abstracts\AComponentData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MIKA.HeadData" Collapsed="true">
+    <Position X="0.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIKA\CompoentnData\HeadData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MIKA.HipData" Collapsed="true">
+    <Position X="5.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIKA\CompoentnData\HipData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MIKA.LeftFootData" Collapsed="true">
+    <Position X="7.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIKA\CompoentnData\LeftFootData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MIKA.RightFootData" Collapsed="true">
+    <Position X="9.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIKA\CompoentnData\RightFootData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MIKA.LeftHandData" Collapsed="true">
+    <Position X="2.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIKA\CompoentnData\LeftHandData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MIKA.RightHandData" Collapsed="true">
+    <Position X="4" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIKA\CompoentnData\RightHandData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MIKA.UnityPharusFootTracking" Collapsed="true">
+    <Position X="2.5" Y="5.25" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>KEAlEI2ggiROFCKIUkARDACUFDAkDgIBAYQUIIAaFUE=</HashCode>
+      <FileName>Assets\MIKA\IndividualImplementation\UnityPharusFootTracking.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MIKA.NetworkDataProvider" Collapsed="true">
+    <Position X="9.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQJAAAAACAAACAQAAAAEBAAQAAAAAAACIAAIAAAAQA=</HashCode>
+      <FileName>Assets\MIKA\MIKA_Network\NetworkDataProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="PlayerFoot" Collapsed="true">
+    <Position X="4.75" Y="5.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AACIBAAEASAAIAQAAgAgEAAIAACAAQAAAAKAAAAASAA=</HashCode>
+      <FileName>Assets\FootTracking\Scripts\PlayerFoot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MIKA.GearVRHead" Collapsed="true">
+    <Position X="4.75" Y="1" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAAUSAAAAAQAAAAAAAAAAAAAAAAABAAEAAgABA=</HashCode>
+      <FileName>Assets\MIKA\GearVRHead.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MIKA.NetworkPlayer" Collapsed="true">
+    <Position X="11.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQtBAgAwyAQEiAQAAAAEAFUQHAAEAiAkJAAOgAkkRA=</HashCode>
+      <FileName>Assets\MIKA\MIKA_Network\NetworkPlayer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="MIKA.IModelDataManager" Collapsed="true">
+    <Position X="0.5" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAQAgAAAAAAAAAAAAAAAgAAAAABAAAACAAA=</HashCode>
+      <FileName>Assets\MIKA\Interfaces\IModelDataManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MIKA.IHeadReceiver" Collapsed="true">
+    <Position X="0.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIKA\Interfaces\DataReceiver\IHeadReceiver.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MIKA.ILeftFootReceiver" Collapsed="true">
+    <Position X="7.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIKA\Interfaces\DataReceiver\ILeftFootReceiver.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MIKA.ILeftHandReceiver" Collapsed="true">
+    <Position X="2.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIKA\Interfaces\DataReceiver\ILeftHandReceiver.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MIKA.ICenterReceiver" Collapsed="true">
+    <Position X="5.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIKA\Interfaces\DataReceiver\ICenterReceiver.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MIKA.IRightHandReceiver" Collapsed="true">
+    <Position X="4" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIKA\Interfaces\DataReceiver\IRightHandReceiver.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MIKA.IRightFootReceiver" Collapsed="true">
+    <Position X="9.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIKA\Interfaces\DataReceiver\IRightFootReceiver.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MIKA.IDataReceiver" Collapsed="true">
+    <Position X="0.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\MIKA\Interfaces\DataReceiver\IDataReceiver.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

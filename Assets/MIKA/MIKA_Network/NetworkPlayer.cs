@@ -118,7 +118,13 @@ namespace MIKA {
                 foreach (UnityModelDataManager item in mdms) {
                     if (item.playerAssigned == 0) {
                         modelDataManager = item;
-                        playerNumber = modelDataManager.playerAssigned = (int)modelDataManager.GetComponent<UnityPharusFootTracking>().TrackID;
+                        // TODO: this is just a workaround.
+                        // vive implementation has no "UnityPharusFootTracking"
+                        if (modelDataManager.GetComponent<UnityPharusFootTracking>() != null)
+                            playerNumber = modelDataManager.playerAssigned = (int)modelDataManager.GetComponent<UnityPharusFootTracking>().TrackID;
+                        else
+                            playerNumber = modelDataManager.playerAssigned = 1;
+
                         modelDataManager.AddProvider(headData);
                         modelDataManager.SubscribeReceiver(this);
                     }
