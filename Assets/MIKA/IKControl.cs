@@ -91,20 +91,20 @@ public class IKControl : MonoBehaviour {
     private void Hands() {
         if (useLeftHand) {
             animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
-            animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
+            //animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
             animator.SetIKPosition(AvatarIKGoal.LeftHand, leftHandPosition);
         } else {
             animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 0);
-            animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0);
+            //animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0);
         }
 
         if (useRightHand) {
             animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
-            animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
+            //animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1);
             animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandPosition);
         } else {
             animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 0);
-            animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0);
+            //animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0);
         }
     }
     private void Feet() {
