@@ -10,7 +10,8 @@ namespace MIKA {
         public GameObject avatarPrefab;
         private GameObject avatar;
 
-        public Transform vLeftFoot, vRightFoot;        
+        public Transform viveLeftFoot, viveRightFoot;
+        public Vector3 leftFootPositionCorrection, rightFootPositionCorrection, leftFootDirectionCorrection, rightFootDirectionCorrection;  
 
         private bool walksBackwards = false;
 
@@ -26,6 +27,7 @@ namespace MIKA {
         private Vector3 leftHandPosition, lastLeftHandPosition, rightHandPosition, lastRightHandPosition;
         private Vector3 centerPosition, lastCenterPosition;
         private Vector2 fastOrientation;
+        private Vector3 headDirection;
 
         private bool useLineRenderers = true;
 
@@ -69,9 +71,8 @@ namespace MIKA {
             hipHeightFilter.Q = 0.0001;
             hipHeightFilter.R = 0.003;
 
-
-            vLeftFoot = GameObject.FindGameObjectWithTag("ViveTracker01").transform;
-            vRightFoot = GameObject.FindGameObjectWithTag("ViveTracker02").transform;
+            viveLeftFoot = GameObject.FindGameObjectWithTag("ViveTracker01").transform;// transform;
+            viveRightFoot = GameObject.FindGameObjectWithTag("ViveTracker02").transform;
 
             InitFeet();
 
@@ -113,6 +114,21 @@ namespace MIKA {
             mdm.AddProvider(hipData);
             mdm.AddProvider(leftHandData);
             mdm.AddProvider(rightHandData);
+
+            // comments are approximations which can be used if calibration with trackers does not provide satisfying results
+            leftFootDirectionCorrection = /*vLeftFoot.up;*/new Vector3(0, -0.3f, 0.1f);
+            leftFootDirectionCorrection.z = 0;
+            rightFootDirectionCorrection = /*vRightFoot.up;*/new Vector3(0, -0.3f, 0.1f);
+            rightFootDirectionCorrection.z = 0;
+
+            print("Left foot orientation correction: " + leftFootDirectionCorrection);
+            print("Right foot orientation correction: " + rightFootDirectionCorrection);
+
+
+            lastLeftFootPosition = viveLeftFoot.position;
+            lastRightFootPosition = viveRightFoot.position;
+
+            TrackViveFeet();
         }
         private float CorrectFootHeightOffset() {
             float footHeightOffset = 0;
@@ -147,16 +163,15 @@ namespace MIKA {
             return new float[] { leftFootDirection.x, leftFootDirection.y, leftFootDirection.z };
             //return new float[] { rightFootDirection.x, rightFootDirection.y, rightFootDirection.z };
         }
-        // TODO: consider to provide a non-monobehavior solution which approximates the hip position based on foot data
         private float[] GetCenterPosition() {
             // add a small offset in walking direction
             Vector3 centerWithOffset = centerPosition + avatar.transform.forward * 0.07f;
             return new float[] { centerWithOffset.x, centerPosition.y , centerWithOffset.z };
         }
-        // TODO: this is the smoothed orientation of pharus
+        // Wheighted orientation - 40% left foot, 40% right foot and 20% head orientation
         private float[] GetCenterRotation() {
-            return new float[] { 0, 0, 0 };
-            //return (walksBackwards) ? new float[] { -Orientation.x, 0, -Orientation.y } : new float[] { Orientation.x, 0, Orientation.y };
+            Vector3 r = (leftFootDirection * 0.4f + rightFootDirection * 0.4f + headDirection * 0.2f);
+            return new float[] { r.x, 0, r.z};
         }
         // hands
         private float[] GetLeftHandPosition() {
@@ -207,13 +222,36 @@ namespace MIKA {
             foreach (SimpleKalman item in kalmanFilters)
                 item.Reinitialize();
         }
+        // TODO: clean up (temp...)
+        Vector3 leftTemp, rightTemp;
         private void TrackViveFeet() {
-            // scale to used space
-            leftFootPosition = vLeftFoot.position;
-            rightFootPosition = vRightFoot.position;
+            leftTemp = Vector3.Lerp(leftFootPosition, viveLeftFoot.position, 20 * Time.deltaTime);
+            rightTemp = Vector3.Lerp(rightFootPosition, viveRightFoot.position, 20 * Time.deltaTime);
 
-            leftFootDirection = vLeftFoot.forward;
-            rightFootDirection = vRightFoot.forward;
+            leftFootDirection = viveLeftFoot.up;
+            leftFootDirection = (leftFootDirection - leftFootDirectionCorrection).normalized;
+            rightFootDirection = viveRightFoot.up;
+            rightFootDirection = (rightFootDirection - rightFootDirectionCorrection).normalized;
+
+
+            if (leftTemp.y < 0) leftTemp.y = 0;
+            if (rightTemp.y < 0) rightTemp.y = 0;
+
+            if (leftTemp.y > 2.0f) leftTemp.y = 1.2f;
+            if (rightTemp.y > 2.0f) rightTemp.y = 1.2f;
+
+                float leftDist = Mathf.Abs(Vector3.Distance(leftTemp, lastLeftFootPosition));
+            float rightDist = Mathf.Abs(Vector3.Distance(rightTemp, lastRightFootPosition));
+
+            if (leftDist > 0.1f) {
+                Vector3.Lerp(leftFootPosition, viveLeftFoot.position, 0.5f * Time.deltaTime);
+            }
+            if (rightDist > 0.1f) {
+                Vector3.Lerp(rightFootPosition, viveRightFoot.position, 0.5f * Time.deltaTime);
+            }
+
+            leftFootPosition = leftTemp;
+            rightFootPosition = rightTemp;
         }
         
         //private void FootFiltering() {
@@ -236,7 +274,7 @@ namespace MIKA {
         //}
         private void FootAndHipHeight() {
             distanceBetweenFeet = Vector3.Distance(leftFootPosition, rightFootPosition);
-            centerPosition.y = -(float)hipHeightFilter.UseFilter(Mathf.Clamp(((distanceBetweenFeet - 0.4f)  * 0.5f), 0.0f, 1.0f) - 0.02f);
+            centerPosition.y = -(float)hipHeightFilter.UseFilter(Mathf.Clamp(((distanceBetweenFeet - 0.5f)  * 0.5f), 0.0f, 1.0f) - 0.0f);
         }
         private void FootTracking() {
             // store last positions
@@ -255,8 +293,11 @@ namespace MIKA {
         }
 
         void IHeadReceiver.VectorData(float[] position, float[] rotation) {
-            Vector2 headOrientation2D = new Vector2(rotation[0], rotation[2]).normalized;
 
+            headDirection = new Vector3(rotation[0], rotation[1], rotation[2]).normalized;
+
+
+            Vector2 headOrientation2D = new Vector2(rotation[0], rotation[2]).normalized;
             //// get angle between movement vector and head direction vector
             //if (Vector2.Angle(Orientation, headOrientation2D) > 90) {
             //    walksBackwards = true;

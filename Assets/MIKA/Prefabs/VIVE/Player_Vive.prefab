@@ -141,7 +141,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   distanceBetweenFeet: 0
-  currenHipHeight: 0
   avatarPrefab: {fileID: 1000011741016600, guid: ab80c86650220e74eaaa110f49da93d2,
     type: 2}
   vLeftFoot: {fileID: 0}
