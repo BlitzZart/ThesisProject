@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace MIKA
 {
-    public class VivePlayerManager : MonoBehaviour {
+    public class VivePlayerManager : Singleton<VivePlayerManager> {
 
         public UnityViveTracking trackedPrefab;
-        public GameObject trackedEntity;
+        public UnityViveTracking trackedEntity;
 
         void Start() {
             StartCoroutine(CheckForPlayer());
@@ -26,7 +26,7 @@ namespace MIKA
                 if (FindObjectOfType<NetworkPlayer>() != null)
                 {
                     print("Found Player");
-                    trackedEntity = Instantiate(trackedPrefab.gameObject);
+                    trackedEntity = Instantiate(trackedPrefab.gameObject).GetComponent<UnityViveTracking>();
                 }
             }
         }
