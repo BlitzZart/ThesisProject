@@ -31,8 +31,9 @@ namespace MIKA {
         private Vector3 leftHandPosition, lastLeftHandPosition, rightHandPosition, lastRightHandPosition;
         private Vector3 centerPosition, lastCenterPosition;
         private Vector2 fastOrientation;
+        private Vector3 headDirection;
 
-        private bool useLineRenderers = true;
+        private bool useLineRenderers = false;
 
         public bool applyFilterOnFeet = true;
         public bool correctCrossing = true;
@@ -157,7 +158,16 @@ namespace MIKA {
         }
         // TODO: this is the smoothed orientation of pharus
         private float[] GetCenterRotation() {
-            return (walksBackwards) ? new float[] { -Orientation.x, 0, -Orientation.y } : new float[] { Orientation.x, 0, Orientation.y };
+            Vector3 r;
+            if (walksBackwards)
+                r = new Vector3(-Orientation.x, 0, -Orientation.y) * 5f;
+            else
+                r = new Vector3(Orientation.x, 0, Orientation.y) * 5f;
+
+            r += headDirection * 0.5f;
+
+            return new float[] { r.x, 0, r.z };
+            //return (walksBackwards) ? new float[] { -Orientation.x, 0, -Orientation.y } : new float[] { Orientation.x, 0, Orientation.y };
         }
         // hands
         private float[] GetLeftHandPosition() {
@@ -240,6 +250,8 @@ namespace MIKA {
 
             // scale to used space
             leftFootPosition = new Vector3(e0.x, 0, e0.y) * _scaling;
+            //DebugText.SetText((leftFootPosition - lastLeftFootPosition).magnitude.ToString());
+            //print((leftFootPosition - lastLeftFootPosition).magnitude);
             rightFootPosition = new Vector3(e1.x, 0, e1.y) * _scaling;
 
             // feet crossed check 2
@@ -326,21 +338,23 @@ namespace MIKA {
         }
         private void FootRotaion() {
             if (walksBackwards) {
-                leftFootDirection = new Vector3(-Orientation.x, 0, -Orientation.y);
-                rightFootDirection = new Vector3(-Orientation.x, 0, -Orientation.y);
+                leftFootDirection = rightFootDirection = new Vector3(-Orientation.x, 0, -Orientation.y);
             }
             else {
                 if (Speed >= 0.6f) {
-                    leftFootDirection = leftFoot.EstimateRotation(leftFootPosition, lastLeftFootPosition);
-                    rightFootDirection = rightFoot.EstimateRotation(rightFootPosition, lastRightFootPosition);
+                    leftFootDirection = rightFootDirection = new Vector3(Orientation.x, 0, Orientation.y) * 0.5f;
+                    leftFootDirection += leftFoot.EstimateRotation(leftFootPosition, lastLeftFootPosition) * 0.5f;
+                    rightFootDirection += rightFoot.EstimateRotation(rightFootPosition, lastRightFootPosition) * 0.5f;
                 }
                 else {
                     leftFootDirection = rightFootDirection = new Vector3(Orientation.x, 0, Orientation.y);
                 }
             }
         }
-
         void IHeadReceiver.VectorData(float[] position, float[] rotation) {
+            headDirection = new Vector3(rotation[0], rotation[1], rotation[2]).normalized;
+
+
             Vector2 headOrientation2D = new Vector2(rotation[0], rotation[2]).normalized;
 
             // get angle between movement vector and head direction vector
@@ -351,7 +365,6 @@ namespace MIKA {
                 walksBackwards = false;
             }
         }
-
         void IDataReceiver.VectorData(float[] position, float[] rotation) {
             //throw new NotImplementedException();
         }
