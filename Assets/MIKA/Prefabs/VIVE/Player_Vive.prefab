@@ -143,8 +143,15 @@ MonoBehaviour:
   distanceBetweenFeet: 0
   avatarPrefab: {fileID: 1000011741016600, guid: ab80c86650220e74eaaa110f49da93d2,
     type: 2}
-  vLeftFoot: {fileID: 0}
-  vRightFoot: {fileID: 0}
+  useHandTracking: 0
+  viveLeftFoot: {fileID: 0}
+  viveRightFoot: {fileID: 0}
+  viveLeftHand: {fileID: 0}
+  viveRightHand: {fileID: 0}
+  leftFootPositionCorrection: {x: 0, y: 0, z: 0}
+  rightFootPositionCorrection: {x: 0, y: 0, z: 0}
+  leftFootDirectionCorrection: {x: 0, y: 0, z: 0}
+  rightFootDirectionCorrection: {x: 0, y: 0, z: 0}
   applyFilterOnFeet: 1
   correctCrossing: 1
   kalmanQ: 0.00005

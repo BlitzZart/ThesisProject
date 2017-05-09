@@ -10,7 +10,8 @@ namespace MIKA {
         public GameObject avatarPrefab;
         private GameObject avatar;
 
-        public Transform viveLeftFoot, viveRightFoot;
+        public bool useHandTracking;
+        public Transform viveLeftFoot, viveRightFoot, viveLeftHand, viveRightHand;
         public Vector3 leftFootPositionCorrection, rightFootPositionCorrection, leftFootDirectionCorrection, rightFootDirectionCorrection;  
 
         private bool walksBackwards = false;
@@ -73,6 +74,9 @@ namespace MIKA {
 
             viveLeftFoot = GameObject.FindGameObjectWithTag("ViveTracker01").transform;// transform;
             viveRightFoot = GameObject.FindGameObjectWithTag("ViveTracker02").transform;
+
+            viveLeftHand = GameObject.FindGameObjectWithTag("ViveController01").transform;
+            viveRightHand = GameObject.FindGameObjectWithTag("ViveController02").transform;
 
             InitFeet();
 
@@ -175,6 +179,10 @@ namespace MIKA {
         }
         // hands
         private float[] GetLeftHandPosition() {
+            if (useHandTracking) {
+                return new float[] { viveLeftHand.position.x, viveLeftHand.position.y, viveLeftHand.position.z };
+            }
+
             leftHandPosition = Vector3.Lerp(leftHandPosition,
                                             rightFootPosition - avatar.transform.right * GetHandBodyDistance(rightFootPosition)
                                             - avatar.transform.up * 0.45f +avatar.transform.forward * 0.17f,
@@ -183,9 +191,10 @@ namespace MIKA {
             return new float[] { leftHandPosition.x, -leftHandPosition.y, leftHandPosition.z };
         }
         private float[] GetRightHandPosition() {
-            //rightHandPosition = Vector3.Lerp(lastRightFootPosition,
-            //leftFootPosition + avatar.transform.right * 0.4f - avatar.transform.up * 0.35f + avatar.transform.forward * 0.17f,
-            //65.0f * Time.fixedDeltaTime);
+            if (useHandTracking) {
+                return new float[] { viveRightHand.position.x, viveRightHand.position.y, viveRightHand.position.z };
+            }
+
             rightHandPosition = Vector3.Lerp(rightHandPosition,
                                             leftFootPosition + avatar.transform.right * GetHandBodyDistance(leftFootPosition)
                                             - avatar.transform.up * 0.45f + avatar.transform.forward * 0.17f,
@@ -202,10 +211,16 @@ namespace MIKA {
             return Mathf.Max(minDistance,(distance * (oneMinusDot)));
         }
         private float[] GetLeftHandRotation() {
+            if (useHandTracking)
+                return new float[] { viveLeftHand.forward.x, viveLeftHand.forward.y, viveLeftHand.forward.z };
+
             Vector3 dir = leftFootPosition - lastLeftFootPosition;
             return new float[] { dir.x, dir.y, dir.z };
         }
         private float[] GetRightHandRotation() {
+            if (useHandTracking) 
+                return new float[] { viveRightHand.forward.x, viveRightHand.forward.y, viveRightHand.forward.z };
+            
             Vector3 dir = rightFootPosition - lastRightFootPosition;
             return new float[] { dir.x, dir.y, dir.z };
         }
