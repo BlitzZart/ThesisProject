@@ -50,7 +50,7 @@ namespace MIKA {
         private void RecordData() {
             // check if player is tracked
             if (player == null) {
-                player = VivePlayerManager.Instance.trackedEntity;
+                player = VivePlayerManager.Instance.trackedEntity1;
 
                 if (player == null) {
                     return;

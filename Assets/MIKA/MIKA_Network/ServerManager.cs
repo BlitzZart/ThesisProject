@@ -73,7 +73,7 @@ namespace MIKA {
                     NetworkServer.SpawnWithClientAuthority(go, np.gameObject);
                     break;
                 }
-                print("Search for player");
+                print("Search for players");
                 yield return new WaitForSeconds(1);
             }
 

@@ -9,6 +9,8 @@ TagManager:
   - ViveTracker02
   - ViveController01
   - ViveController02
+  - ViveTracker03
+  - ViveTracker04
   layers:
   - Default
   - TransparentFX

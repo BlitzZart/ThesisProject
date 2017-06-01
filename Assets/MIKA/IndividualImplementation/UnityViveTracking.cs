@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace MIKA {
-    public class UnityViveTracking : MonoBehaviour, IHeadReceiver {
+    public class UnityViveTracking : MonoBehaviour, IHeadReceiver, IMikaTrackedEntity {
+        private static int instanceNumber;
+        public int ID;
         public AnimationCurve footRotationCruve;
         [Range(0, 2)]
         public float distanceBetweenFeet = 0.0f;
 
         public GameObject avatarPrefab;
-        private GameObject avatar;
+        public GameObject avatar;
 
         public bool useHandTracking;
         public Transform viveLeftFoot, viveRightFoot, viveLeftHand, viveRightHand;
@@ -22,7 +25,6 @@ namespace MIKA {
         private RightHandData rightHandData;
 
         private HipData hipData;
-        private Vector3 hiddenLeftFootPosition, hiddenRightFootPosition;
         private Vector3 leftFootPosition, lastLeftFootPosition, rightFootPosition, lastRightFootPosition, tempFootPos;
         private Vector3 leftFootDirection, rightFootDirection;
         private Vector3 leftHandPosition, lastLeftHandPosition, rightHandPosition, lastRightHandPosition;
@@ -52,8 +54,28 @@ namespace MIKA {
         #region unity callbacks
         private void Awake() {
             avatar = Instantiate(avatarPrefab);
+            instanceNumber++;
+            ID = instanceNumber;
         }
-        private void Start() {
+        private void FixedUpdate() {
+            FootTracking();
+            //CheckEchos();
+            //DrawTraces(Color.red, Color.blue, Color.green);
+        }
+        private void OnDestroy() {
+            UnityModelDataManager mdm = GetComponent<UnityModelDataManager>();
+            mdm.RemoveProvider(leftFootData);
+            mdm.RemoveProvider(rightFootData);
+            mdm.RemoveProvider(hipData);
+            mdm.RemoveProvider(leftHandData);
+            mdm.RemoveProvider(rightHandData);
+
+            mdm.SubscribeReceiver(this);
+            UserManager.Instance.RemoveTrackedEntity(this);
+        }
+        #endregion
+        #region public
+        public void Initialize(Transform leftFoot, Transform rightFoot) {
             // init filter
             kalmanFilters = new SimpleKalman[4];
             for (int i = 0; i < kalmanFilters.Length; i++) {
@@ -72,40 +94,37 @@ namespace MIKA {
             hipHeightFilter.Q = 0.0001;
             hipHeightFilter.R = 0.003;
 
-            viveLeftFoot = GameObject.FindGameObjectWithTag("ViveTracker01").transform;// transform;
-            viveRightFoot = GameObject.FindGameObjectWithTag("ViveTracker02").transform;
+            viveLeftFoot = leftFoot; //GameObject.FindGameObjectWithTag("ViveTracker01").transform;
+            viveRightFoot = rightFoot; //GameObject.FindGameObjectWithTag("ViveTracker02").transform;
 
-            viveLeftHand = GameObject.FindGameObjectWithTag("ViveController01").transform;
-            viveRightHand = GameObject.FindGameObjectWithTag("ViveController02").transform;
+            //if (useHandTracking) {
+            //    viveLeftHand = GameObject.FindGameObjectWithTag("ViveController01").transform;
+            //    viveRightHand = GameObject.FindGameObjectWithTag("ViveController02").transform;
+            //}
 
             InitFeet();
 
             // register data receiver becaus head rotation is needed here
             UnityModelDataManager mdm = GetComponent<UnityModelDataManager>();
             mdm.SubscribeReceiver(this);
-        }
-        private void FixedUpdate() {
-            FootTracking();
-            //CheckEchos();
-            //DrawTraces(Color.red, Color.blue, Color.green);
-        }
-        private void OnDestroy() {
-            UnityModelDataManager mdm = GetComponent<UnityModelDataManager>();
-            mdm.RemoveProvider(leftFootData);
-            mdm.RemoveProvider(rightFootData);
-            mdm.RemoveProvider(hipData);
-            mdm.RemoveProvider(leftHandData);
-            mdm.RemoveProvider(rightHandData);
-
-            mdm.SubscribeReceiver(this);
+            //mdm.userID = ID;
+            UserManager.Instance.AddTrackedEntity(this);
         }
         #endregion
-
-        #region public
+        #region IMikaTrackedEntity
+        public int GetID() {
+            return ID;
+        }
+        public void SetID(int ID) {
+            this.ID = ID;
+        }
+        public UnityModelDataManager GetModelDataManager() {
+            return GetComponent<UnityModelDataManager>();
+        }
         #endregion
-
         #region data provider methods
         private void InitFeet() {
+            //yield return new WaitUntil(mdm != null);
             leftFootData = new LeftFootData(() => GetLeftFootPosition(), () => GetLeftFootRotation()/*GetLeftFootRotation()*/);
             rightFootData = new RightFootData(() => GetRightFootPosition(), () => GetRightFootRotation()/*GetRightFootRotation()*/);
             hipData = new HipData(() => GetCenterPosition(), () => GetCenterRotation());
@@ -113,6 +132,7 @@ namespace MIKA {
             rightHandData = new RightHandData(() => GetRightHandPosition(), () => GetRightHandRotation());
 
             UnityModelDataManager mdm = GetComponent<UnityModelDataManager>();
+            print("mdm " + mdm + " lf " + leftFootData);
             mdm.AddProvider(leftFootData);
             mdm.AddProvider(rightFootData);
             mdm.AddProvider(hipData);

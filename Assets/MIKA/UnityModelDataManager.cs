@@ -3,16 +3,20 @@ using MIKA;
 using UnityEngine;
 using System.Collections.Generic;
 
-class UnityModelDataManager : MonoBehaviour {
-    public int playerAssigned = 0;
+public class UnityModelDataManager : MonoBehaviour {
+    public int userID = 0;
     private ModelDataManager modelDataManager;
     private IKModelController IKModelController;
 
-    #region unity callbacks
-    private void Start() {
-        modelDataManager = new ModelDataManager();  
+    private TextMesh textMesh;
 
+    #region unity callbacks
+    private void Awake() {
+        modelDataManager = new ModelDataManager();
+    }
+    private void Start() {
         IKModelController = new IKModelController(modelDataManager, FindObjectOfType<IKControl>());
+        GetComponentInChildren<TextMesh>().text = GetComponent<IMikaTrackedEntity>().GetID().ToString();
     }
 
     private void Update() {

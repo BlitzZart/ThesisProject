@@ -13,7 +13,10 @@ namespace MIKA {
 
         public GameObject vrFootPrefab;
         public GameObject avatarPrefab;
-        private GameObject avatar;
+        public GameObject avatar;
+
+        public IMikaTrackedEntity trackedEntity;
+        public int ID;
 
         // data provider
         private HeadData headData;
@@ -31,13 +34,14 @@ namespace MIKA {
         // ---- CLIENT ----
         private GearVRHead vrHead;
         // ---- SERVER ----
-        private UnityModelDataManager modelDataManager;
+        public UnityModelDataManager modelDataManager;
         // ---- BOTH ----
         private IKControl ikControl;
 
         #region unity callbacks
         void Start() {
             if (isServer) {
+                UserManager.Instance.AddNetworkPlayer(this);
                 SetUpServer();
             } else if (isLocalPlayer) {
                 SetUpLocalPlayer();
@@ -58,9 +62,14 @@ namespace MIKA {
             if (modelDataManager != null) {
                 modelDataManager.RemoveProvider(headData);
                 modelDataManager.UnsubscribeReseiver(this);
-
                 headData = null;
             }
+
+            if (isServer)
+                UserManager.Instance.RemoveNetworkPlayer(this);
+
+            if (avatar != null)
+                Destroy(avatar);
         }
         #endregion
 
@@ -116,17 +125,24 @@ namespace MIKA {
                 UnityModelDataManager[] mdms = FindObjectsOfType<UnityModelDataManager>();
 
                 foreach (UnityModelDataManager item in mdms) {
-                    if (item.playerAssigned == 0) {
+                    if (item.userID == 0) {
                         modelDataManager = item;
-                        // TODO: this is just a workaround.
-                        // vive implementation has no "UnityPharusFootTracking"
-                        if (modelDataManager.GetComponent<UnityPharusFootTracking>() != null)
-                            playerNumber = modelDataManager.playerAssigned = (int)modelDataManager.GetComponent<UnityPharusFootTracking>().TrackID;
-                        else
-                            playerNumber = modelDataManager.playerAssigned = 1;
+                        //// TODO: this is just a workaround.
+                        //// vive implementation has no "UnityPharusFootTracking"
+                        //if (modelDataManager.GetComponent<UnityPharusFootTracking>() != null) {
+                        //    playerNumber = modelDataManager.userID = (int)modelDataManager.GetComponent<UnityPharusFootTracking>().TrackID;
+                        //}
+                        //else if (modelDataManager.GetComponent<UnityViveTracking>() !=  null) {
+                        //    playerNumber = modelDataManager.GetComponent<UnityViveTracking>().GetID();
+                        //}
+
+                        playerNumber = modelDataManager.GetComponent<IMikaTrackedEntity>().GetID();
+
+                        item.userID = ID;
 
                         modelDataManager.AddProvider(headData);
                         modelDataManager.SubscribeReceiver(this);
+                        break;
                     }
                 }
 
@@ -152,6 +168,24 @@ namespace MIKA {
             transform.position = Vector3.Lerp(transform.position, pos, centerLerpSpeed * Time.deltaTime);
         }
 
+        #endregion
+
+        #region public
+        public void AssignModelDataManager(UnityModelDataManager mdm) {
+            // forget old manager
+            if (modelDataManager != null) {
+                modelDataManager.RemoveProvider(headData);
+                modelDataManager.UnsubscribeReseiver(this);
+            }
+
+            // assign new manager
+            modelDataManager = mdm;
+            if (mdm == null)
+                return;
+            modelDataManager.AddProvider(headData);
+            modelDataManager.SubscribeReceiver(this);
+            playerNumber = modelDataManager.GetComponent<IMikaTrackedEntity>().GetID();
+        }
         #endregion
 
         #region networking
@@ -198,7 +232,6 @@ namespace MIKA {
         void IDataReceiver.VectorData(float[] position, float[] rotation) {
             // DONT USE ME
         }
-
         void ICenterReceiver.VectorData(float[] position, float[] rotation) {
             centerPosition = new Vector3(position[0], position[1], position[2]);
             centerRrotation = Quaternion.LookRotation(new Vector3(rotation[0], rotation[1], rotation[2]), Vector3.up);
@@ -225,7 +258,6 @@ namespace MIKA {
             // TODO TODO TODO: activate this code!!!
             // lookAtTarget = new Vector3(position[0], position[1], position[2]);
         }
-
         #endregion
 
         #region ik processing
