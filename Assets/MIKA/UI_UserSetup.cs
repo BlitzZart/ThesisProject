@@ -19,6 +19,8 @@ namespace MIKA {
             userManager = UserManager.Instance;
         }
         void Update() {
+            if (userManager == null)
+                userManager = UserManager.Instance;
             UpdateUserStatus();
         }
 

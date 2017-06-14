@@ -98,10 +98,13 @@ namespace MIKA {
 
             mdm.UnsubscribeReseiver(this);
 
-            UserManager.Instance.RemoveTrackedEntity(this);
+            if (UserManager.Instance != null)
+                UserManager.Instance.RemoveTrackedEntity(this);
             Destroy(avatar);
-            Destroy(LeftFoot.gameObject);
-            Destroy(rightFoot.gameObject);
+            if (LeftFoot != null)
+                Destroy(LeftFoot.gameObject);
+            if(rightFoot != null)
+                Destroy(rightFoot.gameObject);
         }
         #endregion
         #region private
