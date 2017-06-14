@@ -392,7 +392,7 @@ namespace UnityPharus
                 OnTrackingInitialized(this, new EventArgs());
             }
 
-            Screen.SetResolution(m_pharusSettings.TargetScreenWidth, m_pharusSettings.TargetScreenHeight, true);
+            //Screen.SetResolution(m_pharusSettings.TargetScreenWidth, m_pharusSettings.TargetScreenHeight, true);
 
 			TrackingAdapter.InjectTrackingManager (m_instance);
 

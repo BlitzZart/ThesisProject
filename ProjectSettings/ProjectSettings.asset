@@ -11,7 +11,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DanielRammer
-  productName: MIKA
+  productName: MIKA_Pharus
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13333334, g: 0.17254902, b: 0.21176471, a: 1}
@@ -42,8 +42,8 @@ PlayerSettings:
   m_SplashScreenBackgroundPortrait: {fileID: 0}
   m_VirtualRealitySplashScreen: {fileID: 0}
   m_HolographicTrackingLossScreen: {fileID: 0}
-  defaultScreenWidth: 1024
-  defaultScreenHeight: 768
+  defaultScreenWidth: 1280
+  defaultScreenHeight: 720
   defaultScreenWidthWeb: 960
   defaultScreenHeightWeb: 600
   m_StereoRenderingPath: 0
@@ -137,7 +137,7 @@ PlayerSettings:
   useHDRDisplay: 0
   applicationIdentifier:
     Android: at.ooe.fhooe.pie.mika
-    Standalone: unity.DanielRammer.MIKA_AvatarOnCients
+    Standalone: at.fhooe.danielRammer.mika.pharus
     Tizen: at.ooe.fhooe.pie.mika.vrAvatarTest
     iOS: at.ooe.fhooe.pie.mika.vrAvatarTest
     tvOS: at.ooe.fhooe.pie.mika.vrAvatarTest
