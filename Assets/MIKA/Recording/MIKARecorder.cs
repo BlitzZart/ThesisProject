@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEditor;
 using UnityEngine;
 
 namespace MIKA {
@@ -16,6 +17,8 @@ namespace MIKA {
         public Transform recTracker01, recTracker02;
         public GameObject playTracker01, playTracker02;
         private UnityViveTracking player;
+
+        public float lerpSpeed = 1;
 
         public enum RecorderMode {
             DoNothing, Play, Record
@@ -34,6 +37,18 @@ namespace MIKA {
                 playTracker02.tag = "ViveTracker02";
             }
         }
+
+        private void Start() {
+
+
+
+            //Camera sceneCam = SceneView.GetAllSceneCameras()[0];
+            //print(SceneView.GetAllSceneCameras()[0].transform.position);
+            ////sceneView.AlignViewToObject(transform);
+            //sceneCam.transform.position = transform.position;
+            //sceneCam.transform.rotation = transform.rotation;
+        }
+
         private void OnApplicationQuit() {
             if (mode == RecorderMode.Record)
                 WriteData();
@@ -74,12 +89,16 @@ namespace MIKA {
         private void PlayData() {
             if (i > loadedData.Count - 1)
                 i = 0;
-            
-            playTracker01.transform.position = new Vector3(loadedData[i].pos[0], loadedData[i].pos[1], loadedData[i].pos[2]);
-            playTracker01.transform.rotation = Quaternion.Euler(new Vector3(loadedData[i].rot[0], loadedData[i].rot[1], loadedData[i].rot[2]));
 
-            playTracker02.transform.position = new Vector3(loadedData[i+1].pos[0], loadedData[i+1].pos[1], loadedData[i + 1].pos[2]);
-            playTracker02.transform.rotation = Quaternion.Euler(new Vector3(loadedData[i + 1].rot[0], loadedData[i + 1].rot[1], loadedData[i + 1].rot[2]));
+            //playTracker01.transform.position = new Vector3(loadedData[i].pos[0], loadedData[i].pos[1], loadedData[i].pos[2]);
+            //playTracker01.transform.rotation = Quaternion.Euler(new Vector3(loadedData[i].rot[0], loadedData[i].rot[1], loadedData[i].rot[2]));
+            playTracker01.transform.position = Vector3.Lerp(playTracker01.transform.position, new Vector3(loadedData[i].pos[0], loadedData[i].pos[1], loadedData[i].pos[2]), lerpSpeed * Time.fixedDeltaTime);
+            playTracker01.transform.rotation = Quaternion.Lerp(playTracker01.transform.rotation, Quaternion.Euler(new Vector3(loadedData[i].rot[0], loadedData[i].rot[1], loadedData[i].rot[2])), lerpSpeed * Time.fixedDeltaTime);
+
+            //playTracker02.transform.position = new Vector3(loadedData[i+1].pos[0], loadedData[i+1].pos[1], loadedData[i + 1].pos[2]);
+            //playTracker02.transform.rotation = Quaternion.Euler(new Vector3(loadedData[i + 1].rot[0], loadedData[i + 1].rot[1], loadedData[i + 1].rot[2]));
+            playTracker02.transform.position = Vector3.Lerp(playTracker02.transform.position, new Vector3(loadedData[i + 1].pos[0], loadedData[i + 1].pos[1], loadedData[i + 1].pos[2]), lerpSpeed * Time.fixedDeltaTime);
+            playTracker02.transform.rotation = Quaternion.Lerp(playTracker02.transform.rotation, Quaternion.Euler(new Vector3(loadedData[i + 1].rot[0], loadedData[i + 1].rot[1], loadedData[i + 1].rot[2])), lerpSpeed * Time.fixedDeltaTime);
 
             i += 2;
         }

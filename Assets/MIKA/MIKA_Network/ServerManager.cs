@@ -65,17 +65,17 @@ namespace MIKA {
             isServer = true;
 
 
-            GameObject go = Instantiate(ballPrefab);
+            //GameObject go = Instantiate(ballPrefab);
 
-            while (true) {
-                NetworkPlayer np = FindObjectOfType<NetworkPlayer>();
-                if (np != null) {
-                    NetworkServer.SpawnWithClientAuthority(go, np.gameObject);
-                    break;
-                }
-                print("Search for players");
-                yield return new WaitForSeconds(1);
-            }
+            //while (true) {
+            //    NetworkPlayer np = FindObjectOfType<NetworkPlayer>();
+            //    if (np != null) {
+            //        NetworkServer.SpawnWithClientAuthority(go, np.gameObject);
+            //        break;
+            //    }
+            //    print("Search for players");
+            //    yield return new WaitForSeconds(1);
+            //}
 
         }
 
