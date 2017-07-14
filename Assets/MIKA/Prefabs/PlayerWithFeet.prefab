@@ -244,5 +244,5 @@ MonoBehaviour:
     type: 2}
   applyFilterOnFeet: 1
   correctCrossing: 1
-  kalmanQ: 0.00009999999747378752
-  kalmanR: 0.004999999888241291
+  kalmanQ: 0.00019999999494757503
+  kalmanR: 0.004000000189989805

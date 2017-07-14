@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using UnityEditor;
 using UnityEngine;
 
 namespace MIKA {
@@ -17,6 +16,8 @@ namespace MIKA {
         public Transform recTracker01, recTracker02;
         public GameObject playTracker01, playTracker02;
         private UnityViveTracking player;
+        public float xOffset = 0.5f;
+        public float zOffset = 0.7f;
 
         public float lerpSpeed = 1;
 
@@ -92,12 +93,12 @@ namespace MIKA {
 
             //playTracker01.transform.position = new Vector3(loadedData[i].pos[0], loadedData[i].pos[1], loadedData[i].pos[2]);
             //playTracker01.transform.rotation = Quaternion.Euler(new Vector3(loadedData[i].rot[0], loadedData[i].rot[1], loadedData[i].rot[2]));
-            playTracker01.transform.position = Vector3.Lerp(playTracker01.transform.position, new Vector3(loadedData[i].pos[0], loadedData[i].pos[1], loadedData[i].pos[2]), lerpSpeed * Time.fixedDeltaTime);
+            playTracker01.transform.position = Vector3.Lerp(playTracker01.transform.position, new Vector3(loadedData[i].pos[0] + xOffset, loadedData[i].pos[1], loadedData[i].pos[2] + zOffset), lerpSpeed * Time.fixedDeltaTime);
             playTracker01.transform.rotation = Quaternion.Lerp(playTracker01.transform.rotation, Quaternion.Euler(new Vector3(loadedData[i].rot[0], loadedData[i].rot[1], loadedData[i].rot[2])), lerpSpeed * Time.fixedDeltaTime);
 
             //playTracker02.transform.position = new Vector3(loadedData[i+1].pos[0], loadedData[i+1].pos[1], loadedData[i + 1].pos[2]);
             //playTracker02.transform.rotation = Quaternion.Euler(new Vector3(loadedData[i + 1].rot[0], loadedData[i + 1].rot[1], loadedData[i + 1].rot[2]));
-            playTracker02.transform.position = Vector3.Lerp(playTracker02.transform.position, new Vector3(loadedData[i + 1].pos[0], loadedData[i + 1].pos[1], loadedData[i + 1].pos[2]), lerpSpeed * Time.fixedDeltaTime);
+            playTracker02.transform.position = Vector3.Lerp(playTracker02.transform.position, new Vector3(loadedData[i + 1].pos[0] + xOffset, loadedData[i + 1].pos[1], loadedData[i + 1].pos[2] + zOffset), lerpSpeed * Time.fixedDeltaTime);
             playTracker02.transform.rotation = Quaternion.Lerp(playTracker02.transform.rotation, Quaternion.Euler(new Vector3(loadedData[i + 1].rot[0], loadedData[i + 1].rot[1], loadedData[i + 1].rot[2])), lerpSpeed * Time.fixedDeltaTime);
 
             i += 2;

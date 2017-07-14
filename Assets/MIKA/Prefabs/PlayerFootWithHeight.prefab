@@ -96,7 +96,7 @@ MonoBehaviour:
   speed: 0
   speed01: 0
   height: -0.092
-  enableFootHeight: 1
+  enableFootHeight: 0
   curve:
     serializedVersion: 2
     m_Curve:

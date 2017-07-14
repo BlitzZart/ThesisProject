@@ -39,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1098851419760600}
   m_LocalRotation: {x: 0.32556805, y: 0, z: 0, w: 0.9455186}
-  m_LocalPosition: {x: 2.9, y: 2.49, z: -0.91}
+  m_LocalPosition: {x: 2.9, y: 2.49, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -87,7 +87,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1098851419760600}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!92 &92888616838145760
 Behaviour:
   m_ObjectHideFlags: 1
