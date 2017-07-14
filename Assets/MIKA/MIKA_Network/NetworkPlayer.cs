@@ -238,11 +238,11 @@ namespace MIKA {
         }
         void ILeftFootReceiver.VectorData(float[] position, float[] rotation) {
             leftFootPosition = new Vector3(position[0], position[1], position[2]);
-            rightFootRotation = Quaternion.LookRotation(new Vector3(rotation[0], rotation[1], rotation[2]), Vector3.up).eulerAngles;
+            leftFootRotation = Quaternion.LookRotation(new Vector3(rotation[0], rotation[1], rotation[2]), Vector3.up).eulerAngles;
         }
         void IRightFootReceiver.VectorData(float[] position, float[] rotation) {
             rightFootPosition = new Vector3(position[0], position[1], position[2]);
-            leftFootRotation = Quaternion.LookRotation(new Vector3(rotation[0], rotation[1], rotation[2]), Vector3.up).eulerAngles;
+            rightFootRotation = Quaternion.LookRotation(new Vector3(rotation[0], rotation[1], rotation[2]), Vector3.up).eulerAngles;
         }
         void ILeftHandReceiver.VectorData(float[] position, float[] rotation) {
             leftHandPosition = new Vector3(position[0], position[1], position[2]);
