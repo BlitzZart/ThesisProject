@@ -164,7 +164,7 @@ namespace MIKA {
         // ---- BOTH ----
         private void UpdateOwnTransformations() {
             Vector3 pos = centerPosition;
-            pos.y = 1.65f;
+            pos.y = eyeHeight;
             transform.position = Vector3.Lerp(transform.position, pos, centerLerpSpeed * Time.deltaTime);
         }
 
