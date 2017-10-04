@@ -33,8 +33,6 @@ namespace MIKA {
         private Vector2 fastOrientation;
         private Vector3 headDirection;
 
-        private bool useLineRenderers = false;
-
         public bool applyFilterOnFeet = true;
         public bool correctCrossing = true;
         [Range(0.1f, 0.0000001f)]
@@ -77,6 +75,8 @@ namespace MIKA {
 
             InitFeet();
 
+            Reinitialization.Reinitialize += OnReinitialize;
+
             // register data receiver becaus head rotation is needed here
             UnityModelDataManager mdm = GetComponent<UnityModelDataManager>();
             mdm.SubscribeReceiver(this);
@@ -85,7 +85,7 @@ namespace MIKA {
             FootTracking();
             FootRotaion();
             //CheckEchos();
-            //DrawTraces(Color.red, Color.blue, Color.green);
+            DrawTraces(Color.red, Color.blue, Color.green);
         }
         private void OnDestroy() {
             UnityModelDataManager mdm = GetComponent<UnityModelDataManager>();
@@ -118,6 +118,10 @@ namespace MIKA {
             Vector2 a = new Vector2(centerPosition.x, centerPosition.z);
             Vector2 b = a + fastOrientation;
             return ((b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)) > 0;
+        }
+        private void OnReinitialize(float q, float r) {
+            kalmanQ = q;
+            kalmanR = r;
         }
         private void ReinitializeAllFilters() {
             foreach (SimpleKalman item in kalmanFilters)
@@ -294,11 +298,6 @@ namespace MIKA {
 
             leftFoot = Instantiate(playerFootPrefab);
             rightFoot = Instantiate(playerFootPrefab);
-
-            if (useLineRenderers) {
-                leftFoot.InitLineRenderer(Color.red);
-                rightFoot.InitLineRenderer(Color.blue);
-            }
         }
         public float[] GetLeftFootPosition() {
             if (walksBackwards) {
@@ -378,14 +377,6 @@ namespace MIKA {
             return new float[] { dir.x, dir.y, dir.z };
         }
 
-        //private float[] GetRightHandRotation() {
-        //    Vector3 dir = rightFootPosition - lastRightFootPosition;
-        //    return new float[] { dir.x, dir.y, dir.z };
-        //}
-        //private float[] GetRightHandPosition() {
-        //    return new float[] { rightFootPosition.x, rightFootPosition.y, rightFootPosition.z };
-        //}
-
         #endregion
         #region debug drawing
         float lineDuration = 5;
@@ -395,11 +386,6 @@ namespace MIKA {
             Debug.DrawLine(lastCenterPosition, centerPosition, c, lineDuration);
             Debug.DrawRay(centerPosition, new Vector3(Orientation.x, 0, Orientation.y) * 0.5f, Color.magenta);
             Debug.DrawRay(centerPosition, new Vector3(fastOrientation.x, 0, fastOrientation.y) * 0.5f, Color.white);
-
-            if (useLineRenderers) {
-                leftFoot.AddFootTracePoint(leftFootPosition);
-                rightFoot.AddFootTracePoint(rightFootPosition);
-            }
         }
         private void OnDrawGizmos() {
             //Gizmos.color = Color.green;

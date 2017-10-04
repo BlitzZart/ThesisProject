@@ -95,8 +95,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   speed01: 0
-  height: -0.092
-  enableFootHeight: 0
+  height: 0
+  enableFootHeight: 1
   curve:
     serializedVersion: 2
     m_Curve:

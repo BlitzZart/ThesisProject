@@ -2481,7 +2481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hipOffset: 0
   ikActive: 1
-  useHead: 1
+  useHead: 0
   useLeftElbow: 0
   useLeftHand: 1
   useRightElbow: 0

@@ -24,7 +24,6 @@ public class UnityModelDataManager : MonoBehaviour {
         modelDataManager.UpdateCallbacks();
     }
     #endregion
-
     #region public
     public void SubscribeReceiver(IDataReceiver obj) {
         modelDataManager.SubscribeReceiver(obj);
@@ -41,7 +40,6 @@ public class UnityModelDataManager : MonoBehaviour {
     }
 
     #endregion
-
     #region private
     private class ModelDataManager : IModelDataManager {
         private List<IDataReceiver> modelTransrom;
