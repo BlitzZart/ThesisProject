@@ -78,8 +78,7 @@ public class UnityModelDataManager : MonoBehaviour {
                     (item as IRightFootReceiver).VectorData(modelData.RightFootPosition, modelData.RightFootRotation);
                 }
                 // TODO: Center = hip -> make consistency (names)
-                if (item is ICenterReceiver)
-                {
+                if (item is ICenterReceiver) {
                     (item as ICenterReceiver).VectorData(modelData.HipPosition, modelData.HipRotation);
                 }
 

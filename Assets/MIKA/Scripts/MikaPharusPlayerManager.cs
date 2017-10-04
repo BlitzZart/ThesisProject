@@ -9,12 +9,4 @@ public class MikaPharusPlayerManager : APharusPlayerManager
         }
         base.RemovePlayer(trackID);
     }
-
-    //void Start() {
-    //    Invoke("Test", 3f);
-    //}
-
-    //private void Test() {
-    //    Debug.Log(UnityTracking.TrackingAdapter.TrackingStageX);
-    //}
 }

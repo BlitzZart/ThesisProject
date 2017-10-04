@@ -56,7 +56,6 @@ public class IKControl : MonoBehaviour {
         
     }
     #endregion
-
     #region public
     public void SetPosition(Vector3 destination)
     {
@@ -73,7 +72,6 @@ public class IKControl : MonoBehaviour {
     }
 
     #endregion
-
     #region private
     private void Head() {
         if (useHead) {
